@@ -15,6 +15,8 @@
 		EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */; };
 		EDCF4CA71DB9C858006A8045 /* ImproveHRVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4CA61DB9C858006A8045 /* ImproveHRVTests.swift */; };
 		EDCF4CB21DB9C858006A8045 /* ImproveHRVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4CB11DB9C858006A8045 /* ImproveHRVUITests.swift */; };
+		EDCF4CC01DB9C86B006A8045 /* BITalinoBLE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */; };
+		EDCF4CC21DB9C872006A8045 /* BITalinoBLE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EDCF4CC11DB9C86F006A8045 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EDCF4CC21DB9C872006A8045 /* BITalinoBLE.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +64,8 @@
 		EDCF4CAD1DB9C858006A8045 /* ImproveHRVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImproveHRVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDCF4CB11DB9C858006A8045 /* ImproveHRVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImproveHRVUITests.swift; sourceTree = "<group>"; };
 		EDCF4CB31DB9C858006A8045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BITalinoBLE.framework; sourceTree = "<group>"; };
+		EDCF4CC31DB9C885006A8045 /* ImproveHRV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImproveHRV-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDCF4CC01DB9C86B006A8045 /* BITalinoBLE.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +117,7 @@
 		EDCF4C8D1DB9C858006A8045 /* ImproveHRV */ = {
 			isa = PBXGroup;
 			children = (
+				EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */,
 				EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */,
 				EDCF4C901DB9C858006A8045 /* ViewController.swift */,
 				EDCF4C921DB9C858006A8045 /* Main.storyboard */,
@@ -106,6 +125,7 @@
 				EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */,
 				EDCF4C9D1DB9C858006A8045 /* Info.plist */,
 				EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */,
+				EDCF4CC31DB9C885006A8045 /* ImproveHRV-Bridging-Header.h */,
 			);
 			path = ImproveHRV;
 			sourceTree = "<group>";
@@ -138,6 +158,7 @@
 				EDCF4C871DB9C858006A8045 /* Sources */,
 				EDCF4C881DB9C858006A8045 /* Frameworks */,
 				EDCF4C891DB9C858006A8045 /* Resources */,
+				EDCF4CC11DB9C86F006A8045 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -197,6 +218,7 @@
 					EDCF4C8A1DB9C858006A8045 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 77T9PEZRU7;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 					EDCF4CA11DB9C858006A8045 = {
@@ -419,11 +441,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ImproveHRV",
+				);
 				INFOPLIST_FILE = ImproveHRV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImproveHRV/ImproveHRV-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -432,11 +461,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ImproveHRV",
+				);
 				INFOPLIST_FILE = ImproveHRV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ImproveHRV/ImproveHRV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
