@@ -10,7 +10,6 @@
 		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
 		EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* ViewController.swift */; };
 		EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C921DB9C858006A8045 /* Main.storyboard */; };
-		EDCF4C971DB9C858006A8045 /* ImproveHRV.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */; };
 		EDCF4C991DB9C858006A8045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C981DB9C858006A8045 /* Assets.xcassets */; };
 		EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */; };
 		EDCF4CA71DB9C858006A8045 /* ImproveHRVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4CA61DB9C858006A8045 /* ImproveHRVTests.swift */; };
@@ -54,7 +53,6 @@
 		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDCF4C901DB9C858006A8045 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EDCF4C931DB9C858006A8045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		EDCF4C961DB9C858006A8045 /* ImproveHRV.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImproveHRV.xcdatamodel; sourceTree = "<group>"; };
 		EDCF4C981DB9C858006A8045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EDCF4C9B1DB9C858006A8045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EDCF4C9D1DB9C858006A8045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 				EDCF4C981DB9C858006A8045 /* Assets.xcassets */,
 				EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */,
 				EDCF4C9D1DB9C858006A8045 /* Info.plist */,
-				EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */,
 				EDCF4CC31DB9C885006A8045 /* ImproveHRV-Bridging-Header.h */,
 			);
 			path = ImproveHRV;
@@ -288,7 +285,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */,
-				EDCF4C971DB9C858006A8045 /* ImproveHRV.xcdatamodeld in Sources */,
 				EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +444,7 @@
 					"$(PROJECT_DIR)/ImproveHRV",
 				);
 				INFOPLIST_FILE = ImproveHRV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -468,6 +465,7 @@
 					"$(PROJECT_DIR)/ImproveHRV",
 				);
 				INFOPLIST_FILE = ImproveHRV/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRV;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -553,6 +551,7 @@
 				EDCF4CB81DB9C858006A8045 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EDCF4CB91DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVTests" */ = {
 			isa = XCConfigurationList;
@@ -561,6 +560,7 @@
 				EDCF4CBB1DB9C858006A8045 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EDCF4CBC1DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVUITests" */ = {
 			isa = XCConfigurationList;
@@ -569,21 +569,9 @@
 				EDCF4CBE1DB9C858006A8045 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				EDCF4C961DB9C858006A8045 /* ImproveHRV.xcdatamodel */,
-			);
-			currentVersion = EDCF4C961DB9C858006A8045 /* ImproveHRV.xcdatamodel */;
-			path = ImproveHRV.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = EDCF4C831DB9C858006A8045 /* Project object */;
 }
