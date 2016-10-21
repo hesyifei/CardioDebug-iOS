@@ -199,6 +199,7 @@
 				EDCF4CC11DB9C86F006A8045 /* CopyFiles */,
 				68B3D8DB6CFD77FFBCF52AD3 /* [CP] Embed Pods Frameworks */,
 				282AA6C2A412FDE64A3E02F7 /* [CP] Copy Pods Resources */,
+				EDAF00CF1DB9CE6700534C7F /* Update Build Number */,
 			);
 			buildRules = (
 			);
@@ -463,6 +464,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRVTests/Pods-ImproveHRVTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EDAF00CF1DB9CE6700534C7F /* Update Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Build Number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "version=`/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" $PRODUCT_SETTINGS_PATH`\nversion=`expr $version + 1`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $version\" $PRODUCT_SETTINGS_PATH";
 		};
 /* End PBXShellScriptBuildPhase section */
 
