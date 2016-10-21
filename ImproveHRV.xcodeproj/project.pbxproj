@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
+		EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* ViewController.swift */; };
+		EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C921DB9C858006A8045 /* Main.storyboard */; };
+		EDCF4C971DB9C858006A8045 /* ImproveHRV.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */; };
+		EDCF4C991DB9C858006A8045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C981DB9C858006A8045 /* Assets.xcassets */; };
+		EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */; };
+		EDCF4CA71DB9C858006A8045 /* ImproveHRVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4CA61DB9C858006A8045 /* ImproveHRVTests.swift */; };
+		EDCF4CB21DB9C858006A8045 /* ImproveHRVUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4CB11DB9C858006A8045 /* ImproveHRVUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EDCF4CA31DB9C858006A8045 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDCF4C831DB9C858006A8045 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDCF4C8A1DB9C858006A8045;
+			remoteInfo = ImproveHRV;
+		};
+		EDCF4CAE1DB9C858006A8045 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDCF4C831DB9C858006A8045 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EDCF4C8A1DB9C858006A8045;
+			remoteInfo = ImproveHRV;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EDCF4C901DB9C858006A8045 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EDCF4C931DB9C858006A8045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EDCF4C961DB9C858006A8045 /* ImproveHRV.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImproveHRV.xcdatamodel; sourceTree = "<group>"; };
+		EDCF4C981DB9C858006A8045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EDCF4C9B1DB9C858006A8045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EDCF4C9D1DB9C858006A8045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDCF4CA21DB9C858006A8045 /* ImproveHRVTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImproveHRVTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDCF4CA61DB9C858006A8045 /* ImproveHRVTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImproveHRVTests.swift; sourceTree = "<group>"; };
+		EDCF4CA81DB9C858006A8045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDCF4CAD1DB9C858006A8045 /* ImproveHRVUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImproveHRVUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDCF4CB11DB9C858006A8045 /* ImproveHRVUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImproveHRVUITests.swift; sourceTree = "<group>"; };
+		EDCF4CB31DB9C858006A8045 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EDCF4C881DB9C858006A8045 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDCF4C9F1DB9C858006A8045 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDCF4CAA1DB9C858006A8045 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EDCF4C821DB9C858006A8045 = {
+			isa = PBXGroup;
+			children = (
+				EDCF4C8D1DB9C858006A8045 /* ImproveHRV */,
+				EDCF4CA51DB9C858006A8045 /* ImproveHRVTests */,
+				EDCF4CB01DB9C858006A8045 /* ImproveHRVUITests */,
+				EDCF4C8C1DB9C858006A8045 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EDCF4C8C1DB9C858006A8045 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */,
+				EDCF4CA21DB9C858006A8045 /* ImproveHRVTests.xctest */,
+				EDCF4CAD1DB9C858006A8045 /* ImproveHRVUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EDCF4C8D1DB9C858006A8045 /* ImproveHRV */ = {
+			isa = PBXGroup;
+			children = (
+				EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */,
+				EDCF4C901DB9C858006A8045 /* ViewController.swift */,
+				EDCF4C921DB9C858006A8045 /* Main.storyboard */,
+				EDCF4C981DB9C858006A8045 /* Assets.xcassets */,
+				EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */,
+				EDCF4C9D1DB9C858006A8045 /* Info.plist */,
+				EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */,
+			);
+			path = ImproveHRV;
+			sourceTree = "<group>";
+		};
+		EDCF4CA51DB9C858006A8045 /* ImproveHRVTests */ = {
+			isa = PBXGroup;
+			children = (
+				EDCF4CA61DB9C858006A8045 /* ImproveHRVTests.swift */,
+				EDCF4CA81DB9C858006A8045 /* Info.plist */,
+			);
+			path = ImproveHRVTests;
+			sourceTree = "<group>";
+		};
+		EDCF4CB01DB9C858006A8045 /* ImproveHRVUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EDCF4CB11DB9C858006A8045 /* ImproveHRVUITests.swift */,
+				EDCF4CB31DB9C858006A8045 /* Info.plist */,
+			);
+			path = ImproveHRVUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EDCF4C8A1DB9C858006A8045 /* ImproveHRV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDCF4CB61DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRV" */;
+			buildPhases = (
+				EDCF4C871DB9C858006A8045 /* Sources */,
+				EDCF4C881DB9C858006A8045 /* Frameworks */,
+				EDCF4C891DB9C858006A8045 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImproveHRV;
+			productName = ImproveHRV;
+			productReference = EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EDCF4CA11DB9C858006A8045 /* ImproveHRVTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDCF4CB91DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVTests" */;
+			buildPhases = (
+				EDCF4C9E1DB9C858006A8045 /* Sources */,
+				EDCF4C9F1DB9C858006A8045 /* Frameworks */,
+				EDCF4CA01DB9C858006A8045 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EDCF4CA41DB9C858006A8045 /* PBXTargetDependency */,
+			);
+			name = ImproveHRVTests;
+			productName = ImproveHRVTests;
+			productReference = EDCF4CA21DB9C858006A8045 /* ImproveHRVTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EDCF4CAC1DB9C858006A8045 /* ImproveHRVUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDCF4CBC1DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVUITests" */;
+			buildPhases = (
+				EDCF4CA91DB9C858006A8045 /* Sources */,
+				EDCF4CAA1DB9C858006A8045 /* Frameworks */,
+				EDCF4CAB1DB9C858006A8045 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EDCF4CAF1DB9C858006A8045 /* PBXTargetDependency */,
+			);
+			name = ImproveHRVUITests;
+			productName = ImproveHRVUITests;
+			productReference = EDCF4CAD1DB9C858006A8045 /* ImproveHRVUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EDCF4C831DB9C858006A8045 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = Arefly;
+				TargetAttributes = {
+					EDCF4C8A1DB9C858006A8045 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 77T9PEZRU7;
+						ProvisioningStyle = Automatic;
+					};
+					EDCF4CA11DB9C858006A8045 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 77T9PEZRU7;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EDCF4C8A1DB9C858006A8045;
+					};
+					EDCF4CAC1DB9C858006A8045 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 77T9PEZRU7;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EDCF4C8A1DB9C858006A8045;
+					};
+				};
+			};
+			buildConfigurationList = EDCF4C861DB9C858006A8045 /* Build configuration list for PBXProject "ImproveHRV" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EDCF4C821DB9C858006A8045;
+			productRefGroup = EDCF4C8C1DB9C858006A8045 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EDCF4C8A1DB9C858006A8045 /* ImproveHRV */,
+				EDCF4CA11DB9C858006A8045 /* ImproveHRVTests */,
+				EDCF4CAC1DB9C858006A8045 /* ImproveHRVUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EDCF4C891DB9C858006A8045 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */,
+				EDCF4C991DB9C858006A8045 /* Assets.xcassets in Resources */,
+				EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDCF4CA01DB9C858006A8045 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDCF4CAB1DB9C858006A8045 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EDCF4C871DB9C858006A8045 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */,
+				EDCF4C971DB9C858006A8045 /* ImproveHRV.xcdatamodeld in Sources */,
+				EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDCF4C9E1DB9C858006A8045 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDCF4CA71DB9C858006A8045 /* ImproveHRVTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDCF4CA91DB9C858006A8045 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDCF4CB21DB9C858006A8045 /* ImproveHRVUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EDCF4CA41DB9C858006A8045 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDCF4C8A1DB9C858006A8045 /* ImproveHRV */;
+			targetProxy = EDCF4CA31DB9C858006A8045 /* PBXContainerItemProxy */;
+		};
+		EDCF4CAF1DB9C858006A8045 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EDCF4C8A1DB9C858006A8045 /* ImproveHRV */;
+			targetProxy = EDCF4CAE1DB9C858006A8045 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EDCF4C921DB9C858006A8045 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDCF4C931DB9C858006A8045 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EDCF4C9B1DB9C858006A8045 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EDCF4CB41DB9C858006A8045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EDCF4CB51DB9C858006A8045 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EDCF4CB71DB9C858006A8045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				INFOPLIST_FILE = ImproveHRV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		EDCF4CB81DB9C858006A8045 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				INFOPLIST_FILE = ImproveHRV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		EDCF4CBA1DB9C858006A8045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				INFOPLIST_FILE = ImproveHRVTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRVTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImproveHRV.app/ImproveHRV";
+			};
+			name = Debug;
+		};
+		EDCF4CBB1DB9C858006A8045 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				INFOPLIST_FILE = ImproveHRVTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRVTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImproveHRV.app/ImproveHRV";
+			};
+			name = Release;
+		};
+		EDCF4CBD1DB9C858006A8045 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				INFOPLIST_FILE = ImproveHRVUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRVUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = ImproveHRV;
+			};
+			name = Debug;
+		};
+		EDCF4CBE1DB9C858006A8045 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 77T9PEZRU7;
+				INFOPLIST_FILE = ImproveHRVUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.arefly.ImproveHRVUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = ImproveHRV;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EDCF4C861DB9C858006A8045 /* Build configuration list for PBXProject "ImproveHRV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDCF4CB41DB9C858006A8045 /* Debug */,
+				EDCF4CB51DB9C858006A8045 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDCF4CB61DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDCF4CB71DB9C858006A8045 /* Debug */,
+				EDCF4CB81DB9C858006A8045 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EDCF4CB91DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDCF4CBA1DB9C858006A8045 /* Debug */,
+				EDCF4CBB1DB9C858006A8045 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EDCF4CBC1DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDCF4CBD1DB9C858006A8045 /* Debug */,
+				EDCF4CBE1DB9C858006A8045 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EDCF4C951DB9C858006A8045 /* ImproveHRV.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EDCF4C961DB9C858006A8045 /* ImproveHRV.xcdatamodel */,
+			);
+			currentVersion = EDCF4C961DB9C858006A8045 /* ImproveHRV.xcdatamodel */;
+			path = ImproveHRV.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = EDCF4C831DB9C858006A8045 /* Project object */;
+}
