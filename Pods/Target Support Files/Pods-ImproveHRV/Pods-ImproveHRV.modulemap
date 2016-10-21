@@ -1,0 +1,6 @@
+framework module Pods_ImproveHRV {
+  umbrella header "Pods-ImproveHRV-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9EF65503B2511B4260FCD9BD /* Pods_ImproveHRVTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E89C2D8CE0860EE51A38D06 /* Pods_ImproveHRVTests.framework */; };
+		9FAAFD44D7742D1AAA638E9F /* Pods_ImproveHRVUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */; };
+		AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */; };
 		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
 		EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* ViewController.swift */; };
 		EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C921DB9C858006A8045 /* Main.storyboard */; };
@@ -49,6 +52,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C985FB37F6DEFEB0C56EDCA /* Pods-ImproveHRVTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVTests/Pods-ImproveHRVTests.release.xcconfig"; sourceTree = "<group>"; };
+		355DAB5A8A4E97DE8AEAECF9 /* Pods-ImproveHRV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRV.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRV/Pods-ImproveHRV.release.xcconfig"; sourceTree = "<group>"; };
+		45B76CD1AAA638A023BA56EC /* Pods-ImproveHRVTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVTests/Pods-ImproveHRVTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4E89C2D8CE0860EE51A38D06 /* Pods_ImproveHRVTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImproveHRVTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81BC356ED4A6AB3346CD0E40 /* Pods-ImproveHRVUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests.release.xcconfig"; sourceTree = "<group>"; };
+		A42C1224D7199C24FF1C79F8 /* Pods-ImproveHRV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRV.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRV/Pods-ImproveHRV.debug.xcconfig"; sourceTree = "<group>"; };
+		C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImproveHRVUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImproveHRV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3AF92B3DAF407210EB2545C /* Pods-ImproveHRVUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDCF4C901DB9C858006A8045 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDCF4CC01DB9C86B006A8045 /* BITalinoBLE.framework in Frameworks */,
+				AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EF65503B2511B4260FCD9BD /* Pods_ImproveHRVTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,12 +100,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FAAFD44D7742D1AAA638E9F /* Pods_ImproveHRVUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03CEF8E602AEFE4C6E11CCB3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A42C1224D7199C24FF1C79F8 /* Pods-ImproveHRV.debug.xcconfig */,
+				355DAB5A8A4E97DE8AEAECF9 /* Pods-ImproveHRV.release.xcconfig */,
+				45B76CD1AAA638A023BA56EC /* Pods-ImproveHRVTests.debug.xcconfig */,
+				2C985FB37F6DEFEB0C56EDCA /* Pods-ImproveHRVTests.release.xcconfig */,
+				E3AF92B3DAF407210EB2545C /* Pods-ImproveHRVUITests.debug.xcconfig */,
+				81BC356ED4A6AB3346CD0E40 /* Pods-ImproveHRVUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D4A6A8948F3756FE53F8C888 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */,
+				4E89C2D8CE0860EE51A38D06 /* Pods_ImproveHRVTests.framework */,
+				C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EDCF4C821DB9C858006A8045 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +137,8 @@
 				EDCF4CA51DB9C858006A8045 /* ImproveHRVTests */,
 				EDCF4CB01DB9C858006A8045 /* ImproveHRVUITests */,
 				EDCF4C8C1DB9C858006A8045 /* Products */,
+				03CEF8E602AEFE4C6E11CCB3 /* Pods */,
+				D4A6A8948F3756FE53F8C888 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -152,10 +192,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDCF4CB61DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRV" */;
 			buildPhases = (
+				2415FB2C4AE444E939C26305 /* [CP] Check Pods Manifest.lock */,
 				EDCF4C871DB9C858006A8045 /* Sources */,
 				EDCF4C881DB9C858006A8045 /* Frameworks */,
 				EDCF4C891DB9C858006A8045 /* Resources */,
 				EDCF4CC11DB9C86F006A8045 /* CopyFiles */,
+				68B3D8DB6CFD77FFBCF52AD3 /* [CP] Embed Pods Frameworks */,
+				282AA6C2A412FDE64A3E02F7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,9 +213,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDCF4CB91DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVTests" */;
 			buildPhases = (
+				3B660619A06079E9310A0CB6 /* [CP] Check Pods Manifest.lock */,
 				EDCF4C9E1DB9C858006A8045 /* Sources */,
 				EDCF4C9F1DB9C858006A8045 /* Frameworks */,
 				EDCF4CA01DB9C858006A8045 /* Resources */,
+				0B5B80783C3FDDE45594A025 /* [CP] Embed Pods Frameworks */,
+				B32ABEA8EAE89EC82908F024 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -188,9 +234,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EDCF4CBC1DB9C858006A8045 /* Build configuration list for PBXNativeTarget "ImproveHRVUITests" */;
 			buildPhases = (
+				4C8C17CE1C49744D61A7FB51 /* [CP] Check Pods Manifest.lock */,
 				EDCF4CA91DB9C858006A8045 /* Sources */,
 				EDCF4CAA1DB9C858006A8045 /* Frameworks */,
 				EDCF4CAB1DB9C858006A8045 /* Resources */,
+				3DC30D79EB09DD784EA4CA3E /* [CP] Embed Pods Frameworks */,
+				A03284C14798A737B3EBC076 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -278,6 +327,144 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0B5B80783C3FDDE45594A025 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRVTests/Pods-ImproveHRVTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2415FB2C4AE444E939C26305 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		282AA6C2A412FDE64A3E02F7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRV/Pods-ImproveHRV-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3B660619A06079E9310A0CB6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3DC30D79EB09DD784EA4CA3E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C8C17CE1C49744D61A7FB51 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		68B3D8DB6CFD77FFBCF52AD3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRV/Pods-ImproveHRV-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A03284C14798A737B3EBC076 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B32ABEA8EAE89EC82908F024 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImproveHRVTests/Pods-ImproveHRVTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EDCF4C871DB9C858006A8045 /* Sources */ = {
@@ -435,6 +622,7 @@
 		};
 		EDCF4CB71DB9C858006A8045 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A42C1224D7199C24FF1C79F8 /* Pods-ImproveHRV.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -456,6 +644,7 @@
 		};
 		EDCF4CB81DB9C858006A8045 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 355DAB5A8A4E97DE8AEAECF9 /* Pods-ImproveHRV.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -476,6 +665,7 @@
 		};
 		EDCF4CBA1DB9C858006A8045 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 45B76CD1AAA638A023BA56EC /* Pods-ImproveHRVTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -491,6 +681,7 @@
 		};
 		EDCF4CBB1DB9C858006A8045 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C985FB37F6DEFEB0C56EDCA /* Pods-ImproveHRVTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -506,6 +697,7 @@
 		};
 		EDCF4CBD1DB9C858006A8045 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3AF92B3DAF407210EB2545C /* Pods-ImproveHRVUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 77T9PEZRU7;
@@ -520,6 +712,7 @@
 		};
 		EDCF4CBE1DB9C858006A8045 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 81BC356ED4A6AB3346CD0E40 /* Pods-ImproveHRVUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 77T9PEZRU7;
