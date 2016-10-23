@@ -1,14 +1,17 @@
 PODS:
+  - AsyncSwift (2.0.0)
   - Charts (3.0.0):
     - Charts/Core (= 3.0.0)
   - Charts/Core (3.0.0)
 
 DEPENDENCIES:
+  - AsyncSwift
   - Charts
 
 SPEC CHECKSUMS:
+  AsyncSwift: 6ba6ed9ecb51344458063f7c86fe447ab824e313
   Charts: beb341928d2135613b4325a6c6aff9f2f6de895e
 
-PODFILE CHECKSUM: ac26161ddc9a576209f37ae2814d9a47c177168a
+PODFILE CHECKSUM: 766fa6ea5e89ec6965756400a5a3845af0790b7a
 
 COCOAPODS: 1.1.1
