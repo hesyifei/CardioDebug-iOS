@@ -11,6 +11,7 @@
 		9FAAFD44D7742D1AAA638E9F /* Pods_ImproveHRVUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */; };
 		AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */; };
 		ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6201DBC5A1100301D30 /* ResultViewController.swift */; };
+		ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */; };
 		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
 		EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* ViewController.swift */; };
 		EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C921DB9C858006A8045 /* Main.storyboard */; };
@@ -63,6 +64,7 @@
 		D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImproveHRV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3AF92B3DAF407210EB2545C /* Pods-ImproveHRVUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED86F6201DBC5A1100301D30 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
+		ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDCF4C901DB9C858006A8045 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */,
 				EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */,
 				EDCF4C901DB9C858006A8045 /* ViewController.swift */,
+				ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */,
 				ED86F6201DBC5A1100301D30 /* ResultViewController.swift */,
 				EDCF4C921DB9C858006A8045 /* Main.storyboard */,
 				EDCF4C981DB9C858006A8045 /* Assets.xcassets */,
@@ -490,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */,
+				ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */,
 				EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */,
 				ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */,
 			);

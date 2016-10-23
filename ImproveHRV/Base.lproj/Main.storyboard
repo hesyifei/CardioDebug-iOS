@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -34,41 +35,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMt-4L-74R">
-                                <frame key="frameInset" minX="17" minY="72" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="connectButtonAction:" destination="bG9-EY-4CX" eventType="touchUpInside" id="41s-nK-iHC"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="State" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmH-Ac-C1P">
-                                <frame key="frameInset" minX="19" minY="118" width="41" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="State" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmH-Ac-C1P">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIS-8j-yux">
-                                <frame key="frameInset" minX="16" minY="158" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMt-4L-74R">
                                 <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="startButtonAction:" destination="bG9-EY-4CX" eventType="touchUpInside" id="iwK-gF-hR4"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="NmH-Ac-C1P" firstAttribute="width" secondItem="K7d-VK-wGQ" secondAttribute="width" multiplier="0.9" id="LZz-v5-GaR"/>
+                            <constraint firstItem="JMt-4L-74R" firstAttribute="top" secondItem="2a8-jq-BSO" secondAttribute="bottom" constant="30" id="TCb-kY-Zdc"/>
+                            <constraint firstItem="JMt-4L-74R" firstAttribute="centerX" secondItem="K7d-VK-wGQ" secondAttribute="centerX" id="VEr-e3-UaB"/>
+                            <constraint firstItem="NmH-Ac-C1P" firstAttribute="centerX" secondItem="K7d-VK-wGQ" secondAttribute="centerX" id="iUt-zV-cMI"/>
+                            <constraint firstItem="NmH-Ac-C1P" firstAttribute="top" secondItem="JMt-4L-74R" secondAttribute="bottom" constant="40" id="nyX-QG-Oqk"/>
+                            <constraint firstItem="JMt-4L-74R" firstAttribute="width" secondItem="K7d-VK-wGQ" secondAttribute="width" multiplier="0.9" id="v0X-I0-hm1"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Auc-kV-8MC"/>
                     <connections>
-                        <outlet property="stateLabel" destination="NmH-Ac-C1P" id="Uil-Mo-h3c"/>
+                        <outlet property="mainButton" destination="JMt-4L-74R" id="mwK-Hq-QsB"/>
+                        <outlet property="mainLabel" destination="NmH-Ac-C1P" id="gzd-ZG-Y5U"/>
                         <segue destination="Whc-jM-XXx" kind="show" identifier="showResult" action="showDetailViewController:sender:" id="6WU-pT-Tje"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lac-c3-o9E" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="169" y="117"/>
+            <point key="canvasLocation" x="168.80000000000001" y="116.49175412293854"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="aFS-AA-z4y">

@@ -11,9 +11,13 @@ import Charts
 
 class ResultViewController: UIViewController {
 
+	static let SHOW_RESULT_SEGUE_ID = "showResult"
+
+
 	@IBOutlet var chartView: LineChartView!
 
-	var allArr: [Int]!
+	var rawData: [Int]!
+
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -22,10 +26,10 @@ class ResultViewController: UIViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		if let _ = allArr {
-			if !allArr.isEmpty {
+		if let _ = rawData {
+			if !rawData.isEmpty {
 				initChart()
-				getHRVData(values: allArr)
+				getHRVData(values: rawData)
 			}
 		}
 	}
@@ -71,7 +75,7 @@ class ResultViewController: UIViewController {
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
-		let values = allArr
+		let values = rawData
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in (values?.enumerated())! {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
