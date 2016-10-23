@@ -10,11 +10,11 @@ import UIKit
 import Charts
 
 class ResultViewController: UIViewController {
-
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
 
-
+	@IBOutlet var resultLabel: UILabel!
 	@IBOutlet var chartView: LineChartView!
+	@IBOutlet var debugTextView: UITextView!
 
 	var rawData: [Int]!
 
@@ -205,10 +205,14 @@ class ResultViewController: UIViewController {
 		print("RRDurations: \(RRDurations)")
 
 
+		debugTextView.text = "allMaxRIndex: \(allMaxRIndex)\nRRDurations: \(RRDurations)"
+
+
 
 
 		let RMean: Float = Float(RRDurations.reduce(0, +))/Float(RRDurations.count)
 		print("RMean: \(RMean)")
+		resultLabel.text = "RMean: \(RMean)"
 	}
 
 	func getSlope(n: Int, values: [Int]) -> Float {
