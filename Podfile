@@ -6,8 +6,8 @@ target 'ImproveHRV' do
   use_frameworks!
 
   # Pods for ImproveHRV
-  pod 'Charts'
   pod 'AsyncSwift'
+  pod 'Charts'
 
   target 'ImproveHRVTests' do
     inherit! :search_paths

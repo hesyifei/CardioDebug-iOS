@@ -28,8 +28,12 @@ class ResultViewController: UIViewController {
 		super.viewWillAppear(animated)
 		if let _ = rawData {
 			if !rawData.isEmpty {
-				initChart()
-				getHRVData(values: rawData)
+				if rawData.count >= 10*100 {
+					initChart()
+					getHRVData(values: rawData)
+				} else {
+					print("time too short!")
+				}
 			}
 		}
 	}
