@@ -29,6 +29,14 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 		bitalino.delegate = self
 	}
 
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "showResult" {
+			if let destination = segue.destination as? ResultViewController {
+				destination.allArr = self.allArr
+			}
+		}
+	}
+
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
@@ -53,20 +61,29 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 						if result != 0 {
 							print("\(result)")
 							self.allArr.append(result)
+							self.stateLabel.text = "\(result)"
+						}else{
+							print("0 SO SAD")
 						}
 					}
 				})
 
 			} else{
-				bitalino.stopRecording()
+				if allArr.count > 10*100 {
+					bitalino.stopRecording()
 
-				print(allArr.description)
+					print(allArr.description)
+					//getHRVData(values: allArr)
+
+					self.performSegue(withIdentifier: "showResult", sender: self)
+				}else{
+					print("MUST > 10 SEC")
+				}
 			}
 		} else{
 			print("NOT CON")
 		}
 	}
-
 
 	func bitalinoDidConnect(_ bitalino: BITalinoBLE!) {
 		stateLabel.text = "YAYA"
@@ -91,5 +108,5 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 	func bitalinoBatteryDigitalOutputsUpdated(_ bitalino: BITalinoBLE!) {
 		//do
 	}
-	
+
 }
