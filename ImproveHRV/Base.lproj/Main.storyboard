@@ -43,21 +43,12 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMt-4L-74R">
                                 <state key="normal" title="Button"/>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d3p-nH-fwe" customClass="LineChartView" customModule="Charts">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="A4A-gs-7xa"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="wHU-g3-DPo" firstAttribute="top" secondItem="d3p-nH-fwe" secondAttribute="bottom" constant="20" id="1Iz-l2-G6i"/>
                             <constraint firstItem="NmH-Ac-C1P" firstAttribute="width" secondItem="K7d-VK-wGQ" secondAttribute="width" multiplier="0.9" id="LZz-v5-GaR"/>
                             <constraint firstItem="JMt-4L-74R" firstAttribute="top" secondItem="2a8-jq-BSO" secondAttribute="bottom" constant="30" id="TCb-kY-Zdc"/>
                             <constraint firstItem="JMt-4L-74R" firstAttribute="centerX" secondItem="K7d-VK-wGQ" secondAttribute="centerX" id="VEr-e3-UaB"/>
-                            <constraint firstItem="d3p-nH-fwe" firstAttribute="centerX" secondItem="K7d-VK-wGQ" secondAttribute="centerX" id="XdV-p4-qHv"/>
-                            <constraint firstItem="d3p-nH-fwe" firstAttribute="width" secondItem="K7d-VK-wGQ" secondAttribute="width" id="hrz-jj-oy3"/>
                             <constraint firstItem="NmH-Ac-C1P" firstAttribute="centerX" secondItem="K7d-VK-wGQ" secondAttribute="centerX" id="iUt-zV-cMI"/>
                             <constraint firstItem="NmH-Ac-C1P" firstAttribute="top" secondItem="JMt-4L-74R" secondAttribute="bottom" constant="40" id="nyX-QG-Oqk"/>
                             <constraint firstItem="JMt-4L-74R" firstAttribute="width" secondItem="K7d-VK-wGQ" secondAttribute="width" multiplier="0.9" id="v0X-I0-hm1"/>
@@ -66,7 +57,6 @@
                     <navigationItem key="navigationItem" id="Auc-kV-8MC"/>
                     <connections>
                         <outlet property="mainButton" destination="JMt-4L-74R" id="mwK-Hq-QsB"/>
-                        <outlet property="mainChart" destination="d3p-nH-fwe" id="dPV-gw-ysB"/>
                         <outlet property="mainLabel" destination="NmH-Ac-C1P" id="gzd-ZG-Y5U"/>
                         <segue destination="Whc-jM-XXx" kind="show" identifier="showResult" action="showDetailViewController:sender:" id="6WU-pT-Tje"/>
                     </connections>
