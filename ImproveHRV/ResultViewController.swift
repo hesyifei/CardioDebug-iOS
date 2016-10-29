@@ -8,6 +8,7 @@
 
 import UIKit
 import Charts
+import Surge
 
 class ResultViewController: UIViewController {
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
@@ -192,12 +193,14 @@ class ResultViewController: UIViewController {
 
 
 
-		var RRDurations = [Int]()
+		var RRDurations = [Float]()
 		for (no, maxRIndex) in allMaxRIndex.enumerated() {
 			if no < allMaxRIndex.count-1 {
 				let duration = allMaxRIndex[no+1]-maxRIndex
-				if duration > 0 {
-					RRDurations.append(duration)
+				if duration > 10 {
+					RRDurations.append(Float(duration))
+				} else {
+					print("WARNNING !!!!!! LESS THAN 0.1s!!!")
 				}
 			}
 		}
@@ -210,9 +213,59 @@ class ResultViewController: UIViewController {
 
 
 
-		let RMean: Float = Float(RRDurations.reduce(0, +))/Float(RRDurations.count)
-		print("RMean: \(RMean)")
-		resultLabel.text = "RMean: \(RMean)"
+		let RRMean: Float = Surge.mean(RRDurations)
+		print("RRMean: \(RRMean)")
+		resultLabel.text = "RRMean: \(RRMean)"
+
+
+
+		var sumInOneMin: Float = 0
+		var beatsSumInOneMin: Int = 0
+		var beatsEveryMin = [Int]()
+
+		var RRAndMeanRRDiffs = [Float]()
+		var RRAndNextRRDiffs = [Float]()
+		var RRNextRRAndMeanRRNextRRDiffs = [Float]()
+		for (index, eachDuration) in RRDurations.enumerated() {
+			RRAndMeanRRDiffs.append(eachDuration-RRMean)
+
+			if index < (RRDurations.count-1) {
+				RRAndNextRRDiffs.append(RRDurations[index+1]-eachDuration)
+
+				RRNextRRAndMeanRRNextRRDiffs.append((eachDuration-RRDurations[index+1])-(RRMean-eachDuration))
+			}
+
+			if sumInOneMin < 60*100 {
+				sumInOneMin += eachDuration
+				beatsSumInOneMin += 1
+			} else {
+				beatsEveryMin.append(beatsSumInOneMin)
+				sumInOneMin = 60*100-sumInOneMin
+				beatsSumInOneMin = 0
+			}
+		}
+
+		// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
+		let SDNN: Float = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
+		print("SDNN: \(SDNN)")
+
+		let rMSSD: Float = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
+		print("rMSSD: \(rMSSD)")
+
+		let SDSD: Float = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
+		print("SDSD: \(SDSD)")
+
+
+		print("beatsEveryMin: \(beatsEveryMin)")
+
+
+
+		let FFTTest: [Float] = Surge.fft(rawData.map{ Float($0) })
+		print("FFTTest: \(FFTTest)")
+
+		let dataAverage: Float = Surge.mean(rawData.map{ Float($0) })
+		let FFTTestNEW: [Float] = Surge.fft(rawData.map{ Float($0)-dataAverage })
+		print("FFTTestNEW: \(FFTTestNEW)")
 	}
 
 	func getSlope(n: Int, values: [Int]) -> Float {

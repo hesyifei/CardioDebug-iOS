@@ -82,7 +82,7 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 
 				timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
 				startTime = Date.init()
-				endTime = startTime.addingTimeInterval(20)
+				endTime = startTime.addingTimeInterval(60*5+10)
 				self.timerAction()		// 為避免延遲一秒才開始執行
 
 
