@@ -3,15 +3,18 @@ PODS:
   - Charts (3.0.0):
     - Charts/Core (= 3.0.0)
   - Charts/Core (3.0.0)
+  - Surge (0.2.1)
 
 DEPENDENCIES:
   - AsyncSwift
   - Charts
+  - Surge
 
 SPEC CHECKSUMS:
   AsyncSwift: 6ba6ed9ecb51344458063f7c86fe447ab824e313
   Charts: beb341928d2135613b4325a6c6aff9f2f6de895e
+  Surge: 7f67f9dbd0e837fe2d94ad5326fe14e9fdbea690
 
-PODFILE CHECKSUM: 766fa6ea5e89ec6965756400a5a3845af0790b7a
+PODFILE CHECKSUM: 6c4d8b5383f2755179736ca5f14486e39d4be347
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0.beta.1
