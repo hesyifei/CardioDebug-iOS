@@ -5,6 +5,9 @@
       location = "group:ImproveHRV.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Surge/Surge.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

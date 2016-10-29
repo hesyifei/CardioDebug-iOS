@@ -10,6 +10,8 @@
 		9EF65503B2511B4260FCD9BD /* Pods_ImproveHRVTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E89C2D8CE0860EE51A38D06 /* Pods_ImproveHRVTests.framework */; };
 		9FAAFD44D7742D1AAA638E9F /* Pods_ImproveHRVUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */; };
 		AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */; };
+		ED639A041DC44AE100E05762 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED639A031DC44AE100E05762 /* Surge.framework */; };
+		ED639A051DC44AE100E05762 /* Surge.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ED639A031DC44AE100E05762 /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6201DBC5A1100301D30 /* ResultViewController.swift */; };
 		ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */; };
 		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
@@ -48,6 +50,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EDCF4CC21DB9C872006A8045 /* BITalinoBLE.framework in CopyFiles */,
+				ED639A051DC44AE100E05762 /* Surge.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImproveHRVUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImproveHRV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3AF92B3DAF407210EB2545C /* Pods-ImproveHRVUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		ED639A031DC44AE100E05762 /* Surge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Surge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED86F6201DBC5A1100301D30 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED639A041DC44AE100E05762 /* Surge.framework in Frameworks */,
 				EDCF4CC01DB9C86B006A8045 /* BITalinoBLE.framework in Frameworks */,
 				AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */,
 			);
@@ -137,6 +142,7 @@
 		EDCF4C821DB9C858006A8045 = {
 			isa = PBXGroup;
 			children = (
+				ED639A031DC44AE100E05762 /* Surge.framework */,
 				EDCF4C8D1DB9C858006A8045 /* ImproveHRV */,
 				EDCF4CA51DB9C858006A8045 /* ImproveHRVTests */,
 				EDCF4CB01DB9C858006A8045 /* ImproveHRVUITests */,
