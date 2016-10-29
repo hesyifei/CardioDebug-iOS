@@ -32,6 +32,8 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 	var startTime: Date!
 	var endTime: Date!
 
+	var isConnectedAndRecording: Bool!
+
 	// MARK: - data var
 	var rawData: [Int]!
 
@@ -65,6 +67,9 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 			self.adjustFontSize()
 		}
 
+
+		isConnectedAndRecording = false
+
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +81,7 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 			}
 			bitalino.disconnect()
 		}
+		isConnectedAndRecording = false
 
 
 		enableButtons()
@@ -84,6 +90,15 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 		mainButtonOuterView.addTapGesture(1, target: self, action: #selector(self.mainButtonAction))
 
 		mainLabel.text = "Unconnected"
+
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+	}
+
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
 	}
 
 	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -113,6 +128,20 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
+	}
+
+
+	// MARK: - app life cycle related func
+	func didEnterBackground() {
+		print("didEnterBackground()")
+		stopTimer()
+		setupViewAndStopRecording(isNormalCondition: false)
+		if isConnectedAndRecording == true {
+			bitalino.stopRecording()
+			print("isConnectedAndRecording true")
+			//bitalino.disconnect()
+		}
+		print("DONE")
 	}
 
 
@@ -266,6 +295,9 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 
 				//self.mainLabel.text = "Recording..."
 
+				isConnectedAndRecording = true
+
+
 				timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
 				startTime = Date.init()
 				endTime = startTime.addingTimeInterval(10)
@@ -287,6 +319,8 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 	}
 
 	func stopRecording(isNormalCondition: Bool) {
+		isConnectedAndRecording = false
+
 		if isNormalCondition {
 			bitalino.stopRecording()
 
@@ -338,7 +372,7 @@ class ViewController: UIViewController, BITalinoBLEDelegate {
 
 	func bitalinoDidDisconnect(_ bitalino: BITalinoBLE!) {
 		print("Disconnected")
-		if !mainButton.isEnabled {
+		if isConnectedAndRecording == true {
 			self.stopTimer()
 			mainLabel.text = "Disconnected :("
 			HelperFunctions.delay(1.0) {
