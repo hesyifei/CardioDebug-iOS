@@ -8,7 +8,6 @@ target 'ImproveHRV' do
   # Pods for ImproveHRV
   pod 'AsyncSwift'
   pod 'Charts'
-  pod 'Surge'
 
   target 'ImproveHRVTests' do
     inherit! :search_paths
