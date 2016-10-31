@@ -10,6 +10,7 @@ import UIKit
 import Async
 import Charts
 import Surge
+import MBProgressHUD
 
 class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
@@ -20,6 +21,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	var rawData: [Int]!
 	var tableData = [String]()
+
+	var isRawDataTimeLengthEnough = false
 
 
 	override func viewDidLoad() {
@@ -33,24 +36,39 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
 			self.navigationItem.setRightBarButton(doneButton, animated: true)
 		}
-	}
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+
+
 		if let _ = rawData {
 			if !rawData.isEmpty {
 				if rawData.count >= 10*100 {
-					initChart()
-					Async.background {
-						self.getHRVData(values: self.rawData)
-						}.main {
-							self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
-							//self.tableView.reloadData()
-					}
+					isRawDataTimeLengthEnough = true
 				} else {
 					print("time too short!")
 				}
 			}
+		}
+
+		if isRawDataTimeLengthEnough {
+			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+			Async.background {
+				self.getHRVData(values: self.rawData)
+				}.main {
+					loadingHUD.hide(animated: true)
+					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+					//self.tableView.reloadData()
+			}
+		} else {
+			print("ERROR!!!! TIME TOOOOO SHORT")
+		}
+
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+
+		if isRawDataTimeLengthEnough {
+			initChart()
 		}
 	}
 
