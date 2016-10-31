@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 
-@IBDesignable
 class CircleView: UIView {
 	var circleColor: UIColor!
 
