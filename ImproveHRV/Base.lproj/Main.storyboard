@@ -16,11 +16,11 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Item-->
+        <!--Home-->
         <scene sceneID="2jp-VL-KMS">
             <objects>
                 <navigationController id="R8L-wK-Rbr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="tRg-qa-ja0"/>
+                    <tabBarItem key="tabBarItem" title="Home" id="tRg-qa-ja0"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oo3-9X-Vos">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -57,18 +57,18 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z0i-OB-OLn" id="yEW-zA-Fd5">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xMG-J2-BC2">
-                                                    <rect key="frame" x="15" y="11" width="34" height="21"/>
+                                                    <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="03p-v9-5rA">
-                                                    <rect key="frame" x="316" y="11" width="44" height="21"/>
+                                                    <rect key="frame" x="316" y="12" width="44" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -157,11 +157,11 @@
             </objects>
             <point key="canvasLocation" x="-745" y="116"/>
         </scene>
-        <!--Item-->
+        <!--Record-->
         <scene sceneID="mTm-5x-mf4">
             <objects>
                 <navigationController id="1zp-W8-5gP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="V1W-96-hJu"/>
+                    <tabBarItem key="tabBarItem" title="Record" id="V1W-96-hJu"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D2I-FX-Iff">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -174,10 +174,10 @@
             </objects>
             <point key="canvasLocation" x="-1572" y="803"/>
         </scene>
-        <!--View Controller-->
+        <!--Record View Controller-->
         <scene sceneID="b3U-aV-0eu">
             <objects>
-                <viewController id="iYZ-23-zL6" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="iYZ-23-zL6" customClass="RecordViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YNK-8B-FgW"/>
                         <viewControllerLayoutGuide type="bottom" id="P9F-fD-Rg2"/>
@@ -185,13 +185,55 @@
                     <view key="view" contentMode="scaleToFill" id="BIu-P9-KbP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Avb-MG-jK9">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="8Wl-Tr-KNo" detailTextLabel="mkQ-Eu-cgv" style="IBUITableViewCellStyleSubtitle" id="f2d-Xs-bA7">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f2d-Xs-bA7" id="y01-rP-Qqj">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8Wl-Tr-KNo">
+                                                    <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mkQ-Eu-cgv">
+                                                    <rect key="frame" x="15" y="25.5" width="33" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Avb-MG-jK9" secondAttribute="trailing" id="8z4-po-mH1"/>
+                            <constraint firstItem="P9F-fD-Rg2" firstAttribute="top" secondItem="Avb-MG-jK9" secondAttribute="bottom" id="9O9-ew-GSz"/>
+                            <constraint firstItem="Avb-MG-jK9" firstAttribute="leading" secondItem="BIu-P9-KbP" secondAttribute="leading" id="cZ5-zf-PZO"/>
+                            <constraint firstItem="Avb-MG-jK9" firstAttribute="top" secondItem="YNK-8B-FgW" secondAttribute="bottom" id="mHc-tH-qrR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2Nd-hy-NnI"/>
+                    <connections>
+                        <outlet property="tableView" destination="Avb-MG-jK9" id="qvC-F2-pIx"/>
+                        <segue destination="Whc-jM-XXx" kind="show" identifier="showResult" id="AVZ-sP-xzk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="btY-GU-b1s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-746" y="803"/>
+            <point key="canvasLocation" x="-746.39999999999998" y="802.848575712144"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="vAa-km-jhw">
@@ -249,7 +291,7 @@
         <!--Recording View Controller-->
         <scene sceneID="6fd-Wr-5da">
             <objects>
-                <viewController id="D9x-N3-yzI" customClass="RecordingViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="D9x-N3-yzI" customClass="RecordingViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XTE-OK-DXh"/>
                         <viewControllerLayoutGuide type="bottom" id="lUt-7j-hXO"/>
@@ -318,4 +360,7 @@
             <point key="canvasLocation" x="55" y="116"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="AVZ-sP-xzk"/>
+    </inferredMetricsTieBreakers>
 </document>
