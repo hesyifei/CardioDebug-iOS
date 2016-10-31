@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  RecordingViewController.swift
 //  ImproveHRV
 //
 //  Created by Jason Ho on 21/10/2016.
@@ -11,7 +11,7 @@ import Async
 import BITalinoBLE
 import Charts
 
-class ViewController: UIViewController, BITalinoBLEDelegate {
+class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 	// MARK: - basic var
 	let application = UIApplication.shared

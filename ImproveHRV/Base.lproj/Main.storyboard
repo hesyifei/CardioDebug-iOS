@@ -126,10 +126,10 @@
             </objects>
             <point key="canvasLocation" x="836" y="116"/>
         </scene>
-        <!--View Controller-->
+        <!--Recording View Controller-->
         <scene sceneID="6fd-Wr-5da">
             <objects>
-                <viewController id="D9x-N3-yzI" customClass="ViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="D9x-N3-yzI" customClass="RecordingViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XTE-OK-DXh"/>
                         <viewControllerLayoutGuide type="bottom" id="lUt-7j-hXO"/>
