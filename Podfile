@@ -8,6 +8,7 @@ target 'ImproveHRV' do
   # Pods for ImproveHRV
   pod 'AsyncSwift'
   pod 'Charts'
+  pod 'MBProgressHUD', '~> 1.0.0'
 
   target 'ImproveHRVTests' do
     inherit! :search_paths

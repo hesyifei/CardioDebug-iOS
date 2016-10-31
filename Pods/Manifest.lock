@@ -3,15 +3,18 @@ PODS:
   - Charts (3.0.0):
     - Charts/Core (= 3.0.0)
   - Charts/Core (3.0.0)
+  - MBProgressHUD (1.0.0)
 
 DEPENDENCIES:
   - AsyncSwift
   - Charts
+  - MBProgressHUD (~> 1.0.0)
 
 SPEC CHECKSUMS:
   AsyncSwift: 6ba6ed9ecb51344458063f7c86fe447ab824e313
   Charts: beb341928d2135613b4325a6c6aff9f2f6de895e
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
 
-PODFILE CHECKSUM: 88f51551509e900276aff44ca47c72a31f2ac8ee
+PODFILE CHECKSUM: d86abb379b4a081189efe5ddfacc17a3db8c6735
 
 COCOAPODS: 1.2.0.beta.1
