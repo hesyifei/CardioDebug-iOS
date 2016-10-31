@@ -25,6 +25,8 @@
 		EDCF4CC21DB9C872006A8045 /* BITalinoBLE.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EDD34D4D1DC4CE6200698598 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD34D4C1DC4CE6200698598 /* CircleView.swift */; };
 		EDD34D4F1DC4CF0400698598 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD34D4E1DC4CF0400698598 /* Extensions.swift */; };
+		EDE490DC1DC75A76000B5678 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490DB1DC75A76000B5678 /* ViewController.swift */; };
+		EDE490DE1DC76130000B5678 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490DD1DC76130000B5678 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,8 @@
 		EDCF4CC31DB9C885006A8045 /* ImproveHRV-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ImproveHRV-Bridging-Header.h"; sourceTree = "<group>"; };
 		EDD34D4C1DC4CE6200698598 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		EDD34D4E1DC4CF0400698598 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EDE490DB1DC75A76000B5678 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EDE490DD1DC76130000B5678 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +175,8 @@
 			children = (
 				EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */,
 				EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */,
+				EDE490DB1DC75A76000B5678 /* ViewController.swift */,
+				EDE490DD1DC76130000B5678 /* SettingsViewController.swift */,
 				EDCF4C901DB9C858006A8045 /* RecordingViewController.swift */,
 				ED86F6201DBC5A1100301D30 /* ResultViewController.swift */,
 				EDD34D501DC4CF0F00698598 /* Supporting Views */,
@@ -524,8 +530,10 @@
 				EDD34D4F1DC4CF0400698598 /* Extensions.swift in Sources */,
 				EDD34D4D1DC4CE6200698598 /* CircleView.swift in Sources */,
 				ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */,
+				EDE490DC1DC75A76000B5678 /* ViewController.swift in Sources */,
 				EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */,
 				ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */,
+				EDE490DE1DC76130000B5678 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

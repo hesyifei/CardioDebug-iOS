@@ -208,6 +208,11 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		mainButton.isEnabled = true
 		mainButton.isUserInteractionEnabled = true
 		mainButtonOuterView.isUserInteractionEnabled = true
+
+		self.navigationController?.navigationBar.isUserInteractionEnabled = true
+		self.navigationController?.navigationBar.tintColor = UIColor.blue
+
+		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
 
 	func disableButtons() {
@@ -215,6 +220,11 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		mainButton.isEnabled = false
 		mainButton.isUserInteractionEnabled = false
 		mainButtonOuterView.isUserInteractionEnabled = false
+
+		self.navigationController?.navigationBar.isUserInteractionEnabled = false
+		self.navigationController?.navigationBar.tintColor = UIColor.lightGray
+
+		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
 	}
 
 	func setupViewAndStartConnect() {
@@ -418,7 +428,8 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 	// MARK: - style func
 	func getBackgroundColor() -> UIColor {
-		return UIColor(netHex: 0xC8FFC8)
+		//return UIColor(netHex: 0xC8FFC8)
+		return UIColor.white
 	}
 	func getElementColor() -> UIColor {
 		return UIColor.black
