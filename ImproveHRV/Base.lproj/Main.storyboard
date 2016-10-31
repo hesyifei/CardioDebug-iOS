@@ -175,7 +175,7 @@
         <!--Settings View Controller-->
         <scene sceneID="JNn-6O-xjk">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="2Ku-7z-MSg" customClass="SettingsViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2Ku-7z-MSg" customClass="SettingsViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yl2-9e-7Fv"/>
                         <viewControllerLayoutGuide type="bottom" id="C2K-wt-3xd"/>
@@ -183,19 +183,7 @@
                     <view key="view" contentMode="scaleToFill" id="BhU-rC-6jx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u56-CF-AzV">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="u56-CF-AzV" firstAttribute="top" secondItem="Yl2-9e-7Fv" secondAttribute="bottom" id="MUr-WT-vmB"/>
-                            <constraint firstItem="u56-CF-AzV" firstAttribute="leading" secondItem="BhU-rC-6jx" secondAttribute="leading" id="daO-pE-rGE"/>
-                            <constraint firstAttribute="trailing" secondItem="u56-CF-AzV" secondAttribute="trailing" id="jkV-mD-HIv"/>
-                            <constraint firstItem="C2K-wt-3xd" firstAttribute="top" secondItem="u56-CF-AzV" secondAttribute="bottom" id="xKN-NX-ofa"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UfO-Eo-DZe"/>
                 </viewController>
