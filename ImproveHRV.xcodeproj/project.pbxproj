@@ -15,7 +15,7 @@
 		ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6201DBC5A1100301D30 /* ResultViewController.swift */; };
 		ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */; };
 		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
-		EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* ViewController.swift */; };
+		EDCF4C911DB9C858006A8045 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* RecordingViewController.swift */; };
 		EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C921DB9C858006A8045 /* Main.storyboard */; };
 		EDCF4C991DB9C858006A8045 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C981DB9C858006A8045 /* Assets.xcassets */; };
 		EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDCF4C9A1DB9C858006A8045 /* LaunchScreen.storyboard */; };
@@ -73,7 +73,7 @@
 		ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EDCF4C901DB9C858006A8045 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EDCF4C901DB9C858006A8045 /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
 		EDCF4C931DB9C858006A8045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EDCF4C981DB9C858006A8045 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EDCF4C9B1DB9C858006A8045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 			children = (
 				EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */,
 				EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */,
-				EDCF4C901DB9C858006A8045 /* ViewController.swift */,
+				EDCF4C901DB9C858006A8045 /* RecordingViewController.swift */,
 				ED86F6201DBC5A1100301D30 /* ResultViewController.swift */,
 				EDD34D501DC4CF0F00698598 /* Supporting Views */,
 				EDD34D511DC4CF2100698598 /* Supporting Classes */,
@@ -520,7 +520,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDCF4C911DB9C858006A8045 /* ViewController.swift in Sources */,
+				EDCF4C911DB9C858006A8045 /* RecordingViewController.swift in Sources */,
 				EDD34D4F1DC4CF0400698598 /* Extensions.swift in Sources */,
 				EDD34D4D1DC4CE6200698598 /* CircleView.swift in Sources */,
 				ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */,
