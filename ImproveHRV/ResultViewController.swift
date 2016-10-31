@@ -10,7 +10,14 @@ import UIKit
 import Async
 import Charts
 import Surge
+import RealmSwift
 import MBProgressHUD
+
+class PassECGResult {
+	var startDate: Date!
+	var rawData: [Int]!
+	var isNew: Bool!
+}
 
 class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
@@ -19,10 +26,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 
-	var rawData: [Int]!
+	var passedData: PassECGResult!
 	var tableData = [String]()
 
-	var isRawDataTimeLengthEnough = false
+	var isPassedDataValid = false
 
 
 	override func viewDidLoad() {
@@ -38,28 +45,39 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 
-
-		if let _ = rawData {
+		if let rawData = passedData.rawData, let _ = passedData.startDate, let _ = passedData.isNew {
 			if !rawData.isEmpty {
 				if rawData.count >= 10*100 {
-					isRawDataTimeLengthEnough = true
+					isPassedDataValid = true
 				} else {
-					print("time too short!")
+					print("time too short! \(rawData.count)")
 				}
 			}
 		}
 
-		if isRawDataTimeLengthEnough {
+		if isPassedDataValid {
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
 			Async.background {
-				self.getHRVData(values: self.rawData)
+				if self.passedData.isNew == true {
+					let realm = try! Realm()
+
+					let ecgData = ECGData()
+					ecgData.startDate = self.passedData.startDate
+					ecgData.duration = Double(self.passedData.rawData.count)/100.0
+					ecgData.rawData = self.passedData.rawData
+					try! realm.write {
+						realm.add(ecgData)
+					}
+				}
+
+				self.getHRVData(values: self.passedData.rawData)
 				}.main {
 					loadingHUD.hide(animated: true)
 					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 					//self.tableView.reloadData()
 			}
 		} else {
-			print("ERROR!!!! TIME TOOOOO SHORT")
+			print("isPassedDataValid false")
 		}
 
 	}
@@ -67,9 +85,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		if isRawDataTimeLengthEnough {
+		if isPassedDataValid {
 			initChart()
 		}
+
+		let realm = try! Realm()
+		let dogs = realm.objects(ECGData.self)
+		print(dogs)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -135,7 +157,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
-		let values = rawData[0...10]
+		let values = passedData.rawData[0...10]
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
@@ -332,11 +354,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 
-		let FFTTest: [Float] = Surge.fft(rawData.map{ Float($0) })
+		let rawDataFloat = passedData.rawData.map{ Float($0) }
+
+		let FFTTest: [Float] = Surge.fft(rawDataFloat)
 		print("FFTTest: \(FFTTest)")
 
-		let dataAverage: Float = Surge.mean(rawData.map{ Float($0) })
-		let FFTTestNEW: [Float] = Surge.fft(rawData.map{ Float($0)-dataAverage })
+		let dataAverage: Float = Surge.mean(rawDataFloat)
+		let FFTTestNEW: [Float] = Surge.fft(passedData.rawData.map{ Float($0)-dataAverage })
 		print("FFTTestNEW: \(FFTTestNEW)")
 	}
 
