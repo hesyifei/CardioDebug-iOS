@@ -50,10 +50,9 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		bitalino.delegate = self
 
 
-		self.view.backgroundColor = getBackgroundColor()
 
-		mainLabel.textColor = getElementColor()
 		mainLabel.alpha = 0.0
+		mainLabel.textColor = getElementColor()
 
 		upperLabel.alpha = 0.0
 		upperLabel.textColor = getElementColor()
@@ -210,7 +209,7 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		mainButtonOuterView.isUserInteractionEnabled = true
 
 		self.navigationController?.navigationBar.isUserInteractionEnabled = true
-		self.navigationController?.navigationBar.tintColor = UIColor.blue
+		self.navigationController?.navigationBar.tintColor = self.view.tintColor
 
 		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
@@ -285,7 +284,7 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 				UIView.animate(withDuration: 1.0, animations: {
 					self.view.layoutIfNeeded()
 				}, completion: { (complete: Bool) in
-					self.setBackgroundColorWithAnimation(self.getBackgroundColor())
+					//self.setBackgroundColorWithAnimation(self.getBackgroundColor())
 
 					self.stopRecording(isNormalCondition: isNormalCondition)
 				})
@@ -427,10 +426,10 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 
 	// MARK: - style func
-	func getBackgroundColor() -> UIColor {
+	/*func getBackgroundColor() -> UIColor {
 		//return UIColor(netHex: 0xC8FFC8)
 		return UIColor.white
-	}
+	}*/
 	func getElementColor() -> UIColor {
 		return UIColor.black
 	}
@@ -442,8 +441,8 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		return UIColor.white
 	}
 
-	func getElementColorString() -> String {
+	/*func getElementColorString() -> String {
 		return "Black"
-	}
+	}*/
 
 }
