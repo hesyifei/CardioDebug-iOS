@@ -20,13 +20,22 @@ class SettingsViewController: FormViewController {
 		self.navigationItem.setRightBarButton(doneButton, animated: true)
 
 		form = Section("Section1")
-			<<< TextRow(){ row in
-				row.title = "Text Row"
-				row.placeholder = "Enter text here"
+			<<< SegmentedRow<String>() {
+				$0.title = "ActionSheetRow"
+				$0.options = ["Male", "Female"]
+				$0.value = "Male"    // initially selected
 			}
-			<<< PhoneRow(){
-				$0.title = "Phone Row"
+			<<< DecimalRow(){
+				$0.title = "Height"
+				$0.placeholder = "Enter text here"
+			}
+			<<< DecimalRow(){
+				$0.title = "Weight"
 				$0.placeholder = "And numbers here"
+			}
+			<<< DateRow(){
+				$0.title = "Birthday"
+				$0.value = NSDate(timeIntervalSinceReferenceDate: 0) as Date
 			}
 			+++ Section("Section2")
 			<<< DateRow(){
