@@ -7,22 +7,32 @@
 //
 
 import UIKit
+import Async
 import Charts
 import Surge
 
-class ResultViewController: UIViewController {
+class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
 
-	@IBOutlet var resultLabel: UILabel!
+	@IBOutlet var tableView: UITableView!
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 
 	var rawData: [Int]!
+	var tableData = [String]()
 
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+
+		tableView.delegate = self
+		tableView.dataSource = self
+
+		if (self.navigationController?.isBeingPresented)! {
+			let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
+			self.navigationItem.setRightBarButton(doneButton, animated: true)
+		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +41,12 @@ class ResultViewController: UIViewController {
 			if !rawData.isEmpty {
 				if rawData.count >= 10*100 {
 					initChart()
-					getHRVData(values: rawData)
+					Async.background {
+						self.getHRVData(values: self.rawData)
+						}.main {
+							self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+							//self.tableView.reloadData()
+					}
 				} else {
 					print("time too short!")
 				}
@@ -42,6 +57,28 @@ class ResultViewController: UIViewController {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
+	}
+
+	func doneButtonAction() {
+		navigationController?.dismiss(animated: true, completion: nil)
+	}
+
+
+	// MARK: - tableView related
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return tableData.count
+	}
+
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
+		let data = tableData[indexPath.row].components(separatedBy: "|")
+		cell.textLabel?.text = data[0]
+		cell.detailTextLabel?.text = data[1]
+		return cell
+	}
+
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.tableView.deselectRow(at: indexPath, animated: true)
 	}
 
 
@@ -80,9 +117,9 @@ class ResultViewController: UIViewController {
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
-		let values = rawData
+		let values = rawData[0...10]
 		var dataEntries: [ChartDataEntry] = []
-		for (index, value) in (values?.enumerated())! {
+		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
 			dataEntries.append(dataEntry)
 		}
@@ -208,14 +245,19 @@ class ResultViewController: UIViewController {
 		print("RRDurations: \(RRDurations)")
 
 
-		debugTextView.text = "allMaxRIndex: \(allMaxRIndex)\nRRDurations: \(RRDurations)"
+		Async.main {
+			self.debugTextView.text = "allMaxRIndex: \(allMaxRIndex)\nRRDurations: \(RRDurations)"
+		}
 
 
+
+		tableData = []
 
 
 		let RRMean: Float = Surge.mean(RRDurations)
 		print("RRMean: \(RRMean)")
-		resultLabel.text = "RRMean: \(RRMean)"
+		//resultLabel.text = "RRMean: \(RRMean)"
+		tableData.append("RRMean|\(RRMean*10.0)ms")
 
 
 
@@ -248,16 +290,28 @@ class ResultViewController: UIViewController {
 		// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
 		let SDNN: Float = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
 		print("SDNN: \(SDNN)")
+		tableData.append("SDNN|\(SDNN*10.0)ms")
 
 		let rMSSD: Float = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
 		print("rMSSD: \(rMSSD)")
+		tableData.append("rMSSD|\(rMSSD*10.0)ms")
 
 		let SDSD: Float = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
 		print("SDSD: \(SDSD)")
+		tableData.append("SDSD|\(SDSD*10.0)ms")
 
 
 		print("beatsEveryMin: \(beatsEveryMin)")
 
+		if !beatsEveryMin.isEmpty {
+			let slowestBeat = beatsEveryMin.min()
+			let fastestBeat = beatsEveryMin.max()
+			tableData.append("Range|\(slowestBeat)-\(fastestBeat) bpm")
+
+
+			let averageBeat: Int = lroundf(Surge.mean(beatsEveryMin.map{ Float($0) }))
+			tableData.append("Average|\(averageBeat) bpm")
+		}
 
 
 		let FFTTest: [Float] = Surge.fft(rawData.map{ Float($0) })
