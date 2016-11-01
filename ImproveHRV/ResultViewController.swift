@@ -28,6 +28,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	var passedData: PassECGResult!
 	var tableData = [String]()
+	var result = [String: Double]()
 
 	var isPassedDataValid = false
 
@@ -58,6 +59,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if isPassedDataValid {
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
 			Async.background {
+				self.getHRVData(values: self.passedData.rawData)
 				if self.passedData.isNew == true {
 					let realm = try! Realm()
 
@@ -65,12 +67,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					ecgData.startDate = self.passedData.startDate
 					ecgData.duration = Double(self.passedData.rawData.count)/100.0
 					ecgData.rawData = self.passedData.rawData
+					ecgData.result = self.result
 					try! realm.write {
 						realm.add(ecgData)
 					}
 				}
-
-				self.getHRVData(values: self.passedData.rawData)
 				}.main {
 					loadingHUD.hide(animated: true)
 					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
@@ -180,7 +181,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	func getHRVData(values: [Int]) {
 		print("values count: \(values.count)")
 
-		var slopes: [Float] = [0, 0]
+		var slopes: [Double] = [0, 0]
 		var importantSlopes: [Int] = []
 
 		for (no, value) in values.enumerated() {
@@ -266,12 +267,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 
-		var RRDurations = [Float]()
+		var RRDurations = [Double]()
 		for (no, maxRIndex) in allMaxRIndex.enumerated() {
 			if no < allMaxRIndex.count-1 {
 				let duration = allMaxRIndex[no+1]-maxRIndex
 				if duration > 10 {
-					RRDurations.append(Float(duration))
+					RRDurations.append(Double(duration))
 				} else {
 					print("WARNNING !!!!!! LESS THAN 0.1s!!!")
 				}
@@ -288,29 +289,31 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		tableData = []
+		result = [:]
 
 
-		let RRMean: Float = Surge.mean(RRDurations)
-		print("RRMean: \(RRMean)")
+		let AVNN: Double = Surge.mean(RRDurations)
+		print("AVNN: \(AVNN)")
 		//resultLabel.text = "RRMean: \(RRMean)"
-		tableData.append("RRMean|\(RRMean*10.0)ms")
+		tableData.append("AVNN|\(AVNN*10.0)ms")
+		result["AVNN"] = AVNN*10.0
 
 
 
-		var sumInOneMin: Float = 0
+		var sumInOneMin: Double = 0
 		var beatsSumInOneMin: Int = 0
 		var beatsEveryMin = [Int]()
 
-		var RRAndMeanRRDiffs = [Float]()
-		var RRAndNextRRDiffs = [Float]()
-		var RRNextRRAndMeanRRNextRRDiffs = [Float]()
+		var RRAndMeanRRDiffs = [Double]()
+		var RRAndNextRRDiffs = [Double]()
+		var RRNextRRAndMeanRRNextRRDiffs = [Double]()
 		for (index, eachDuration) in RRDurations.enumerated() {
-			RRAndMeanRRDiffs.append(eachDuration-RRMean)
+			RRAndMeanRRDiffs.append(eachDuration-AVNN)
 
 			if index < (RRDurations.count-1) {
 				RRAndNextRRDiffs.append(RRDurations[index+1]-eachDuration)
 
-				RRNextRRAndMeanRRNextRRDiffs.append((eachDuration-RRDurations[index+1])-(RRMean-eachDuration))
+				RRNextRRAndMeanRRNextRRDiffs.append((eachDuration-RRDurations[index+1])-(AVNN-eachDuration))
 			}
 
 			if sumInOneMin < 60*100 {
@@ -324,17 +327,20 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 		// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
-		let SDNN: Float = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
+		let SDNN: Double = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
 		print("SDNN: \(SDNN)")
 		tableData.append("SDNN|\(SDNN*10.0)ms")
+		result["SDNN"] = SDNN*10.0
 
-		let rMSSD: Float = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
+		let rMSSD: Double = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
 		print("rMSSD: \(rMSSD)")
 		tableData.append("rMSSD|\(rMSSD*10.0)ms")
+		result["rMSSD"] = rMSSD*10.0
 
-		let SDSD: Float = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
+		let SDSD: Double = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
 		print("SDSD: \(SDSD)")
 		tableData.append("SDSD|\(SDSD*10.0)ms")
+		result["SDSD"] = SDSD*10.0
 
 
 		print("beatsEveryMin: \(beatsEveryMin)")
@@ -345,26 +351,27 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			tableData.append("Range|\(slowestBeat)-\(fastestBeat) bpm")
 
 
-			let averageBeat: Int = lroundf(Surge.mean(beatsEveryMin.map{ Float($0) }))
+			let averageBeat: Int = lround(Surge.mean(beatsEveryMin.map{ Double($0) }))
 			tableData.append("Average|\(averageBeat) bpm")
+			result["AverageBPM"] = Double(averageBeat)
 		}
 
 
-		let rawDataFloat = passedData.rawData.map{ Float($0) }
+		let rawDataDouble = passedData.rawData.map{ Double($0) }
 
-		let FFTTest: [Float] = Surge.fft(rawDataFloat)
+		let FFTTest: [Double] = Surge.fft(rawDataDouble)
 		print("FFTTest: \(FFTTest)")
 
-		let dataAverage: Float = Surge.mean(rawDataFloat)
-		let FFTTestNEW: [Float] = Surge.fft(passedData.rawData.map{ Float($0)-dataAverage })
+		let dataAverage: Double = Surge.mean(rawDataDouble)
+		let FFTTestNEW: [Double] = Surge.fft(passedData.rawData.map{ Double($0)-dataAverage })
 		print("FFTTestNEW: \(FFTTestNEW)")
 	}
 
-	func getSlope(n: Int, values: [Int]) -> Float {
-		let one = Float(-2*values[n-2])
-		let two = Float(values[n-1])
-		let three = Float(values[n+1])
-		let four = Float(2*values[n+2])
+	func getSlope(n: Int, values: [Int]) -> Double {
+		let one = Double(-2*values[n-2])
+		let two = Double(values[n-1])
+		let three = Double(values[n+1])
+		let four = Double(2*values[n+2])
 		
 		return one-two+three+four
 	}

@@ -78,7 +78,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	func refreshData() {
 		let allECGData = realm.objects(ECGData.self)
-		print(allECGData)
+		//print(allECGData)
 
 		tableData = Array(allECGData)
 
@@ -99,7 +99,12 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
-		cell.textLabel?.text = "\(tableData[indexPath.row].duration)"
+		let result = tableData[indexPath.row].result
+		if !result.isEmpty {
+			if let AVNN = result["AVNN"] {
+				cell.textLabel?.text = "\(AVNN)ms"
+			}
+		}
 		cell.detailTextLabel?.text = "\(tableData[indexPath.row].startDate)"
 		return cell
 	}
