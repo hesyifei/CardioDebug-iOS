@@ -14,6 +14,8 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	@IBOutlet var tableView: UITableView!
 
+	var refreshControl: UIRefreshControl!
+
 	var realm: Realm!
 
 	var tableData: [ECGData]!
@@ -25,22 +27,23 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		tableView.delegate = self
 		tableView.dataSource = self
 
-
 		realm = try! Realm()
 
 		tableData = []
+
+
+		refreshControl = UIRefreshControl()
+		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+		refreshControl.addTarget(self, action: #selector(self.refreshData), for: UIControlEvents.valueChanged)
+		self.tableView.addSubview(refreshControl)
+		self.tableView.sendSubview(toBack: refreshControl)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		print("RecordViewController viewWillAppear")
 
-		let allECGData = realm.objects(ECGData.self)
-		print(allECGData)
-
-		tableData = Array(allECGData)
-
-		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+		refreshData()
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -71,6 +74,21 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
+	}
+
+	func refreshData() {
+		let allECGData = realm.objects(ECGData.self)
+		print(allECGData)
+
+		tableData = Array(allECGData)
+
+		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+
+		if refreshControl.isRefreshing {
+			HelperFunctions.delay(1.0) {
+				self.refreshControl.endRefreshing()
+			}
+		}
 	}
 
 
