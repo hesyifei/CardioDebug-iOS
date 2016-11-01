@@ -88,10 +88,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if isPassedDataValid {
 			initChart()
 		}
-
-		let realm = try! Realm()
-		let dogs = realm.objects(ECGData.self)
-		print(dogs)
 	}
 
 	override func didReceiveMemoryWarning() {
