@@ -77,7 +77,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 	func refreshData() {
-		let allECGData = realm.objects(ECGData.self)
+		let allECGData = realm.objects(ECGData.self).sorted(byProperty: "startDate", ascending: false)
 		//print(allECGData)
 
 		tableData = Array(allECGData)

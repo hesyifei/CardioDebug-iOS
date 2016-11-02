@@ -33,6 +33,11 @@ class SettingsViewController: FormViewController {
 				$0.title = "Weight"
 				$0.placeholder = "And numbers here"
 			}
+			<<< DecimalRow(){
+				$0.title = "BMI"
+				$0.disabled = true
+				$0.value = 999
+			}
 			<<< DateRow(){
 				$0.title = "Birthday"
 				$0.value = NSDate(timeIntervalSinceReferenceDate: 0) as Date
