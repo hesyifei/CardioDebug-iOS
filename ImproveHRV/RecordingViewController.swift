@@ -33,6 +33,8 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 	var endTime: Date!
 	var duration: Double!
 
+	var currentState: Int = 0
+
 	var isConnectedAndRecording: Bool!
 
 	// MARK: - data var
@@ -69,6 +71,9 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 
 		isConnectedAndRecording = false
+
+
+		currentState = 0
 
 	}
 
@@ -131,6 +136,15 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 					destination.passedData = passedData
 
+					destination.passedBackData = { bool in
+						print("haa\(bool)")
+						if bool == true {
+							Async.main {
+								self.mainButtonAction()
+							}
+						}
+					}
+
 				}
 			}
 		}
@@ -158,8 +172,13 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 	// MARK: - UI related func
 	func mainButtonAction() {
-		self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
-		//setupViewAndStartConnect()
+		if currentState < 3 {
+			currentState += 1
+			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+			//setupViewAndStartConnect()
+		} else {
+			currentState = 0
+		}
 	}
 
 

@@ -32,6 +32,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	var isPassedDataValid = false
 
+	var passedBackData: ((Bool) -> Void)?
+
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -97,6 +99,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 	func doneButtonAction() {
+		if passedData.isNew == true {
+			passedBackData?(true)
+		}
 		navigationController?.dismiss(animated: true, completion: nil)
 	}
 
