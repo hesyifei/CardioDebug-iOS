@@ -8,11 +8,13 @@
 
 import UIKit
 import Foundation
+import Charts
 import RealmSwift
 
 class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 	@IBOutlet var tableView: UITableView!
+	@IBOutlet var chartView: LineChartView!
 
 	var refreshControl: UIRefreshControl!
 
@@ -89,6 +91,79 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				self.refreshControl.endRefreshing()
 			}
 		}
+
+		initChart()
+	}
+
+
+	func initChart() {
+
+		/*
+		圖標註釋：
+		X軸：檢查站ID
+		Y軸：從當次開始練習到該檢查站的總時間
+		故圖標數值將只會永遠向上、不會減少
+		*/
+
+
+
+		chartView.noDataText = "No chart data available."
+		//chartView.chartDescription.text = "Use your fingers to zoom in or out!"
+		chartView.pinchZoomEnabled = false           // 不允許手指同時放大XY兩軸
+		chartView.animate(xAxisDuration: 1.0)       // 從下往上動態載入圖表
+
+
+		let rightAxis = chartView.rightAxis         // 右側Y軸
+		rightAxis.drawLabelsEnabled = true         // 不顯示右側Y軸
+		rightAxis.drawGridLinesEnabled = true
+		//rightAxis.axisMaximum = 5000.0
+
+
+		let leftAxis = chartView.leftAxis           // 左側Y軸
+		leftAxis.drawLabelsEnabled = true
+		leftAxis.drawAxisLineEnabled = true         // 不顯示軸
+		leftAxis.drawGridLinesEnabled = true
+		//leftAxis.axisMaximum = 5000.0
+
+
+		let xAxis = chartView.xAxis                 // X軸
+		xAxis.drawAxisLineEnabled = true            // 顯示軸
+		xAxis.drawGridLinesEnabled = true          // 不於圖表內顯示縱軸線
+		xAxis.labelPosition = .bottom
+		xAxis.axisMinimum = tableData[0].startDate.timeIntervalSinceNow
+		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
+		let formatter = ChartStringFormatter()
+		xAxis.valueFormatter = formatter
+
+
+		var dataEntries: [ChartDataEntry] = []
+		if let values = tableData {
+			for (index, value) in values.enumerated() {
+				if let AVNN = value.result["AVNN"] {
+					print(AVNN)
+					let dataEntry = ChartDataEntry(x: Double(value.startDate.timeIntervalSinceNow), y: AVNN)
+					dataEntries.append(dataEntry)
+				}
+			}
+		}
+
+		let allAverageTimeDataSet = LineChartDataSet(values: dataEntries, label: "Average Time among all")
+		allAverageTimeDataSet.colors = [UIColor.red]
+		//allAverageTimeDataSet.fillColor = UIColor.lightGray
+		allAverageTimeDataSet.drawCirclesEnabled = true
+		//allAverageTimeDataSet.drawFilledEnabled = true
+
+
+
+
+
+		// 設定X軸底部內容
+		let checkpointsName: [String] = ["haha", "55", "no"]
+		let lineChartData = LineChartData(dataSets: [allAverageTimeDataSet])
+		chartView.data = lineChartData
+
+
+		chartView.notifyDataSetChanged()
 	}
 
 
@@ -111,5 +186,15 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+	}
+}
+
+class ChartStringFormatter: NSObject, IAxisValueFormatter {
+
+	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+		var formatter = DateFormatter()
+		formatter.dateFormat = "dd-MM-yyyy"
+		let date = Date.init(timeIntervalSinceNow: TimeInterval(value))
+		return formatter.string(from: date)
 	}
 }

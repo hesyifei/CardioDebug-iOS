@@ -250,7 +250,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mU-yI-51J">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mU-yI-51J" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="0.0" y="464" width="375" height="154"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -269,6 +269,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="2Nd-hy-NnI"/>
                     <connections>
+                        <outlet property="chartView" destination="1mU-yI-51J" id="z89-fg-71D"/>
                         <outlet property="tableView" destination="Avb-MG-jK9" id="qvC-F2-pIx"/>
                         <segue destination="Whc-jM-XXx" kind="show" identifier="showResult" id="AVZ-sP-xzk"/>
                     </connections>
