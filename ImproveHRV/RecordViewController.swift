@@ -130,7 +130,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.drawAxisLineEnabled = true            // 顯示軸
 		xAxis.drawGridLinesEnabled = true          // 不於圖表內顯示縱軸線
 		xAxis.labelPosition = .bottom
-		xAxis.axisMinimum = tableData[0].startDate.timeIntervalSinceNow
+		//xAxis.axisMinimum = tableData[0].startDate.timeIntervalSinceReferenceDate
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 		let formatter = ChartStringFormatter()
 		xAxis.valueFormatter = formatter
@@ -141,7 +141,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			for (index, value) in values.enumerated() {
 				if let AVNN = value.result["AVNN"] {
 					print(AVNN)
-					let dataEntry = ChartDataEntry(x: Double(value.startDate.timeIntervalSinceNow), y: AVNN)
+					let dataEntry = ChartDataEntry(x: Double(value.startDate.timeIntervalSinceReferenceDate), y: AVNN)
 					dataEntries.append(dataEntry)
 				}
 			}
@@ -190,11 +190,10 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 }
 
 class ChartStringFormatter: NSObject, IAxisValueFormatter {
-
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-		var formatter = DateFormatter()
+		let formatter = DateFormatter()
 		formatter.dateFormat = "dd-MM-yyyy"
-		let date = Date.init(timeIntervalSinceNow: TimeInterval(value))
+		let date = Date.init(timeIntervalSinceReferenceDate: TimeInterval(value))
 		return formatter.string(from: date)
 	}
 }
