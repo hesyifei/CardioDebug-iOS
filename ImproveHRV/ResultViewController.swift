@@ -83,6 +83,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			print("isPassedDataValid false")
 		}
 
+
+		self.title = "\(passedData.startDate!)"
+
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -159,7 +162,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
-		let values = passedData.rawData[0...10]
+		//let values = passedData.rawData[0...10]
+		let values = passedData.rawData!
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
@@ -300,7 +304,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let AVNN: Double = Surge.mean(RRDurations)
 		print("AVNN: \(AVNN)")
 		//resultLabel.text = "RRMean: \(RRMean)"
-		tableData.append("AVNN|\(AVNN*10.0)ms")
+		tableData.append("AVNN|\(String(format:"%.2f", AVNN*10.0))ms")
 		result["AVNN"] = AVNN*10.0
 
 
@@ -334,17 +338,17 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
 		let SDNN: Double = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
 		print("SDNN: \(SDNN)")
-		tableData.append("SDNN|\(SDNN*10.0)ms")
+		tableData.append("SDNN|\(String(format:"%.2f", SDNN*10.0))ms")
 		result["SDNN"] = SDNN*10.0
 
 		let rMSSD: Double = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
 		print("rMSSD: \(rMSSD)")
-		tableData.append("rMSSD|\(rMSSD*10.0)ms")
+		tableData.append("rMSSD|\(String(format:"%.2f", rMSSD*10.0))ms")
 		result["rMSSD"] = rMSSD*10.0
 
 		let SDSD: Double = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
 		print("SDSD: \(SDSD)")
-		tableData.append("SDSD|\(SDSD*10.0)ms")
+		tableData.append("SDSD|\(String(format:"%.2f", SDSD*10.0))ms")
 		result["SDSD"] = SDSD*10.0
 
 

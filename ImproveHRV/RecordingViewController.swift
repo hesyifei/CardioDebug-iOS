@@ -46,6 +46,10 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		super.viewDidLoad()
 
 
+
+		self.title = "Record"
+
+
 		rawData = []
 
 

@@ -50,7 +50,7 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 		switch url! {
 		case "http://action.is.needed/add":
 			print("exiting VC")
-			self.navigationController?.popViewController(animated: true)
+			_ = self.navigationController?.popViewController(animated: true)
 			decisionHandler(.cancel)
 			break
 		default:
