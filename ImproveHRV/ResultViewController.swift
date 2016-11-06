@@ -84,7 +84,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 
-		self.title = "\(passedData.startDate!)"
+		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
 
 	}
 
@@ -128,62 +128,59 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 	func initChart() {
-
-		/*
-		圖標註釋：
-		X軸：檢查站ID
-		Y軸：從當次開始練習到該檢查站的總時間
-		故圖標數值將只會永遠向上、不會減少
-		*/
-
-
+		chartView.setViewPortOffsets(left: 0.0, top: 20.0, right: 0.0, bottom: 20.0)
 
 		chartView.noDataText = "No chart data available."
-		//chartView.chartDescription.text = "Use your fingers to zoom in or out!"
-		chartView.pinchZoomEnabled = false           // 不允許手指同時放大XY兩軸
-		chartView.animate(xAxisDuration: 1.0)       // 從下往上動態載入圖表
+		chartView.chartDescription?.text = ""
+		chartView.scaleXEnabled = true
+		chartView.scaleYEnabled = false
+		chartView.legend.enabled = false
+		chartView.animate(xAxisDuration: 1.0)
 
 
-		let rightAxis = chartView.rightAxis         // 右側Y軸
-		rightAxis.drawLabelsEnabled = false         // 不顯示右側Y軸
+		let rightAxis = chartView.rightAxis
+		rightAxis.drawLabelsEnabled = false
+		rightAxis.drawAxisLineEnabled = false
 		rightAxis.drawGridLinesEnabled = false
 
 
-		let leftAxis = chartView.leftAxis           // 左側Y軸
+		let leftAxis = chartView.leftAxis
 		leftAxis.drawLabelsEnabled = false
-		leftAxis.drawAxisLineEnabled = false         // 不顯示軸
+		leftAxis.drawAxisLineEnabled = false
 		leftAxis.drawGridLinesEnabled = false
 
 
-		let xAxis = chartView.xAxis                 // X軸
-		xAxis.drawAxisLineEnabled = true            // 顯示軸
-		xAxis.drawGridLinesEnabled = false          // 不於圖表內顯示縱軸線
+		let xAxis = chartView.xAxis
+		xAxis.drawAxisLineEnabled = true
+		xAxis.drawGridLinesEnabled = false
 		xAxis.labelPosition = .bottom
+		xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
-		//let values = passedData.rawData[0...10]
-		let values = passedData.rawData!
+		let values = passedData.rawData[0...2000]
+		//let values = passedData.rawData!
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
 			dataEntries.append(dataEntry)
 		}
 
-		let allAverageTimeDataSet = LineChartDataSet(values: dataEntries, label: "Average Time among all")
-		allAverageTimeDataSet.colors = [UIColor.lightGray]
-		//allAverageTimeDataSet.fillColor = UIColor.lightGray
-		allAverageTimeDataSet.drawCirclesEnabled = false
-		//allAverageTimeDataSet.drawFilledEnabled = true
+		let ecgRawDataSet = LineChartDataSet(values: dataEntries, label: nil)
+		ecgRawDataSet.colors = [UIColor.lightGray]
+		ecgRawDataSet.drawCirclesEnabled = false
 
 
 
 
 
-		// 設定X軸底部內容
-		let checkpointsName: [String] = ["haha", "55", "no"]
-		let lineChartData = LineChartData(dataSets: [allAverageTimeDataSet])
+		let lineChartData = LineChartData(dataSets: [ecgRawDataSet])
+		lineChartData.setDrawValues(false)
+
 		chartView.data = lineChartData
+		chartView.data?.highlightEnabled = false
+		chartView.setVisibleXRangeMinimum(100.0)
+		chartView.setVisibleXRangeMaximum(800.0)
 	}
 
 
@@ -304,7 +301,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let AVNN: Double = Surge.mean(RRDurations)
 		print("AVNN: \(AVNN)")
 		//resultLabel.text = "RRMean: \(RRMean)"
-		tableData.append("AVNN|\(String(format:"%.2f", AVNN*10.0))ms")
+		tableData.append("AVNN|\(String(format: "%.2f", AVNN*10.0))ms")
 		result["AVNN"] = AVNN*10.0
 
 
@@ -338,25 +335,25 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
 		let SDNN: Double = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
 		print("SDNN: \(SDNN)")
-		tableData.append("SDNN|\(String(format:"%.2f", SDNN*10.0))ms")
+		tableData.append("SDNN|\(String(format: "%.2f", SDNN*10.0))ms")
 		result["SDNN"] = SDNN*10.0
 
 		let rMSSD: Double = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
 		print("rMSSD: \(rMSSD)")
-		tableData.append("rMSSD|\(String(format:"%.2f", rMSSD*10.0))ms")
+		tableData.append("rMSSD|\(String(format: "%.2f", rMSSD*10.0))ms")
 		result["rMSSD"] = rMSSD*10.0
 
 		let SDSD: Double = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
 		print("SDSD: \(SDSD)")
-		tableData.append("SDSD|\(String(format:"%.2f", SDSD*10.0))ms")
+		tableData.append("SDSD|\(String(format: "%.2f", SDSD*10.0))ms")
 		result["SDSD"] = SDSD*10.0
 
 
 		print("beatsEveryMin: \(beatsEveryMin)")
 
 		if !beatsEveryMin.isEmpty {
-			let slowestBeat = beatsEveryMin.min()
-			let fastestBeat = beatsEveryMin.max()
+			let slowestBeat = beatsEveryMin.min()!
+			let fastestBeat = beatsEveryMin.max()!
 			tableData.append("Range|\(slowestBeat)-\(fastestBeat) bpm")
 
 
@@ -385,4 +382,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		return one-two+three+four
 	}
 	
+}
+
+class ChartCSDoubleToSecondsStringFormatter: NSObject, IAxisValueFormatter {
+	// cs = centisecond = 0.01s (as the record is 100Hz)
+	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+		return "\(String(format: "%.1f", value/100))s"
+	}
 }

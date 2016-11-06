@@ -92,25 +92,18 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 		}
 
-		initChart()
+		if !tableData.isEmpty {
+			initChart()
+		}
 	}
 
 
 	func initChart() {
 
-		/*
-		圖標註釋：
-		X軸：檢查站ID
-		Y軸：從當次開始練習到該檢查站的總時間
-		故圖標數值將只會永遠向上、不會減少
-		*/
-
-
-
 		chartView.noDataText = "No chart data available."
-		//chartView.chartDescription.text = "Use your fingers to zoom in or out!"
-		chartView.pinchZoomEnabled = false           // 不允許手指同時放大XY兩軸
-		chartView.animate(xAxisDuration: 1.0)       // 從下往上動態載入圖表
+		chartView.chartDescription?.text = ""
+		chartView.pinchZoomEnabled = false
+		chartView.animate(xAxisDuration: 1.0)
 
 
 		let rightAxis = chartView.rightAxis         // 右側Y軸
@@ -131,9 +124,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.drawGridLinesEnabled = true          // 不於圖表內顯示縱軸線
 		xAxis.labelPosition = .bottom
 		//xAxis.axisMinimum = tableData[0].startDate.timeIntervalSinceReferenceDate
-		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
-		let formatter = ChartStringFormatter()
-		xAxis.valueFormatter = formatter
+		xAxis.valueFormatter = ChartDateToStringFormatter()
 
 
 		var dataEntries: [ChartDataEntry] = []
@@ -141,6 +132,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			for (index, value) in values.enumerated() {
 				if let AVNN = value.result["AVNN"] {
 					print(AVNN)
+					print("YEP")
 					let dataEntry = ChartDataEntry(x: Double(value.startDate.timeIntervalSinceReferenceDate), y: AVNN)
 					dataEntries.append(dataEntry)
 				}
@@ -149,21 +141,10 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let allAverageTimeDataSet = LineChartDataSet(values: dataEntries, label: "Average Time among all")
 		allAverageTimeDataSet.colors = [UIColor.red]
-		//allAverageTimeDataSet.fillColor = UIColor.lightGray
 		allAverageTimeDataSet.drawCirclesEnabled = true
-		//allAverageTimeDataSet.drawFilledEnabled = true
 
-
-
-
-
-		// 設定X軸底部內容
-		let checkpointsName: [String] = ["haha", "55", "no"]
 		let lineChartData = LineChartData(dataSets: [allAverageTimeDataSet])
 		chartView.data = lineChartData
-
-
-		chartView.notifyDataSetChanged()
 	}
 
 
@@ -177,10 +158,10 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let result = tableData[indexPath.row].result
 		if !result.isEmpty {
 			if let AVNN = result["AVNN"] {
-				cell.textLabel?.text = "\(AVNN)ms"
+				cell.textLabel?.text = "\(String(format:"%.2f", AVNN))ms"
 			}
 		}
-		cell.detailTextLabel?.text = "\(tableData[indexPath.row].startDate)"
+		cell.detailTextLabel?.text = "\(DateFormatter.localizedString(from: tableData[indexPath.row].startDate, dateStyle: .short, timeStyle: .medium))"
 		return cell
 	}
 
@@ -189,7 +170,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 }
 
-class ChartStringFormatter: NSObject, IAxisValueFormatter {
+class ChartDateToStringFormatter: NSObject, IAxisValueFormatter {
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "dd-MM-yyyy"
