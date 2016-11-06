@@ -158,8 +158,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
-		let values = passedData.rawData[0...2000]
-		//let values = passedData.rawData!
+		//let values = passedData.rawData[0...2000]
+		let values = passedData.rawData!
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
