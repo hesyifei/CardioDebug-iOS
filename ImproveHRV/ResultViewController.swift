@@ -278,14 +278,15 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			if no < allMaxRIndex.count-1 {
 				let duration = allMaxRIndex[no+1]-maxRIndex
 				if duration > 10 {
-					RRDurations.append(Double(duration))
+					// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
+					RRDurations.append(Double(duration)*10.0)
 				} else {
 					print("WARNNING !!!!!! LESS THAN 0.1s!!!")
 				}
 			}
 		}
 		print("----")
-		print("RRDurations: \(RRDurations)")
+		print("RRDurations (in ms): \(RRDurations)")
 
 
 		Async.main {
@@ -301,8 +302,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let AVNN: Double = Surge.mean(RRDurations)
 		print("AVNN: \(AVNN)")
 		//resultLabel.text = "RRMean: \(RRMean)"
-		tableData.append("AVNN|\(String(format: "%.2f", AVNN*10.0))ms")
-		result["AVNN"] = AVNN*10.0
+		tableData.append("AVNN|\(String(format: "%.2f", AVNN))ms")
+		result["AVNN"] = AVNN
 
 
 
@@ -322,31 +323,30 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				RRNextRRAndMeanRRNextRRDiffs.append((eachDuration-RRDurations[index+1])-(AVNN-eachDuration))
 			}
 
-			if sumInOneMin < 60*100 {
+			if sumInOneMin < 60*1000 {
 				sumInOneMin += eachDuration
 				beatsSumInOneMin += 1
 			} else {
 				beatsEveryMin.append(beatsSumInOneMin)
-				sumInOneMin = 60*100-sumInOneMin
+				sumInOneMin = 60*1000-sumInOneMin
 				beatsSumInOneMin = 0
 			}
 		}
 
-		// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
 		let SDNN: Double = Surge.sqrt(Surge.measq(RRAndMeanRRDiffs))
 		print("SDNN: \(SDNN)")
-		tableData.append("SDNN|\(String(format: "%.2f", SDNN*10.0))ms")
-		result["SDNN"] = SDNN*10.0
+		tableData.append("SDNN|\(String(format: "%.2f", SDNN))ms")
+		result["SDNN"] = SDNN
 
 		let rMSSD: Double = Surge.sqrt(Surge.measq(RRAndNextRRDiffs))
 		print("rMSSD: \(rMSSD)")
-		tableData.append("rMSSD|\(String(format: "%.2f", rMSSD*10.0))ms")
-		result["rMSSD"] = rMSSD*10.0
+		tableData.append("rMSSD|\(String(format: "%.2f", rMSSD))ms")
+		result["rMSSD"] = rMSSD
 
 		let SDSD: Double = Surge.sqrt(Surge.measq(RRNextRRAndMeanRRNextRRDiffs))
 		print("SDSD: \(SDSD)")
-		tableData.append("SDSD|\(String(format: "%.2f", SDSD*10.0))ms")
-		result["SDSD"] = SDSD*10.0
+		tableData.append("SDSD|\(String(format: "%.2f", SDSD))ms")
+		result["SDSD"] = SDSD
 
 
 		print("beatsEveryMin: \(beatsEveryMin)")
