@@ -46,7 +46,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-Lm-mLq" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="343" width="375" height="267"/>
+                                <rect key="frame" x="0.0" y="398" width="375" height="220"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ack-wT-SzJ">
@@ -79,14 +79,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BYj-Ii-8jV">
-                                <rect key="frame" x="97" y="293" width="268" height="81"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jrJ-Vp-lFy">
                                 <rect key="frame" x="0.0" y="64" width="375" height="29"/>
                                 <segments>
@@ -94,19 +86,37 @@
                                     <segment title="Frequency Domain"/>
                                 </segments>
                             </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="blu-8Q-l1f">
+                                <rect key="frame" x="0.0" y="370" width="375" height="29"/>
+                                <segments>
+                                    <segment title="ECG Raw Data"/>
+                                    <segment title="RR Interval"/>
+                                </segments>
+                            </segmentedControl>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BYj-Ii-8jV">
+                                <rect key="frame" x="40" y="304" width="268" height="81"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="blu-8Q-l1f" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="0hQ-gx-nKs"/>
                             <constraint firstItem="jrJ-Vp-lFy" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="5cj-t4-r2o"/>
-                            <constraint firstItem="Oqo-Lm-mLq" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="D7S-0V-Wyy"/>
+                            <constraint firstItem="blu-8Q-l1f" firstAttribute="top" secondItem="Ack-wT-SzJ" secondAttribute="bottom" id="B8u-OY-R6N"/>
                             <constraint firstItem="jrJ-Vp-lFy" firstAttribute="top" secondItem="fYV-pO-r9I" secondAttribute="bottom" id="Hcv-7D-zYF"/>
+                            <constraint firstAttribute="trailing" secondItem="blu-8Q-l1f" secondAttribute="trailing" id="RWS-ek-VaR"/>
                             <constraint firstAttribute="trailing" secondItem="jrJ-Vp-lFy" secondAttribute="trailing" id="YkD-xh-TyZ"/>
                             <constraint firstItem="Ack-wT-SzJ" firstAttribute="top" secondItem="jrJ-Vp-lFy" secondAttribute="bottom" id="YvY-Yh-QeA"/>
-                            <constraint firstItem="Oqo-Lm-mLq" firstAttribute="height" secondItem="gqL-KU-gR8" secondAttribute="height" multiplier="0.4" id="gsh-CF-j7n"/>
+                            <constraint firstItem="Oqo-Lm-mLq" firstAttribute="top" secondItem="blu-8Q-l1f" secondAttribute="bottom" id="iky-Ww-2jY"/>
+                            <constraint firstItem="X84-II-XDZ" firstAttribute="top" secondItem="Oqo-Lm-mLq" secondAttribute="bottom" id="kQA-xv-eP1"/>
                             <constraint firstItem="Ack-wT-SzJ" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="loE-Dv-p4f"/>
+                            <constraint firstItem="Oqo-Lm-mLq" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="luK-a1-VxS"/>
+                            <constraint firstAttribute="trailing" secondItem="Oqo-Lm-mLq" secondAttribute="trailing" id="or7-eW-rF1"/>
                             <constraint firstAttribute="trailing" secondItem="Ack-wT-SzJ" secondAttribute="trailing" id="p9Q-rQ-hZO"/>
-                            <constraint firstAttribute="trailing" secondItem="Oqo-Lm-mLq" secondAttribute="trailing" id="ph5-Do-v1B"/>
-                            <constraint firstItem="X84-II-XDZ" firstAttribute="top" secondItem="Oqo-Lm-mLq" secondAttribute="bottom" constant="8" id="sYM-r8-neo"/>
                             <constraint firstItem="Ack-wT-SzJ" firstAttribute="height" secondItem="gqL-KU-gR8" secondAttribute="height" multiplier="0.4" constant="11.199999999999989" id="wQE-IO-KAJ"/>
                         </constraints>
                     </view>
