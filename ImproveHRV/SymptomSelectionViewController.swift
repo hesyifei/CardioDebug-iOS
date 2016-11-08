@@ -10,18 +10,32 @@ import UIKit
 import Foundation
 
 class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+	static let SHOW_SYMPTOM_SELECTION_SEGUE_ID = "showSymptomSelection"
+	
 	@IBOutlet var tableView: UITableView!
 
-	var tableData = [String]()
+	var tableData = [[String]]()
+	var tableHeader = [String]()
 
 	// MARK: - override func
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		self.title = "Choose all symptoms you felt"
+
 		tableView.delegate = self
 		tableView.dataSource = self
 
-		tableData = ["BAD", "WORSE"]
+		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
+		self.navigationItem.setRightBarButton(doneButton, animated: true)
+
+
+		tableHeader = ["Sleep", "Eat", "Feel"]
+		tableData = [
+			["hard to fall asleep", "mostly light sleep", "dreamful sleep"],
+			["vegetarian", "high fat", "high sugar", "high salt"],
+			["tiredness", "dizziness", "headache", "palpitation", "perspire"]
+		]
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -39,14 +53,31 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 		// Dispose of any resources that can be recreated.
 	}
 
+
+	func doneButtonAction() {
+		/*if passedData.isNew == true {
+			passedBackData?(true)
+		}*/
+		navigationController?.dismiss(animated: true, completion: nil)
+	}
+
+
 	// MARK: - tableView related
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return tableHeader.count
+	}
+
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return tableHeader[section]
+	}
+
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return tableData.count
+		return tableData[section].count
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
-		let result = tableData[indexPath.row]
+		let result = tableData[indexPath.section][indexPath.row]
 		cell.textLabel?.text = "\(result)"
 		return cell
 	}

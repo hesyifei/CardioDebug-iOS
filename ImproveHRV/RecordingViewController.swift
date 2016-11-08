@@ -345,7 +345,7 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 				timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
 				startTime = Date.init()
-				duration = 20
+				duration = 60*5
 				endTime = startTime.addingTimeInterval(TimeInterval(duration))
 				self.timerAction()		// 為避免延遲一秒才開始執行
 

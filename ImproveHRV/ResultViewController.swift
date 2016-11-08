@@ -86,14 +86,21 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
 
-	}
-
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
 
 		if isPassedDataValid {
 			initChart()
 		}
+
+		if passedData.isNew == true {
+			Async.main {
+				self.performSegue(withIdentifier: SymptomSelectionViewController.SHOW_SYMPTOM_SELECTION_SEGUE_ID, sender: self)
+			}
+		}
+
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 	}
 
 	override func didReceiveMemoryWarning() {
