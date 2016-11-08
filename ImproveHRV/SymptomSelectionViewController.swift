@@ -34,7 +34,7 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 		tableData = [
 			["hard to fall asleep", "mostly light sleep", "dreamful sleep"],
 			["vegetarian", "high fat", "high sugar", "high salt"],
-			["tiredness", "dizziness", "headache", "palpitation", "perspire"]
+			["tiredness", "dizziness", "headache", "palpitation", "perspire", "eye strain"]
 		]
 	}
 
