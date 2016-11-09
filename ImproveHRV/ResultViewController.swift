@@ -197,7 +197,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		var slopes: [Double] = [0, 0]
 		var importantSlopes: [Int] = []
 
-		for (no, value) in values.enumerated() {
+		for (no, _) in values.enumerated() {
 			if no > 2 && no < values.count-2 {
 				let slope = getSlope(n: no, values: values)
 				//print(slope)
