@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Async
 import Charts
 import RealmSwift
 
@@ -93,7 +94,9 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 		if !tableData.isEmpty {
-			initChart()
+			Async.main {
+				self.initChart()
+			}
 		}
 	}
 
@@ -132,7 +135,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			for (index, value) in values.enumerated() {
 				if let AVNN = value.result["AVNN"] {
 					print(AVNN)
-					print("YEP")
+					print("YEP \(value.startDate.timeIntervalSinceReferenceDate)")
 					let dataEntry = ChartDataEntry(x: Double(value.startDate.timeIntervalSinceReferenceDate), y: AVNN)
 					dataEntries.append(dataEntry)
 				}
