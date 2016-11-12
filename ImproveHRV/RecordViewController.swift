@@ -40,6 +40,9 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		refreshControl.addTarget(self, action: #selector(self.refreshData), for: UIControlEvents.valueChanged)
 		self.tableView.addSubview(refreshControl)
 		self.tableView.sendSubview(toBack: refreshControl)
+
+
+		self.navigationItem.rightBarButtonItem = self.editButtonItem
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +75,11 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				}
 			}
 		}
+	}
+
+	override func setEditing(_ editing: Bool, animated: Bool) {
+		super.setEditing(editing, animated: animated)
+		self.tableView.setEditing(editing, animated: animated)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -109,42 +117,42 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		chartView.animate(xAxisDuration: 1.0)
 
 
-		let rightAxis = chartView.rightAxis         // 右側Y軸
-		rightAxis.drawLabelsEnabled = true         // 不顯示右側Y軸
-		rightAxis.drawGridLinesEnabled = true
-		//rightAxis.axisMaximum = 5000.0
+		let rightAxis = chartView.rightAxis
+		rightAxis.drawLabelsEnabled = false
+		rightAxis.drawGridLinesEnabled = false
 
 
-		let leftAxis = chartView.leftAxis           // 左側Y軸
-		leftAxis.drawLabelsEnabled = true
-		leftAxis.drawAxisLineEnabled = true         // 不顯示軸
+		let leftAxis = chartView.leftAxis
+		leftAxis.drawLabelsEnabled = false
+		leftAxis.drawAxisLineEnabled = true
 		leftAxis.drawGridLinesEnabled = true
-		//leftAxis.axisMaximum = 5000.0
 
 
-		let xAxis = chartView.xAxis                 // X軸
-		xAxis.drawAxisLineEnabled = true            // 顯示軸
-		xAxis.drawGridLinesEnabled = true          // 不於圖表內顯示縱軸線
+		let xAxis = chartView.xAxis
+		xAxis.drawAxisLineEnabled = true
+		xAxis.drawGridLinesEnabled = false
 		xAxis.labelPosition = .bottom
-		//xAxis.axisMinimum = tableData[0].startDate.timeIntervalSinceReferenceDate
 		xAxis.valueFormatter = ChartDateToStringFormatter()
 
 
 		var dataEntries: [ChartDataEntry] = []
 		if let values = tableData {
 			for (index, value) in values.enumerated() {
-				if let AVNN = value.result["AVNN"] {
-					print(AVNN)
-					print("YEP \(value.startDate.timeIntervalSinceReferenceDate)")
-					let dataEntry = ChartDataEntry(x: Double(value.startDate.timeIntervalSinceReferenceDate), y: AVNN)
+				if let SDNN = value.result["SDNN"] {
+					print(SDNN)
+					let xValue = Double(value.startDate.timeIntervalSinceReferenceDate)
+					print("YEP \(xValue)")
+					print("NOO \(500030269.186681+Double(index)*0.6)\n")
+					//let dataEntry = ChartDataEntry(x: 500030269.186681+Double(index)*0.6, y: SDNN)
+					let dataEntry = ChartDataEntry(x: xValue, y: SDNN)
 					dataEntries.append(dataEntry)
 				}
 			}
 		}
 
-		let allAverageTimeDataSet = LineChartDataSet(values: dataEntries, label: "Average Time among all")
-		allAverageTimeDataSet.colors = [UIColor.red]
-		allAverageTimeDataSet.drawCirclesEnabled = true
+		let allAverageTimeDataSet = LineChartDataSet(values: dataEntries, label: "Your SDNN")
+		allAverageTimeDataSet.colors = [UIColor.gray]
+		allAverageTimeDataSet.drawCirclesEnabled = false
 
 		let lineChartData = LineChartData(dataSets: [allAverageTimeDataSet])
 		chartView.data = lineChartData
@@ -160,8 +168,8 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
 		let result = tableData[indexPath.row].result
 		if !result.isEmpty {
-			if let AVNN = result["AVNN"] {
-				cell.textLabel?.text = "\(String(format:"%.2f", AVNN))ms"
+			if let SDNN = result["SDNN"] {
+				cell.textLabel?.text = "SDNN: \(String(format:"%.2f", SDNN))ms"
 			}
 		}
 		cell.detailTextLabel?.text = "\(DateFormatter.localizedString(from: tableData[indexPath.row].startDate, dateStyle: .short, timeStyle: .medium))"
@@ -170,6 +178,26 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+	}
+
+	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+		return false
+	}
+
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return true
+	}
+
+	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+		if (editingStyle == .delete) {
+			try! realm.write {
+				realm.delete(tableData[indexPath.row])
+			}
+			tableData.remove(at: indexPath.row)
+			tableView.deleteRows(at: [indexPath], with: .automatic)
+
+			initChart()
+		}
 	}
 }
 
