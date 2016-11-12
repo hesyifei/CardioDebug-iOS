@@ -118,12 +118,13 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		let rightAxis = chartView.rightAxis
-		rightAxis.drawLabelsEnabled = false
+		rightAxis.drawLabelsEnabled = true
+		rightAxis.drawAxisLineEnabled = false
 		rightAxis.drawGridLinesEnabled = false
 
 
 		let leftAxis = chartView.leftAxis
-		leftAxis.drawLabelsEnabled = false
+		leftAxis.drawLabelsEnabled = true
 		leftAxis.drawAxisLineEnabled = true
 		leftAxis.drawGridLinesEnabled = true
 
@@ -135,26 +136,36 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.valueFormatter = ChartDateToStringFormatter()
 
 
-		var dataEntries: [ChartDataEntry] = []
-		if let values = tableData {
-			for (index, value) in values.enumerated() {
+		var userSDNNDataEntries: [ChartDataEntry] = []
+		var userAVNNDataEntries: [ChartDataEntry] = []
+		if let _ = tableData {
+			let values = tableData.reversed()
+			for (_, value) in values.enumerated() {
 				if let SDNN = value.result["SDNN"] {
-					print(SDNN)
-					let xValue = Double(value.startDate.timeIntervalSinceReferenceDate)
-					print("YEP \(xValue)")
-					print("NOO \(500030269.186681+Double(index)*0.6)\n")
-					//let dataEntry = ChartDataEntry(x: 500030269.186681+Double(index)*0.6, y: SDNN)
-					let dataEntry = ChartDataEntry(x: xValue, y: SDNN)
-					dataEntries.append(dataEntry)
+					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
+					print("SDNN: \(SDNN) time: \(time)")
+					let userSDNNDataEntry = ChartDataEntry(x: time, y: SDNN)
+					userSDNNDataEntries.append(userSDNNDataEntry)
+				}
+				if let AVNN = value.result["AVNN"] {
+					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
+					print("AVNN: \(AVNN) time: \(time)")
+					let userAVNNDataEntry = ChartDataEntry(x: time, y: AVNN)
+					userAVNNDataEntries.append(userAVNNDataEntry)
 				}
 			}
 		}
 
-		let allAverageTimeDataSet = LineChartDataSet(values: dataEntries, label: "Your SDNN")
-		allAverageTimeDataSet.colors = [UIColor.gray]
-		allAverageTimeDataSet.drawCirclesEnabled = false
+		let userSDNNDataSet = LineChartDataSet(values: userSDNNDataEntries, label: "Your SDNN")
+		userSDNNDataSet.colors = [UIColor.gray]
+		userSDNNDataSet.drawCirclesEnabled = false
 
-		let lineChartData = LineChartData(dataSets: [allAverageTimeDataSet])
+		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
+		userAVNNDataSet.axisDependency = .right
+		userAVNNDataSet.colors = [UIColor.yellow]
+		userAVNNDataSet.drawCirclesEnabled = false
+
+		let lineChartData = LineChartData(dataSets: [userSDNNDataSet, userAVNNDataSet])
 		chartView.data = lineChartData
 	}
 
@@ -204,7 +215,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 class ChartDateToStringFormatter: NSObject, IAxisValueFormatter {
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
 		let formatter = DateFormatter()
-		formatter.dateFormat = "dd-MM-yyyy"
+		formatter.dateFormat = "dd-MM-yyyy HH:mm"
 		let date = Date.init(timeIntervalSinceReferenceDate: TimeInterval(value))
 		return formatter.string(from: date)
 	}
