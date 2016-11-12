@@ -42,6 +42,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.tableView.sendSubview(toBack: refreshControl)
 
 
+		self.title = "Record"
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 	}
 
@@ -118,13 +119,13 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		let rightAxis = chartView.rightAxis
-		rightAxis.drawLabelsEnabled = true
+		rightAxis.drawLabelsEnabled = false
 		rightAxis.drawAxisLineEnabled = false
 		rightAxis.drawGridLinesEnabled = false
 
 
 		let leftAxis = chartView.leftAxis
-		leftAxis.drawLabelsEnabled = true
+		leftAxis.drawLabelsEnabled = false
 		leftAxis.drawAxisLineEnabled = true
 		leftAxis.drawGridLinesEnabled = true
 
@@ -134,6 +135,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.drawGridLinesEnabled = false
 		xAxis.labelPosition = .bottom
 		xAxis.valueFormatter = ChartDateToStringFormatter()
+		xAxis.setLabelCount(3, force: true)
 
 
 		var userSDNNDataEntries: [ChartDataEntry] = []
@@ -162,7 +164,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
 		userAVNNDataSet.axisDependency = .right
-		userAVNNDataSet.colors = [UIColor.yellow]
+		userAVNNDataSet.colors = [UIColor.lightGray]
 		userAVNNDataSet.drawCirclesEnabled = false
 
 		let lineChartData = LineChartData(dataSets: [userSDNNDataSet, userAVNNDataSet])
