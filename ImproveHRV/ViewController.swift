@@ -19,6 +19,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		self.title = "ANS Debug"
+
 		tableView.delegate = self
 		tableView.dataSource = self
 

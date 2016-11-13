@@ -148,7 +148,7 @@
             </objects>
             <point key="canvasLocation" x="836" y="116"/>
         </scene>
-        <!--Improve HRV-->
+        <!--View Controller-->
         <scene sceneID="G4u-6a-U2a">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="v3K-c1-bP2" customClass="ViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
@@ -200,7 +200,7 @@
                             <constraint firstAttribute="trailing" secondItem="1VY-W0-3YE" secondAttribute="trailing" id="mwG-bR-VmI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Improve HRV" id="v6Z-pe-UOx">
+                    <navigationItem key="navigationItem" id="v6Z-pe-UOx">
                         <barButtonItem key="leftBarButtonItem" title="Remedy" style="plain" id="O4i-he-JYe">
                             <connections>
                                 <segue destination="oI1-KJ-eEc" kind="show" id="3oQ-h8-ZjJ"/>
