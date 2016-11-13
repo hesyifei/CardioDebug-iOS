@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import Eureka
+import Surge
 
 class SettingsViewController: FormViewController {
 
@@ -16,37 +17,43 @@ class SettingsViewController: FormViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		self.title = "Settings"
+
 		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
 		self.navigationItem.setRightBarButton(doneButton, animated: true)
 
-		form = Section("Section1")
-			<<< SegmentedRow<String>() {
-				$0.title = "ActionSheetRow"
+		form +++ Section("Personal Information")
+			<<< SegmentedRow<String>("Sex") {
 				$0.options = ["Male", "Female"]
 				$0.value = "Male"    // initially selected
 			}
-			<<< DecimalRow(){
-				$0.title = "Height"
-				$0.placeholder = "Enter text here"
+			<<< DecimalRow("Height"){
+				$0.title = "Height (m)"
+				$0.formatter = DecimalFormatter()
+				}.onChange { row in
+					self.updateBMI()
 			}
-			<<< DecimalRow(){
-				$0.title = "Weight"
-				$0.placeholder = "And numbers here"
+			<<< DecimalRow("Weight"){
+				$0.title = "Weight (kg)"
+				$0.formatter = nil
+				}.onChange { row in
+					self.updateBMI()
 			}
-			<<< DecimalRow(){
+			<<< DecimalRow("BMI"){
 				$0.title = "BMI"
-				$0.disabled = true
-				$0.value = 999
+				$0.baseCell.isUserInteractionEnabled = false
+				$0.formatter = DecimalFormatter()
 			}
-			<<< DateRow(){
+			<<< DateRow("Birthday"){
 				$0.title = "Birthday"
-				$0.value = NSDate(timeIntervalSinceReferenceDate: 0) as Date
-			}
-			+++ Section("Section2")
-			<<< DateRow(){
-				$0.title = "Date Row"
-				$0.value = NSDate(timeIntervalSinceReferenceDate: 0) as Date
+				$0.cell.detailTextLabel?.textColor = UIColor.black
+				$0.value = Date.init(timeIntervalSinceReferenceDate: 0)
 		}
+		/*+++ Section("Section2")
+		<<< DateRow(){
+		$0.title = "Date Row"
+		$0.value = Date.init(timeIntervalSinceReferenceDate: 0)
+		}*/
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -66,5 +73,18 @@ class SettingsViewController: FormViewController {
 
 	func doneButtonAction() {
 		navigationController?.dismiss(animated: true, completion: nil)
+	}
+
+	func updateBMI() {
+		if let bmiRow = form.rowBy(tag: "BMI") as? DecimalRow, let heightRow = form.rowBy(tag: "Height") as? DecimalRow, let weightRow = form.rowBy(tag: "Weight") as? DecimalRow {
+			bmiRow.value = 0
+			if let height: Double = heightRow.value, let weight: Double = weightRow.value {
+				if weight > 0 && height > 0 {
+					let bmi: Double = weight / Surge.pow(height, 2)
+					bmiRow.value = bmi
+				}
+			}
+			bmiRow.updateCell()
+		}
 	}
 }
