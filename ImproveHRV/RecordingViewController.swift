@@ -51,6 +51,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	var deviceType: DeviceType!
 
 	let BLE_DEVICE_UUID = "0541803F-9868-4A17-B313-D3CC7F29EF66"
+	let BITALINO_DEVICE_UUID = "1AC1F712-C6FE-4728-9BEF-DBD2A6177D47"
 
 
 
@@ -73,7 +74,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 		manager = CBCentralManager(delegate: self, queue: nil)
 
-		bitalino = BITalinoBLE.init(uuid: "1AC1F712-C6FE-4728-9BEF-DBD2A6177D47")
+		bitalino = BITalinoBLE.init(uuid: BITALINO_DEVICE_UUID)
 		bitalino.delegate = self
 
 
@@ -490,7 +491,13 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
 		print("Disconnected device \(peripheral.identifier.uuidString)")
-		central.scanForPeripherals(withServices: nil, options: nil)
+		if isConnectedAndRecording == true {
+			self.stopTimer()
+			mainLabel.text = "Disconnected :("
+			HelperFunctions.delay(1.0) {
+				self.setupViewAndStopRecording(isNormalCondition: false)
+			}
+		}
 	}
 
 
@@ -513,10 +520,12 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			print("each characteristic: \(characteristic.uuid)")
 			// CBUUID see data in LightBlue
 			if characteristic.uuid == CBUUID(string: "FFE1") {
-				startRecording()
-				rawData = []
+				HelperFunctions.delay(1.0) {
+					self.startRecording()
+					self.rawData = []
 
-				peripheral.setNotifyValue(true, for: characteristic)
+					peripheral.setNotifyValue(true, for: characteristic)
+				}
 			}
 		}
 	}
