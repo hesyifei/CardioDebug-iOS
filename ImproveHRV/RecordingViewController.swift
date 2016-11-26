@@ -51,6 +51,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	var deviceType: DeviceType!
 
 
+	let frequency: Int = 100
+
 	let extraPreTime: TimeInterval = 15.0
 
 	let BLE_DEVICE_UUID = "0541803F-9868-4A17-B313-D3CC7F29EF66"
@@ -159,10 +161,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 					let passedData = PassECGResult()
 					passedData.startDate = (startTime ?? Date.init()).addingTimeInterval(extraPreTime)
-					let extraPreTimeDataCount = Int(extraPreTime)*100
+					let extraPreTimeDataCount = Int(extraPreTime)*frequency
 					if rawData.count-1 > extraPreTimeDataCount {
 						rawData.removeSubrange(0...extraPreTimeDataCount)
 					}
+					print(rawData.description)
 					passedData.rawData = rawData
 					passedData.isNew = true
 
@@ -426,17 +429,14 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		if deviceType == .bitalino {
 			if isNormalCondition {
 				bitalino.stopRecording()
-
 				//self.mainLabel.text = "Finished"
-
-				print(rawData.description)
-
 				self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
 			} else {
 				print("not NormalCondition")
 			}
 		} else if deviceType == .ble {
 			manager.cancelPeripheralConnection(peripheral)
+			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
 		}
 
 		self.enableButtons()
