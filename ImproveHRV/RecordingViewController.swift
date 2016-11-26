@@ -427,17 +427,16 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	func stopRecording(isNormalCondition: Bool) {
 		isConnectedAndRecording = false
 
-		if deviceType == .bitalino {
-			if isNormalCondition {
+		if isNormalCondition {
+			if deviceType == .bitalino {
 				bitalino.stopRecording()
-				//self.mainLabel.text = "Finished"
-				self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
-			} else {
-				print("not NormalCondition")
+			} else if deviceType == .ble {
+				manager.cancelPeripheralConnection(peripheral)
 			}
-		} else if deviceType == .ble {
-			manager.cancelPeripheralConnection(peripheral)
+			//self.mainLabel.text = "Finished"
 			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+		} else {
+			print("not NormalCondition")
 		}
 
 		self.enableButtons()
