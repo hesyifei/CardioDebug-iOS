@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreBluetooth
 import Async
 import BITalinoBLE
 import Charts
