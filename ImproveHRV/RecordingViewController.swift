@@ -11,7 +11,12 @@ import Async
 import BITalinoBLE
 import Charts
 
-class RecordingViewController: UIViewController, BITalinoBLEDelegate {
+enum DeviceType {
+	case ble
+	case bitalino
+}
+
+class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, BITalinoBLEDelegate {
 
 	// MARK: - basic var
 	let application = UIApplication.shared
@@ -26,12 +31,15 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 	@IBOutlet var mainButtonOuterViewCenterYConstraint: NSLayoutConstraint!
 
 	// MARK: - init var
+	var manager: CBCentralManager!
+	var peripheral: CBPeripheral!
+
 	var bitalino: BITalinoBLE!
 
 	var timer: Timer!
 	var startTime: Date!
 	var endTime: Date!
-	var duration: Double!
+	var duration: TimeInterval!
 
 	var currentState: Int = 0
 
@@ -39,6 +47,11 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 
 	// MARK: - data var
 	var rawData: [Int]!
+
+	var deviceType: DeviceType!
+
+	let BLE_DEVICE_UUID = "0541803F-9868-4A17-B313-D3CC7F29EF66"
+
 
 
 	// MARK: - override func
@@ -50,8 +63,15 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		self.title = "Record"
 
 
+
+
 		rawData = []
 
+		deviceType = .ble
+
+
+
+		manager = CBCentralManager(delegate: self, queue: nil)
 
 		bitalino = BITalinoBLE.init(uuid: "1AC1F712-C6FE-4728-9BEF-DBD2A6177D47")
 		bitalino.delegate = self
@@ -170,7 +190,6 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 			print("isConnectedAndRecording true")
 			//bitalino.disconnect()
 		}
-		print("DONE")
 	}
 
 
@@ -327,29 +346,55 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 	}
 
 	func startConnect() {
-		if !bitalino.isConnected {
-			mainLabel.text = "Connecting..."
-			bitalino.scanAndConnect()
+		if deviceType == .bitalino {
+			if !bitalino.isConnected {
+				mainLabel.text = "Connecting..."
+				bitalino.scanAndConnect()
+			}
+		} else if deviceType == .ble {
+			var poweredOn = false
+			if #available(iOS 10.0, *) {
+				if manager.state == CBManagerState.poweredOn {
+					poweredOn = true
+				}
+			} else {
+				if manager.centralManagerState == CBCentralManagerState.poweredOn {
+					poweredOn = true
+				}
+			}
+			if poweredOn {
+				mainLabel.text = "Connecting..."
+				manager.scanForPeripherals(withServices: nil, options: nil)
+			} else {
+				mainLabel.text = "Please enable BT"
+				print("Bluetooth not available")
+			}
 		}
 	}
 
 	func startRecording() {
-		if bitalino.isConnected {
-			if !bitalino.isRecording {
+		var canRecord = true
+		if deviceType == .bitalino {
+			if !bitalino.isConnected || bitalino.isRecording {
+				canRecord = false
+			}
+		}
+
+		if canRecord {
+			//self.mainLabel.text = "Recording..."
+
+			isConnectedAndRecording = true
+
+
+			timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+			startTime = Date.init()
+			duration = TimeInterval(5*60+15)
+			endTime = startTime.addingTimeInterval(duration)
+			self.timerAction()		// 為避免延遲一秒才開始執行
+
+
+			if deviceType == .bitalino {
 				rawData = []
-
-				//self.mainLabel.text = "Recording..."
-
-				isConnectedAndRecording = true
-
-
-				timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
-				startTime = Date.init()
-				duration = 60*5
-				endTime = startTime.addingTimeInterval(TimeInterval(duration))
-				self.timerAction()		// 為避免延遲一秒才開始執行
-
-
 				bitalino.startRecording(fromAnalogChannels: [0, 1, 2, 3, 4, 5], withSampleRate: 100, numberOfSamples: 50, samplesCompletion: { (frame: BITalinoFrame?) -> Void in
 					if let result = frame?.a1 {
 						if result != 0 {
@@ -360,23 +405,30 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 						}
 					}
 				})
+			} else if deviceType == .ble {
+				// done in didDiscoverCharacteristicsFor & didUpdateValueFor
 			}
+
 		}
 	}
 
 	func stopRecording(isNormalCondition: Bool) {
 		isConnectedAndRecording = false
 
-		if isNormalCondition {
-			bitalino.stopRecording()
+		if deviceType == .bitalino {
+			if isNormalCondition {
+				bitalino.stopRecording()
 
-			//self.mainLabel.text = "Finished"
+				//self.mainLabel.text = "Finished"
 
-			print(rawData.description)
+				print(rawData.description)
 
-			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
-		} else {
-			print("not NormalCondition")
+				self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+			} else {
+				print("not NormalCondition")
+			}
+		} else if deviceType == .ble {
+			manager.cancelPeripheralConnection(peripheral)
 		}
 
 		self.enableButtons()
@@ -403,6 +455,88 @@ class RecordingViewController: UIViewController, BITalinoBLEDelegate {
 		if let _ = timer {
 			timer?.invalidate()
 			timer = nil
+		}
+	}
+
+
+	// MARK: - BLE related func
+	// Reference: http://cms.35g.tw/coding/藍牙-ble-corebluetooth-初探/
+	//            http://www.kevinhoyt.com/2016/05/20/the-12-steps-of-bluetooth-swift/
+	func centralManagerDidUpdateState(_ central: CBCentralManager) {
+		/*if central.state == CBManagerState.poweredOn {
+			central.scanForPeripherals(withServices: nil, options: nil)
+		} else {
+			print("Bluetooth not available")
+		}*/
+	}
+
+	func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+		if peripheral.identifier.uuidString == BLE_DEVICE_UUID {
+			print("Found device \(peripheral.identifier.uuidString)")
+
+			self.manager.stopScan()
+
+			self.peripheral = peripheral
+			self.peripheral.delegate = self
+
+			self.manager.connect(peripheral, options: nil)
+		}
+	}
+
+	func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+		print("Connected to device \(peripheral.name)")
+		peripheral.discoverServices(nil)
+	}
+
+	func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+		print("Disconnected device \(peripheral.identifier.uuidString)")
+		central.scanForPeripherals(withServices: nil, options: nil)
+	}
+
+
+	func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+		print("didDiscoverServices")
+		if let services = peripheral.services {
+			print("Services count: \(peripheral.services?.count)")
+			for service in services {
+				// CBUUID see data in LightBlue
+				if service.uuid == CBUUID(string: "FFE0") {
+					peripheral.discoverCharacteristics(nil, for: service)
+				}
+			}
+		}
+	}
+
+	func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+		print("didDiscoverCharacteristicsFor \(service.uuid)")
+		for characteristic in service.characteristics! {
+			print("each characteristic: \(characteristic.uuid)")
+			// CBUUID see data in LightBlue
+			if characteristic.uuid == CBUUID(string: "FFE1") {
+				startRecording()
+				rawData = []
+
+				peripheral.setNotifyValue(true, for: characteristic)
+			}
+		}
+	}
+
+	func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+		//print("didUpdateValueFor \(characteristic.uuid)")
+		if let value = characteristic.value {
+			// http://stackoverflow.com/a/32894672/2603230
+			if let utf8Data = String(data: value, encoding: String.Encoding.utf8) {
+				//print(utf8Data)
+				let someReceivedData = utf8Data.components(separatedBy: " ")
+				for eachReceivedData in someReceivedData {
+					if !eachReceivedData.isEmpty {
+						if let eachReceivedDataInt = Int(eachReceivedData) {
+							print(eachReceivedDataInt)
+							self.rawData.append(eachReceivedDataInt)
+						}
+					}
+				}
+			}
 		}
 	}
 
