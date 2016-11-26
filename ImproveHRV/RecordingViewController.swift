@@ -175,7 +175,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					destination.passedBackData = { bool in
 						print("haa\(bool)")
 						if bool == true {
-							Async.main {
+							Async.main(after: 0.5) {
 								self.mainButtonAction()
 							}
 						}
@@ -213,6 +213,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			setupViewAndStartConnect()
 		} else {
 			currentState = 0
+			self.enableButtons()
 		}
 	}
 
@@ -293,6 +294,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		print("setupViewAndStartConnect()")
 
 		Async.main {
+			self.disableButtons()
+
 			self.view.layoutIfNeeded()
 
 			let constantToBeLower: [Float: CGFloat] = [
@@ -306,8 +309,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			self.adjustAppropriateMainButtonOuterViewHeightConstraintConstantToSmallSize()
 
 			//self.mainButton.setTitle(NSLocalizedString("Main.Button.MainButton.Stop", comment: "Stop"), for: .normal)
-
-			self.disableButtons()
 
 			self.view.setNeedsUpdateConstraints()
 			UIView.animate(withDuration: 1.0, animations: {
