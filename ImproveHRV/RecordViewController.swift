@@ -43,7 +43,11 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		self.title = "Record"
+
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
+
+		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
+		self.navigationItem.leftBarButtonItem = shareAction
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -169,6 +173,27 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let lineChartData = LineChartData(dataSets: [userSDNNDataSet, userAVNNDataSet])
 		chartView.data = lineChartData
+	}
+
+
+	func shareRecords() {
+		let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+
+		let fileName = NSURL(fileURLWithPath: documentsPath).appendingPathComponent("default.realm")
+		if let filePath = fileName?.path {
+			let fileManager = FileManager.default
+			if fileManager.fileExists(atPath: filePath) {
+				let fileData = NSURL(fileURLWithPath: filePath)
+
+				let objectsToShare = [fileData]
+				let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+				if let popoverVC = activityVC.popoverPresentationController {
+					popoverVC.barButtonItem = self.navigationItem.leftBarButtonItem
+				}
+				self.present(activityVC, animated: true, completion: nil)
+			}
+		}
 	}
 
 
