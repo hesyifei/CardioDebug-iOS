@@ -56,7 +56,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	let extraPreTime: TimeInterval = 15.0
 
-	let BLE_DEVICE_UUID = "0541803F-9868-4A17-B313-D3CC7F29EF66"
+	let BLE_DEVICE_NAME = "BT05"
 	let BITALINO_DEVICE_UUID = "1AC1F712-C6FE-4728-9BEF-DBD2A6177D47"
 
 
@@ -480,15 +480,17 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	}
 
 	func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-		if peripheral.identifier.uuidString == BLE_DEVICE_UUID {
-			print("Found device \(peripheral.identifier.uuidString)")
+		if let name = peripheral.name {
+			if name == BLE_DEVICE_NAME {
+				print("Found device \(peripheral.identifier.uuidString)")
 
-			self.manager.stopScan()
+				self.manager.stopScan()
 
-			self.peripheral = peripheral
-			self.peripheral.delegate = self
+				self.peripheral = peripheral
+				self.peripheral.delegate = self
 
-			self.manager.connect(peripheral, options: nil)
+				self.manager.connect(peripheral, options: nil)
+			}
 		}
 	}
 
