@@ -19,8 +19,14 @@ enum DeviceType {
 
 class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, BITalinoBLEDelegate {
 
+	// MARK: - static var
+	static let DEFAULTS_BLE_DEVICE_NAME = "bleDeviceName"
+
 	// MARK: - basic var
 	let application = UIApplication.shared
+	let defaults = UserDefaults.standard
+
+	fileprivate typealias `Self` = RecordingViewController
 
 	// MARK: - IBOutlet var
 	@IBOutlet var mainLabel: UILabel!
@@ -56,7 +62,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	let extraPreTime: TimeInterval = 15.0
 
-	let BLE_DEVICE_NAME = "BT05"
 	let BITALINO_DEVICE_UUID = "1AC1F712-C6FE-4728-9BEF-DBD2A6177D47"
 
 
@@ -481,7 +486,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
 		if let name = peripheral.name {
-			if name == BLE_DEVICE_NAME {
+			if name == defaults.string(forKey: Self.DEFAULTS_BLE_DEVICE_NAME) {
 				print("Found device \(peripheral.identifier.uuidString)")
 
 				self.manager.stopScan()

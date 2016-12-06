@@ -11,13 +11,24 @@ import Foundation
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+	// MARK: - basic var
+	let application = UIApplication.shared
+	let defaults = UserDefaults.standard
+
+	// MARK: - IBOutlet var
 	@IBOutlet var tableView: UITableView!
 
+	// MARK: - init var
 	var tableData = [String]()
 
 	// MARK: - override func
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		if defaults.object(forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME) == nil {
+			defaults.set("BT05", forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME)
+		}
+
 
 		self.title = "ANS Debug"
 

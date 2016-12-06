@@ -13,6 +13,9 @@ import Surge
 
 class SettingsViewController: FormViewController {
 
+	// MARK: - basic var
+	let defaults = UserDefaults.standard
+
 	// MARK: - override func
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -48,12 +51,16 @@ class SettingsViewController: FormViewController {
 				$0.title = "Birthday"
 				$0.cell.detailTextLabel?.textColor = UIColor.black
 				$0.value = Date.init(timeIntervalSinceReferenceDate: 0)
+			}
+			+++ Section("Advanced")
+			<<< TextRow("BLE Device Name"){ row in
+				row.title = row.tag
+				row.value = defaults.string(forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME)
+				row.placeholder = NSLocalizedString("Settings.General.RestNotice.DefaultValue", comment: "Rest your eyes now!")
+				}.onChange { row in
+					print("DEFAULTS_BLE_DEVICE_NAME onChange: \(row.value)")
+					self.defaults.set(row.value, forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME)
 		}
-		/*+++ Section("Section2")
-		<<< DateRow(){
-		$0.title = "Date Row"
-		$0.value = Date.init(timeIntervalSinceReferenceDate: 0)
-		}*/
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
