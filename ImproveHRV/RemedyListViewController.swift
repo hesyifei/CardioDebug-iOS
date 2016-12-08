@@ -13,9 +13,14 @@ import Async
 
 class RemedyListViewController: UIViewController, WKNavigationDelegate {
 
+	// MARK: - static var
+	static let DEFAULTS_CURRENT_ACTIVITY = "currentActivity"
+
 	// MARK: - basic var
 	let application = UIApplication.shared
 	let defaults = UserDefaults.standard
+
+	fileprivate typealias `Self` = RemedyListViewController
 
 	// MARK: - init var
 	var webView: WKWebView!
@@ -40,21 +45,24 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 			}
 		}
 
-		if let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_SEX), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_HEIGHT), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_WEIGHT), let birthdayObj = defaults.object(forKey: SettingsViewController.DEFAULTS_BIRTHDAY) {
+		if let sex = defaults.string(forKey: SettingsViewController.DEFAULTS_SEX), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_HEIGHT), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_WEIGHT), let birthdayObj = defaults.object(forKey: SettingsViewController.DEFAULTS_BIRTHDAY) {
 
 			let ageComponents = Calendar.current.dateComponents([.year], from: birthdayObj as! Date, to: Date())
 			let age = ageComponents.year!
-
-			let sex = defaults.string(forKey: SettingsViewController.DEFAULTS_SEX)!
 
 			let height = defaults.double(forKey: SettingsViewController.DEFAULTS_HEIGHT)
 			let weight = defaults.double(forKey: SettingsViewController.DEFAULTS_WEIGHT)
 			let bmi = HelperFunctions.getBMI(height: height, weight: weight)
 
-			let urlString = "http://areflys-mac.local/other/improve-hrv/remedy.php?age=\(age)&sex=\(sex)&bmi=\(bmi)"
+			var urlString = "http://areflys-mac.local/other/improve-hrv/remedy.php?age=\(age)&sex=\(sex)&bmi=\(bmi)"
+			if let currentActivity = defaults.string(forKey: Self.DEFAULTS_CURRENT_ACTIVITY) {
+				urlString += "&currentActivity=\(currentActivity)"
+			}
 			print(urlString)
-			let url = URL(string: urlString)!
-			webView.load(URLRequest(url: url))
+
+			if let url = URL(string: urlString) {
+				webView.load(URLRequest(url: url))
+			}
 		} else {
 			print("ERROR: not enough settings data")
 		}
@@ -78,16 +86,23 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
 		let url = navigationAction.request.url?.absoluteString
 		print("已獲取目前將前往的鏈接：\(url)")
-		switch url! {
-		case "http://action.is.needed/add":
-			print("exiting VC")
-			_ = self.navigationController?.popViewController(animated: true)
-			decisionHandler(.cancel)
-			break
-		default:
-			decisionHandler(.allow)
-			break
+		if let url = url {
+			let prefixForAdd = "http://action.is.needed/add/"
+			if url.hasPrefix(prefixForAdd) {
+				// http://stackoverflow.com/a/33733593/2603230
+				let startIndex = url.index(url.startIndex, offsetBy: prefixForAdd.characters.count)
+				let selectedRemedy = url.substring(from: startIndex)
+				print("selectedRemedy \(selectedRemedy)")
+
+				defaults.set(selectedRemedy, forKey: Self.DEFAULTS_CURRENT_ACTIVITY)
+
+				print("exiting VC")
+				_ = self.navigationController?.popViewController(animated: true)
+				decisionHandler(.cancel)
+				return
+			}
 		}
+		decisionHandler(.allow)
 	}
 
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
