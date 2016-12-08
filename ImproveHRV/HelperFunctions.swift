@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Surge
 
 class HelperFunctions {
 	static internal func secondsToHoursMinutesSeconds(_ seconds : Int) -> (Int, Int, Int) {
@@ -45,5 +46,10 @@ class HelperFunctions {
 		}
 
 		return size
+	}
+
+	static internal func getBMI(height: Double, weight: Double) -> Double {
+		let bmi: Double = weight / Surge.pow(height, 2)
+		return bmi
 	}
 }

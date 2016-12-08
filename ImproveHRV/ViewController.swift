@@ -28,6 +28,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		if defaults.object(forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME) == nil {
 			defaults.set("BT05", forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME)
 		}
+		if defaults.object(forKey: SettingsViewController.DEFAULTS_SEX) == nil {
+			defaults.set("Male", forKey: SettingsViewController.DEFAULTS_SEX)
+		}
+		if defaults.object(forKey: SettingsViewController.DEFAULTS_BIRTHDAY) == nil {
+			defaults.set(Date(timeIntervalSinceReferenceDate: 0), forKey: SettingsViewController.DEFAULTS_BIRTHDAY)
+		}
+		if defaults.object(forKey: SettingsViewController.DEFAULTS_HEIGHT) == nil {
+			defaults.set(Double(1.80), forKey: SettingsViewController.DEFAULTS_HEIGHT)
+		}
+		if defaults.object(forKey: SettingsViewController.DEFAULTS_WEIGHT) == nil {
+			defaults.set(Double(70.00), forKey: SettingsViewController.DEFAULTS_WEIGHT)
+		}
 
 
 		self.title = "ANS Debug"
