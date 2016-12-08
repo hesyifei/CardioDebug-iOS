@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 
 extension UIApplication {
+	// http://stackoverflow.com/a/30858591/2603230
 	class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
 		if let nav = base as? UINavigationController {
 			return topViewController(base: nav.visibleViewController)
@@ -28,24 +29,12 @@ extension UIApplication {
 
 
 extension UIView {
+	// http://stackoverflow.com/a/32182866/2603230
 	func addTapGesture(_ tapNumber: Int, target: AnyObject, action: Selector) {
 		let tap = UITapGestureRecognizer (target: target, action: action)
 		tap.numberOfTapsRequired = tapNumber
 		addGestureRecognizer(tap)
 		isUserInteractionEnabled = true
-	}
-
-	// http://stackoverflow.com/a/32824659/2603230
-	/// Adds constraints to this `UIView` instances `superview` object to make sure this always has the same size as the superview.
-	/// Please note that this has no effect if its `superview` is `nil` – add this `UIView` instance as a subview before calling this.
-	func bindFrameToSuperviewBounds() {
-		guard let superview = self.superview else {
-			print("Error! `superview` was nil – call `addSubview(view: UIView)` before calling `bindFrameToSuperviewBounds()` to fix this.")
-			return
-		}
-		self.translatesAutoresizingMaskIntoConstraints = false
-		superview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
-		superview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
 	}
 }
 

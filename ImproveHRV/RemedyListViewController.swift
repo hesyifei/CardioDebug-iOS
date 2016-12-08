@@ -29,21 +29,20 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		// http://stackoverflow.com/q/19143353/2603230
+		self.edgesForExtendedLayout = []
+		self.navigationController?.navigationBar.isTranslucent = false
+		self.automaticallyAdjustsScrollViewInsets = false
+
+
 		webView = WKWebView()
 		webView.navigationDelegate = self
 
-		self.view.addSubview(webView)
-		webView.bindFrameToSuperviewBounds()		// it's a custom extension
-
 		Async.main {
-			if let rect = self.navigationController?.navigationBar.frame {
-				let y = rect.size.height + rect.origin.y
-				print(y)
-				let edgeInset = UIEdgeInsets(top: y, left: 0, bottom: -y, right: 0)
-				self.webView.scrollView.contentInset = edgeInset
-				self.webView.scrollView.scrollIndicatorInsets = edgeInset
-			}
+			self.setWebViewFrame()
+			self.view.addSubview(self.webView)
 		}
+
 
 		if let sex = defaults.string(forKey: SettingsViewController.DEFAULTS_SEX), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_HEIGHT), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_WEIGHT), let birthdayObj = defaults.object(forKey: SettingsViewController.DEFAULTS_BIRTHDAY) {
 
@@ -74,13 +73,35 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
+	}
 
+	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+		coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+			let orient = self.application.statusBarOrientation
+			print("orient: \(orient)")
+			self.setWebViewFrame()
+		}, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+			print("Finish orient")
+		})
+
+		super.viewWillTransition(to: size, with: coordinator)
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+
+
+	func setWebViewFrame() {
+		/*var frameSize: CGRect = self.view.frame
+		if let rect = self.navigationController?.navigationBar.frame {
+			let y = rect.size.height + rect.origin.y
+			frameSize = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)//-y
+		}*/
+		webView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)//-y
+	}
+
 
 	// MARK: - WKWebView func
 	func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
