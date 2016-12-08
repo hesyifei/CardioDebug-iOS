@@ -243,7 +243,7 @@ class ChartDateToStringFormatter: NSObject, IAxisValueFormatter {
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "dd-MM-yyyy HH:mm"
-		let date = Date.init(timeIntervalSinceReferenceDate: TimeInterval(value))
+		let date = Date(timeIntervalSinceReferenceDate: TimeInterval(value))
 		return formatter.string(from: date)
 	}
 }
