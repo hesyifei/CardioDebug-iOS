@@ -94,12 +94,7 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 
 
 	func setWebViewFrame() {
-		/*var frameSize: CGRect = self.view.frame
-		if let rect = self.navigationController?.navigationBar.frame {
-			let y = rect.size.height + rect.origin.y
-			frameSize = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)//-y
-		}*/
-		webView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)//-y
+		webView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
 	}
 
 
