@@ -9,9 +9,15 @@
 import UIKit
 import WebKit
 import Foundation
+import Async
 
 class RemedyListViewController: UIViewController, WKNavigationDelegate {
 
+	// MARK: - basic var
+	let application = UIApplication.shared
+	let defaults = UserDefaults.standard
+
+	// MARK: - init var
 	var webView: WKWebView!
 
 	// MARK: - override func
@@ -24,13 +30,28 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 		self.view.addSubview(webView)
 		webView.bindFrameToSuperviewBounds()
 
-		let url = URL(string: "http://areflys-mac.local/other/improve-hrv/remedy.php")!
-		webView.load(URLRequest(url: url))
+		if let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_SEX), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_HEIGHT), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_WEIGHT), let birthdayObj = defaults.object(forKey: SettingsViewController.DEFAULTS_BIRTHDAY) {
+
+			let ageComponents = Calendar.current.dateComponents([.year], from: birthdayObj as! Date, to: Date())
+			let age = ageComponents.year!
+
+			let sex = defaults.string(forKey: SettingsViewController.DEFAULTS_SEX)!
+
+			let height = defaults.double(forKey: SettingsViewController.DEFAULTS_HEIGHT)
+			let weight = defaults.double(forKey: SettingsViewController.DEFAULTS_WEIGHT)
+			let bmi = HelperFunctions.getBMI(height: height, weight: weight)
+
+			let urlString = "http://areflys-mac.local/other/improve-hrv/remedy.php?age=\(age)&sex=\(sex)&bmi=\(bmi)"
+			print(urlString)
+			let url = URL(string: urlString)!
+			webView.load(URLRequest(url: url))
+		} else {
+			print("ERROR: not enough settings data")
+		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
