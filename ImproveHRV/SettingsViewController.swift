@@ -63,7 +63,7 @@ class SettingsViewController: FormViewController {
 				$0.formatter = DecimalFormatter()
 			}
 			<<< DateRow("Birthday"){
-				$0.title = "Birthday"
+				$0.title = "Birthday (for age calculation)"
 				$0.cell.detailTextLabel?.textColor = UIColor.black
 				$0.value = (defaults.object(forKey: Self.DEFAULTS_BIRTHDAY) as! Date)
 				}.cellUpdate { (cell, row) in
