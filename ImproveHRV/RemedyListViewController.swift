@@ -28,7 +28,17 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 		webView.navigationDelegate = self
 
 		self.view.addSubview(webView)
-		webView.bindFrameToSuperviewBounds()
+		webView.bindFrameToSuperviewBounds()		// it's a custom extension
+
+		Async.main {
+			if let rect = self.navigationController?.navigationBar.frame {
+				let y = rect.size.height + rect.origin.y
+				print(y)
+				let edgeInset = UIEdgeInsets(top: y, left: 0, bottom: -y, right: 0)
+				self.webView.scrollView.contentInset = edgeInset
+				self.webView.scrollView.scrollIndicatorInsets = edgeInset
+			}
+		}
 
 		if let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_SEX), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_HEIGHT), let _ = defaults.object(forKey: SettingsViewController.DEFAULTS_WEIGHT), let birthdayObj = defaults.object(forKey: SettingsViewController.DEFAULTS_BIRTHDAY) {
 
