@@ -52,4 +52,8 @@ class HelperFunctions {
 		let bmi: Double = weight / Surge.pow(height, 2)
 		return bmi
 	}
+
+	static internal func isDateSameDay(_ date1: Date, _ date2: Date) -> Bool {
+		return Calendar.current.dateComponents([.day], from: date1, to: date2).day == 0
+	}
 }

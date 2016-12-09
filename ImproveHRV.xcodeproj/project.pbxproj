@@ -32,6 +32,7 @@
 		EDE490E51DC77AC6000B5678 /* ECGData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490E41DC77AC6000B5678 /* ECGData.swift */; };
 		EDE490E71DC78964000B5678 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490E61DC78964000B5678 /* RecordViewController.swift */; };
 		EDFA80A41DFA505200F53585 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A31DFA505100F53585 /* TriangleView.swift */; };
+		EDFA80A61DFA86F300F53585 /* ActivityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A51DFA86F300F53585 /* ActivityData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		EDE490E41DC77AC6000B5678 /* ECGData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECGData.swift; sourceTree = "<group>"; };
 		EDE490E61DC78964000B5678 /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		EDFA80A31DFA505100F53585 /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
+		EDFA80A51DFA86F300F53585 /* ActivityData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,7 +234,7 @@
 		EDD34D511DC4CF2100698598 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EDE490E41DC77AC6000B5678 /* ECGData.swift */,
+				EDFA80A71DFA8AA400F53585 /* Realm Data */,
 				ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */,
 				EDD34D4E1DC4CF0400698598 /* Extensions.swift */,
 			);
@@ -246,6 +248,15 @@
 				EDCF4CC31DB9C885006A8045 /* ImproveHRV-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EDFA80A71DFA8AA400F53585 /* Realm Data */ = {
+			isa = PBXGroup;
+			children = (
+				EDE490E41DC77AC6000B5678 /* ECGData.swift */,
+				EDFA80A51DFA86F300F53585 /* ActivityData.swift */,
+			);
+			name = "Realm Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -551,6 +562,7 @@
 			files = (
 				EDCF4C911DB9C858006A8045 /* RecordingViewController.swift in Sources */,
 				EDD34D4F1DC4CF0400698598 /* Extensions.swift in Sources */,
+				EDFA80A61DFA86F300F53585 /* ActivityData.swift in Sources */,
 				EDFA80A41DFA505200F53585 /* TriangleView.swift in Sources */,
 				EDD34D4D1DC4CE6200698598 /* CircleView.swift in Sources */,
 				ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */,

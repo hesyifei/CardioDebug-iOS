@@ -9,12 +9,19 @@
 import UIKit
 import Foundation
 import Async
+import MBProgressHUD
 
 class ViewController: UIViewController {
+
+	// MARK: - static var
+	static let DEFAULTS_ACTIVITY_START_DATE = "activityStartDate"
+	static let DEFAULTS_ACTIVITY_END_DATE = "activityEndDate"
 
 	// MARK: - basic var
 	let application = UIApplication.shared
 	let defaults = UserDefaults.standard
+
+	fileprivate typealias `Self` = ViewController
 
 	// MARK: - IBOutlet var
 	@IBOutlet var mainLabel: UILabel!
@@ -29,6 +36,17 @@ class ViewController: UIViewController {
 	@IBOutlet var lowerButton: UIButton!
 
 	// MARK: - init var
+
+	// MARK: - data var
+	let circleBackgroundColor = UIColor.clear
+	let circleColor = UIColor(netHex: 0x2E2E2E)
+	let disbledCircleColor = UIColor.gray
+	let buttonColor = UIColor.white
+	let disabledButtonColor = UIColor.gray
+
+	let triangleBackgroundColor = UIColor.clear
+	let triangleColor = UIColor(netHex: 0xE6E6E6)
+
 
 	// MARK: - override func
 	override func viewDidLoad() {
@@ -54,11 +72,7 @@ class ViewController: UIViewController {
 		self.navigationItem.title = "Debug ANS"
 
 
-		let circleBackgroundColor = UIColor.clear
-		let circleColor = UIColor(netHex: 0x2E2E2E)
-		let disbledCircleColor = UIColor.gray
-		let buttonColor = UIColor.white
-		let disabledButtonColor = UIColor.white
+
 
 		upperButtonOuterView.circleColor = circleColor
 		upperButtonOuterView.backgroundColor = circleBackgroundColor
@@ -68,6 +82,7 @@ class ViewController: UIViewController {
 		upperButton.titleLabel?.textAlignment = .center
 		upperButton.titleLabel?.lineBreakMode = .byWordWrapping
 		upperButton.setTitle("Start\nActivity", for: .normal)
+		upperButton.addTarget(self, action: #selector(self.startActivityAction), for: .touchUpInside)
 
 		middleButtonOuterView.circleColor = circleColor
 		middleButtonOuterView.backgroundColor = circleBackgroundColor
@@ -77,6 +92,7 @@ class ViewController: UIViewController {
 		middleButton.titleLabel?.textAlignment = .center
 		middleButton.titleLabel?.lineBreakMode = .byWordWrapping
 		middleButton.setTitle("Finish\nActivity", for: .normal)
+		middleButton.addTarget(self, action: #selector(self.finishActivityAction), for: .touchUpInside)
 
 		lowerButtonOuterView.circleColor = circleColor
 		lowerButtonOuterView.backgroundColor = circleBackgroundColor
@@ -88,14 +104,33 @@ class ViewController: UIViewController {
 		lowerButton.setTitle("Record\nECG", for: .normal)
 
 
-		let triangleBackgroundColor = UIColor.clear
-		let triangleColor = UIColor(netHex: 0xE6E6E6)
+
 
 		upperTriangleView.triangleColor = triangleColor
 		upperTriangleView.backgroundColor = triangleBackgroundColor
 
 		lowerTriangleView.triangleColor = triangleColor
 		lowerTriangleView.backgroundColor = triangleBackgroundColor
+
+
+
+		var startButtonEnabled = true
+		var finishButtonEnabled = false
+		if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date {
+			if let endDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_END_DATE) as? Date {
+				if (HelperFunctions.isDateSameDay(startDate, endDate)) && (HelperFunctions.isDateSameDay(startDate, Date())) {
+					startButtonEnabled = false
+					finishButtonEnabled = false
+				}
+			} else {
+				if HelperFunctions.isDateSameDay(startDate, Date()) {
+					startButtonEnabled = false
+					finishButtonEnabled = true
+				}
+			}
+		}
+		upperButton.isEnabled = startButtonEnabled
+		middleButton.isEnabled = finishButtonEnabled
 
 	}
 
@@ -127,20 +162,56 @@ class ViewController: UIViewController {
 
 
 	func clickUpperButton() {
-		Async.main {
-			self.upperButton.sendActions(for: .touchUpInside)
+		if upperButton.isEnabled {
+			Async.main {
+				self.upperButton.sendActions(for: .touchUpInside)
+			}
 		}
 	}
 	func clickMiddleButton() {
-		Async.main {
-			self.middleButton.sendActions(for: .touchUpInside)
+		if middleButton.isEnabled {
+			Async.main {
+				self.middleButton.sendActions(for: .touchUpInside)
+			}
 		}
 	}
 	func clickLowerButton() {
-		Async.main {
-			self.lowerButton.sendActions(for: .touchUpInside)
+		if lowerButton.isEnabled {
+			Async.main {
+				self.lowerButton.sendActions(for: .touchUpInside)
+			}
 		}
 	}
 
+	func startActivityAction() {
+		defaults.set(Date(), forKey: Self.DEFAULTS_ACTIVITY_START_DATE)
+		upperButton.isEnabled = false
+		middleButton.isEnabled = true
+	}
+
+	func finishActivityAction() {
+		if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date {
+			if HelperFunctions.isDateSameDay(startDate, Date()) {
+				upperButton.isEnabled = false
+				middleButton.isEnabled = false
+				defaults.set(Date(), forKey: Self.DEFAULTS_ACTIVITY_END_DATE)
+				showHudWithImage(text: "Done", imageName: "Checkmark")
+			}
+		}
+	}
+
+
+	func showHudWithImage(text: String, imageName: String) {
+		showHudWithImage(text: text, imageName: imageName, afterDelay: 1.0)
+	}
+	func showHudWithImage(text: String, imageName: String, afterDelay: TimeInterval) {
+		let tickHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+		tickHud.mode = .customView
+		let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+		tickHud.customView = UIImageView(image: image)
+		tickHud.isSquare = true
+		tickHud.label.text = text
+		tickHud.hide(animated: true, afterDelay: afterDelay)
+	}
 
 }
