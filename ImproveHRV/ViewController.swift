@@ -112,41 +112,52 @@ class ViewController: UIViewController {
 		lowerTriangleView.triangleColor = triangleColor
 		lowerTriangleView.backgroundColor = triangleBackgroundColor
 
-
-
-		var startButtonEnabled = true
-		var finishButtonEnabled = false
-		if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date {
-			if let endDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_END_DATE) as? Date {
-				if (HelperFunctions.isDateSameDay(startDate, endDate)) && (HelperFunctions.isDateSameDay(startDate, Date())) {
-					startButtonEnabled = false
-					finishButtonEnabled = false
-				}
-			} else {
-				if HelperFunctions.isDateSameDay(startDate, Date()) {
-					startButtonEnabled = false
-					finishButtonEnabled = true
-				}
-			}
-		}
-		upperButton.isEnabled = startButtonEnabled
-		middleButton.isEnabled = finishButtonEnabled
-
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
 		print("VC viewWillAppear")
-		mainLabel.text = "Select your activity in \"Remedy\""
+		var didSelectActivity = false
+		var labelText = ""
 		if let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
 			if let data = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
 				if let activityData = data[currentActivity] as? [String: Any] {
 					if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
-						mainLabel.text = "Selected: \(title) \(icon)"
+						didSelectActivity = true
+						labelText = "Selected: \(title) \(icon)"
 					}
 				}
 			}
+		}
+
+		if didSelectActivity {
+			mainLabel.text = "\(labelText)"
+			mainLabel.textColor = UIColor.black
+
+			var startButtonEnabled = true
+			var finishButtonEnabled = false
+			if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date {
+				if let endDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_END_DATE) as? Date {
+					if (HelperFunctions.isDateSameDay(startDate, endDate)) && (HelperFunctions.isDateSameDay(startDate, Date())) {
+						startButtonEnabled = false
+						finishButtonEnabled = false
+					}
+				} else {
+					if HelperFunctions.isDateSameDay(startDate, Date()) {
+						startButtonEnabled = false
+						finishButtonEnabled = true
+					}
+				}
+			}
+			upperButton.isEnabled = startButtonEnabled
+			middleButton.isEnabled = finishButtonEnabled
+		}else{
+			mainLabel.text = "Select your activity in \"Remedy\""
+			mainLabel.textColor = UIColor.red
+
+			upperButton.isEnabled = false
+			middleButton.isEnabled = false
 		}
 	}
 
@@ -187,6 +198,7 @@ class ViewController: UIViewController {
 		defaults.set(Date(), forKey: Self.DEFAULTS_ACTIVITY_START_DATE)
 		upperButton.isEnabled = false
 		middleButton.isEnabled = true
+		showHudWithImage(text: "Started", imageName: "Checkmark")
 	}
 
 	func finishActivityAction() {
@@ -195,23 +207,25 @@ class ViewController: UIViewController {
 				upperButton.isEnabled = false
 				middleButton.isEnabled = false
 				defaults.set(Date(), forKey: Self.DEFAULTS_ACTIVITY_END_DATE)
-				showHudWithImage(text: "Done", imageName: "Checkmark")
+				showHudWithImage(text: "Recorded", imageName: "Checkmark")
 			}
 		}
 	}
 
 
 	func showHudWithImage(text: String, imageName: String) {
-		showHudWithImage(text: text, imageName: imageName, afterDelay: 1.0)
+		showHudWithImage(text: text, imageName: imageName, afterDelay: 2.0)
 	}
 	func showHudWithImage(text: String, imageName: String, afterDelay: TimeInterval) {
-		let tickHud = MBProgressHUD.showAdded(to: self.view, animated: true)
-		tickHud.mode = .customView
-		let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
-		tickHud.customView = UIImageView(image: image)
-		tickHud.isSquare = true
-		tickHud.label.text = text
-		tickHud.hide(animated: true, afterDelay: afterDelay)
+		Async.main {
+			let tickHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+			tickHud.mode = .customView
+			let image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+			tickHud.customView = UIImageView(image: image)
+			tickHud.isSquare = true
+			tickHud.label.text = text
+			tickHud.hide(animated: true, afterDelay: afterDelay)
+		}
 	}
 
 }
