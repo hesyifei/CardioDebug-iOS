@@ -45,7 +45,7 @@ class ViewController: UIViewController {
 	let disabledButtonColor = UIColor.gray
 
 	let triangleBackgroundColor = UIColor.clear
-	let triangleColor = UIColor(netHex: 0xD8D8D8)
+	let triangleColor = UIColor(netHex: 0xE6E6E6)
 
 
 	// MARK: - override func
