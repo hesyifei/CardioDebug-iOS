@@ -55,7 +55,7 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate, WKScript
 			let weight = defaults.double(forKey: SettingsViewController.DEFAULTS_WEIGHT)
 			let bmi = HelperFunctions.getBMI(height: height, weight: weight)
 
-			var urlString = "http://areflys-mac.local/other/improve-hrv/remedy.php?age=\(age)&sex=\(sex)&bmi=\(bmi)"
+			var urlString = "\(BasicConfig.remedyListURL)?age=\(age)&sex=\(sex)&bmi=\(bmi)"
 			if let currentActivity = defaults.string(forKey: Self.DEFAULTS_CURRENT_ACTIVITY) {
 				urlString += "&currentActivity=\(currentActivity)"
 			}
