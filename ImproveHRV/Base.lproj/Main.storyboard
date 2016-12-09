@@ -20,7 +20,7 @@
         <scene sceneID="2jp-VL-KMS">
             <objects>
                 <navigationController id="R8L-wK-Rbr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" id="tRg-qa-ja0"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="TabBarIcon-Heart" selectedImage="TabBarIcon-Heart-Filled" id="tRg-qa-ja0"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oo3-9X-Vos">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -332,7 +332,7 @@
         <scene sceneID="mTm-5x-mf4">
             <objects>
                 <navigationController id="1zp-W8-5gP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Record" id="V1W-96-hJu"/>
+                    <tabBarItem key="tabBarItem" title="Record" image="TabBarIcon-List" id="V1W-96-hJu"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D2I-FX-Iff">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -637,6 +637,11 @@
             <point key="canvasLocation" x="55" y="116"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="TabBarIcon-Heart" width="50" height="50"/>
+        <image name="TabBarIcon-Heart-Filled" width="50" height="50"/>
+        <image name="TabBarIcon-List" width="50" height="50"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="AVZ-sP-xzk"/>
     </inferredMetricsTieBreakers>
