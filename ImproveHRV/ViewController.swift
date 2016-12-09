@@ -16,6 +16,14 @@ class ViewController: UIViewController {
 	let defaults = UserDefaults.standard
 
 	// MARK: - IBOutlet var
+	@IBOutlet var upperButtonOuterView: CircleView!
+	@IBOutlet var upperButton: UIButton!
+	@IBOutlet var upperTriangleView: TriangleView!
+	@IBOutlet var middleButtonOuterView: CircleView!
+	@IBOutlet var middleButton: UIButton!
+	@IBOutlet var lowerTriangleView: TriangleView!
+	@IBOutlet var lowerButtonOuterView: CircleView!
+	@IBOutlet var lowerButton: UIButton!
 
 	// MARK: - init var
 
@@ -43,6 +51,37 @@ class ViewController: UIViewController {
 		self.title = "Home"
 		self.navigationItem.title = "ANS Debug"
 
+
+		let circleBackgroundColor = UIColor.clear
+		let circleColor = UIColor(netHex: 0x424242)
+		let disbledCircleColor = UIColor.gray
+		let buttonColor = UIColor.white
+		let disabledButtonColor = UIColor.white
+
+		upperButtonOuterView.circleColor = circleColor
+		upperButtonOuterView.backgroundColor = circleBackgroundColor
+		upperButton.setTitleColor(buttonColor, for: .normal)
+		upperButton.setTitleColor(disabledButtonColor, for: .disabled)
+
+		middleButtonOuterView.circleColor = circleColor
+		middleButtonOuterView.backgroundColor = circleBackgroundColor
+		middleButton.setTitleColor(buttonColor, for: .normal)
+		middleButton.setTitleColor(disabledButtonColor, for: .disabled)
+
+		lowerButtonOuterView.circleColor = circleColor
+		lowerButtonOuterView.backgroundColor = circleBackgroundColor
+		lowerButton.setTitleColor(buttonColor, for: .normal)
+		lowerButton.setTitleColor(disabledButtonColor, for: .disabled)
+
+
+		let triangleBackgroundColor = UIColor.clear
+		let triangleColor = UIColor(netHex: 0xE6E6E6)
+
+		upperTriangleView.triangleColor = triangleColor
+		upperTriangleView.backgroundColor = triangleBackgroundColor
+
+		lowerTriangleView.triangleColor = triangleColor
+		lowerTriangleView.backgroundColor = triangleBackgroundColor
 
 	}
 
