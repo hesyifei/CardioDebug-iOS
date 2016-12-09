@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Async
 
 class ViewController: UIViewController {
 
@@ -16,6 +17,8 @@ class ViewController: UIViewController {
 	let defaults = UserDefaults.standard
 
 	// MARK: - IBOutlet var
+	@IBOutlet var mainLabel: UILabel!
+
 	@IBOutlet var upperButtonOuterView: CircleView!
 	@IBOutlet var upperButton: UIButton!
 	@IBOutlet var upperTriangleView: TriangleView!
@@ -48,28 +51,37 @@ class ViewController: UIViewController {
 		}
 
 
-		self.title = "Home"
-		self.navigationItem.title = "ANS Debug"
+		self.navigationItem.title = "Debug ANS"
+
+
+		if let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
+			mainLabel.text = "Selected: \(currentActivity)"
+		} else {
+			mainLabel.text = "Select your activity in \"Remedy\""
+		}
 
 
 		let circleBackgroundColor = UIColor.clear
-		let circleColor = UIColor(netHex: 0x424242)
+		let circleColor = UIColor(netHex: 0x2E2E2E)
 		let disbledCircleColor = UIColor.gray
 		let buttonColor = UIColor.white
 		let disabledButtonColor = UIColor.white
 
 		upperButtonOuterView.circleColor = circleColor
 		upperButtonOuterView.backgroundColor = circleBackgroundColor
+		upperButtonOuterView.addTapGesture(1, target: self, action: #selector(self.clickUpperButton))
 		upperButton.setTitleColor(buttonColor, for: .normal)
 		upperButton.setTitleColor(disabledButtonColor, for: .disabled)
 
 		middleButtonOuterView.circleColor = circleColor
 		middleButtonOuterView.backgroundColor = circleBackgroundColor
+		middleButtonOuterView.addTapGesture(1, target: self, action: #selector(self.clickMiddleButton))
 		middleButton.setTitleColor(buttonColor, for: .normal)
 		middleButton.setTitleColor(disabledButtonColor, for: .disabled)
 
 		lowerButtonOuterView.circleColor = circleColor
 		lowerButtonOuterView.backgroundColor = circleBackgroundColor
+		lowerButtonOuterView.addTapGesture(1, target: self, action: #selector(self.clickLowerButton))
 		lowerButton.setTitleColor(buttonColor, for: .normal)
 		lowerButton.setTitleColor(disabledButtonColor, for: .disabled)
 
@@ -98,6 +110,23 @@ class ViewController: UIViewController {
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
+	}
+
+
+	func clickUpperButton() {
+		Async.main {
+			self.upperButton.sendActions(for: .touchUpInside)
+		}
+	}
+	func clickMiddleButton() {
+		Async.main {
+			self.middleButton.sendActions(for: .touchUpInside)
+		}
+	}
+	func clickLowerButton() {
+		Async.main {
+			self.lowerButton.sendActions(for: .touchUpInside)
+		}
 	}
 
 

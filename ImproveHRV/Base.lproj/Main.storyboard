@@ -16,11 +16,11 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Home-->
         <scene sceneID="2jp-VL-KMS">
             <objects>
                 <navigationController id="R8L-wK-Rbr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="tRg-qa-ja0"/>
+                    <tabBarItem key="tabBarItem" title="Home" id="tRg-qa-ja0"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oo3-9X-Vos">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -164,12 +164,12 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Gf-Uq-cx1" userLabel="Upper Button Outer View" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="146.5" y="55.5" width="82.5" height="83"/>
+                                        <rect key="frame" x="146.5" y="83" width="82.5" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yC0-il-Dn6">
-                                                <rect key="frame" x="19" y="26.5" width="46" height="30"/>
+                                                <rect key="frame" x="25" y="26.5" width="34" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Button"/>
+                                                <state key="normal" title="Start"/>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -180,12 +180,12 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5m-HU-Cja" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="146" y="236" width="82.5" height="83"/>
+                                        <rect key="frame" x="146" y="263.5" width="82.5" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBC-yp-42C">
-                                                <rect key="frame" x="19" y="26.5" width="46" height="30"/>
+                                                <rect key="frame" x="21" y="26.5" width="41" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Button"/>
+                                                <state key="normal" title="Finish"/>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -196,12 +196,15 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dw-J3-dh1" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="145.5" y="416" width="83.5" height="83.5"/>
+                                        <rect key="frame" x="145.5" y="443.5" width="83.5" height="83.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Roa-Zl-hLh">
-                                                <rect key="frame" x="19.5" y="27" width="46" height="30"/>
+                                                <rect key="frame" x="26.5" y="27" width="31" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Button"/>
+                                                <state key="normal" title="ECG"/>
+                                                <connections>
+                                                    <segue destination="D9x-N3-yzI" kind="show" id="JAG-kS-I6Q"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -212,33 +215,45 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iei-Oz-adr" userLabel="Upper Space View">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="55.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pnl-nl-wAK">
+                                                <rect key="frame" x="162.5" y="29" width="51.5" height="26"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Pnl-nl-wAK" firstAttribute="centerY" secondItem="Iei-Oz-adr" secondAttribute="centerY" id="8xY-5v-89j"/>
+                                            <constraint firstItem="Pnl-nl-wAK" firstAttribute="centerX" secondItem="Iei-Oz-adr" secondAttribute="centerX" id="Zhe-0h-oeV"/>
+                                        </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTH-h3-d2O" userLabel="Center Upper Space View">
-                                        <rect key="frame" x="0.0" y="138.5" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="166" width="375" height="97"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wnm-ON-Xby" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
-                                                <rect key="frame" x="172.5" y="19.5" width="29" height="58"/>
+                                                <rect key="frame" x="176" y="14.5" width="22" height="68"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="Wnm-ON-Xby" secondAttribute="height" multiplier="1:2" id="wZE-CP-wgH"/>
+                                                    <constraint firstAttribute="width" secondItem="Wnm-ON-Xby" secondAttribute="height" multiplier="1:3" id="wZE-CP-wgH"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="Wnm-ON-Xby" firstAttribute="centerY" secondItem="oTH-h3-d2O" secondAttribute="centerY" id="Bbn-iE-aoA"/>
                                             <constraint firstItem="Wnm-ON-Xby" firstAttribute="centerX" secondItem="oTH-h3-d2O" secondAttribute="centerX" id="PJa-S8-G3J"/>
-                                            <constraint firstItem="Wnm-ON-Xby" firstAttribute="height" secondItem="oTH-h3-d2O" secondAttribute="height" multiplier="0.6" id="Wg5-of-LFb"/>
+                                            <constraint firstItem="Wnm-ON-Xby" firstAttribute="height" secondItem="oTH-h3-d2O" secondAttribute="height" multiplier="0.7" id="Wg5-of-LFb"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eoy-C5-uQN" userLabel="Center Lower Space View">
-                                        <rect key="frame" x="0.0" y="319" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="346.5" width="375" height="97"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmC-wB-bHc" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
-                                                <rect key="frame" x="173" y="19.5" width="29" height="58"/>
+                                                <rect key="frame" x="176" y="14.5" width="23" height="68"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="CmC-wB-bHc" secondAttribute="height" multiplier="1:2" id="0T7-Ih-sFk"/>
+                                                    <constraint firstAttribute="width" secondItem="CmC-wB-bHc" secondAttribute="height" multiplier="1:3" id="0T7-Ih-sFk"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -246,9 +261,6 @@
                                             <constraint firstItem="CmC-wB-bHc" firstAttribute="centerX" secondItem="eoy-C5-uQN" secondAttribute="centerX" id="6D8-pf-GgJ"/>
                                             <constraint firstItem="CmC-wB-bHc" firstAttribute="centerY" secondItem="eoy-C5-uQN" secondAttribute="centerY" id="eR5-Eh-gl6"/>
                                         </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GG-Wo-3RV" userLabel="Lower Space View">
-                                        <rect key="frame" x="0.0" y="498" width="375" height="55.5"/>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -259,7 +271,6 @@
                                     <constraint firstItem="Iei-Oz-adr" firstAttribute="top" secondItem="6Vg-6X-sv0" secondAttribute="top" id="E5k-2p-Pds"/>
                                     <constraint firstItem="oTH-h3-d2O" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.175" id="FOC-Gw-A1m"/>
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="height" secondItem="7Gf-Uq-cx1" secondAttribute="height" id="I1O-8z-Bhi"/>
-                                    <constraint firstItem="7GG-Wo-3RV" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="JDH-tP-P0e"/>
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="width" secondItem="2Dw-J3-dh1" secondAttribute="height" multiplier="1:1" id="Lo4-ue-fEX"/>
                                     <constraint firstItem="eoy-C5-uQN" firstAttribute="top" secondItem="r5m-HU-Cja" secondAttribute="bottom" id="M4F-Sy-xS1"/>
                                     <constraint firstItem="eoy-C5-uQN" firstAttribute="height" secondItem="oTH-h3-d2O" secondAttribute="height" id="NBS-UN-s45"/>
@@ -267,10 +278,8 @@
                                     <constraint firstItem="r5m-HU-Cja" firstAttribute="centerX" secondItem="6Vg-6X-sv0" secondAttribute="centerX" id="RSb-uX-Fj6"/>
                                     <constraint firstAttribute="trailing" secondItem="oTH-h3-d2O" secondAttribute="trailing" id="Tpv-Ol-C7X"/>
                                     <constraint firstItem="oTH-h3-d2O" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="WNk-Fs-uiU"/>
-                                    <constraint firstAttribute="bottom" secondItem="7GG-Wo-3RV" secondAttribute="bottom" id="ZbF-Ka-ce0"/>
-                                    <constraint firstItem="Iei-Oz-adr" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.1" id="ZwH-Oa-8s2"/>
+                                    <constraint firstItem="Iei-Oz-adr" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.15" id="ZwH-Oa-8s2"/>
                                     <constraint firstItem="7Gf-Uq-cx1" firstAttribute="centerX" secondItem="6Vg-6X-sv0" secondAttribute="centerX" id="aCh-Fj-4Zz"/>
-                                    <constraint firstItem="7GG-Wo-3RV" firstAttribute="height" secondItem="Iei-Oz-adr" secondAttribute="height" id="cvK-Ls-al8"/>
                                     <constraint firstItem="eoy-C5-uQN" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="fEU-uc-TTa"/>
                                     <constraint firstItem="CmC-wB-bHc" firstAttribute="height" secondItem="Wnm-ON-Xby" secondAttribute="height" id="g8v-4Z-Avr"/>
                                     <constraint firstItem="7Gf-Uq-cx1" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.15" id="qhI-8P-CXZ"/>
@@ -280,7 +289,6 @@
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="centerX" secondItem="6Vg-6X-sv0" secondAttribute="centerX" id="vMm-U1-yrF"/>
                                     <constraint firstItem="r5m-HU-Cja" firstAttribute="height" secondItem="7Gf-Uq-cx1" secondAttribute="height" id="vWq-3e-3I3"/>
                                     <constraint firstAttribute="trailing" secondItem="eoy-C5-uQN" secondAttribute="trailing" id="x1T-Mg-hYi"/>
-                                    <constraint firstAttribute="trailing" secondItem="7GG-Wo-3RV" secondAttribute="trailing" id="zWr-NW-bse"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -308,6 +316,7 @@
                         <outlet property="lowerButton" destination="Roa-Zl-hLh" id="hw7-ND-opq"/>
                         <outlet property="lowerButtonOuterView" destination="2Dw-J3-dh1" id="sqe-eq-Adx"/>
                         <outlet property="lowerTriangleView" destination="CmC-wB-bHc" id="hsH-ji-4B4"/>
+                        <outlet property="mainLabel" destination="Pnl-nl-wAK" id="Q8t-Ce-bV2"/>
                         <outlet property="middleButton" destination="uBC-yp-42C" id="wLQ-1X-5e2"/>
                         <outlet property="middleButtonOuterView" destination="r5m-HU-Cja" id="Qi7-3L-iS3"/>
                         <outlet property="upperButton" destination="yC0-il-Dn6" id="fes-tP-Uj1"/>
@@ -319,11 +328,11 @@
             </objects>
             <point key="canvasLocation" x="-746.39999999999998" y="115.59220389805098"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Record-->
         <scene sceneID="mTm-5x-mf4">
             <objects>
                 <navigationController id="1zp-W8-5gP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" id="V1W-96-hJu"/>
+                    <tabBarItem key="tabBarItem" title="Record" id="V1W-96-hJu"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D2I-FX-Iff">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
