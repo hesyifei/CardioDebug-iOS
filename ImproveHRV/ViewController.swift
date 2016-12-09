@@ -65,18 +65,27 @@ class ViewController: UIViewController {
 		upperButtonOuterView.addTapGesture(1, target: self, action: #selector(self.clickUpperButton))
 		upperButton.setTitleColor(buttonColor, for: .normal)
 		upperButton.setTitleColor(disabledButtonColor, for: .disabled)
+		upperButton.titleLabel?.textAlignment = .center
+		upperButton.titleLabel?.lineBreakMode = .byWordWrapping
+		upperButton.setTitle("Start\nActivity", for: .normal)
 
 		middleButtonOuterView.circleColor = circleColor
 		middleButtonOuterView.backgroundColor = circleBackgroundColor
 		middleButtonOuterView.addTapGesture(1, target: self, action: #selector(self.clickMiddleButton))
 		middleButton.setTitleColor(buttonColor, for: .normal)
 		middleButton.setTitleColor(disabledButtonColor, for: .disabled)
+		middleButton.titleLabel?.textAlignment = .center
+		middleButton.titleLabel?.lineBreakMode = .byWordWrapping
+		middleButton.setTitle("Finish\nActivity", for: .normal)
 
 		lowerButtonOuterView.circleColor = circleColor
 		lowerButtonOuterView.backgroundColor = circleBackgroundColor
 		lowerButtonOuterView.addTapGesture(1, target: self, action: #selector(self.clickLowerButton))
 		lowerButton.setTitleColor(buttonColor, for: .normal)
 		lowerButton.setTitleColor(disabledButtonColor, for: .disabled)
+		lowerButton.titleLabel?.textAlignment = .center
+		lowerButton.titleLabel?.lineBreakMode = .byWordWrapping
+		lowerButton.setTitle("Record\nECG", for: .normal)
 
 
 		let triangleBackgroundColor = UIColor.clear
