@@ -9,17 +9,15 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController {
 
 	// MARK: - basic var
 	let application = UIApplication.shared
 	let defaults = UserDefaults.standard
 
 	// MARK: - IBOutlet var
-	@IBOutlet var tableView: UITableView!
 
 	// MARK: - init var
-	var tableData = [String]()
 
 	// MARK: - override func
 	override func viewDidLoad() {
@@ -45,10 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		self.title = "Home"
 		self.navigationItem.title = "ANS Debug"
 
-		tableView.delegate = self
-		tableView.dataSource = self
 
-		tableData = ["Run", "Swim", "Jump"]
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -67,22 +62,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 	}
 
 
-	// MARK: - tableView related
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return tableData.count
-	}
-
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
-		let result = tableData[indexPath.row]
-		cell.textLabel?.text = "\(result)"
-		return cell
-	}
-
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let cell = self.tableView.cellForRow(at: indexPath)
-		cell?.accessoryType = .checkmark
-		cell?.isUserInteractionEnabled = false
-		self.tableView.deselectRow(at: indexPath, animated: true)
-	}
 }
