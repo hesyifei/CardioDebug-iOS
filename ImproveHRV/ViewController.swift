@@ -54,13 +54,6 @@ class ViewController: UIViewController {
 		self.navigationItem.title = "Debug ANS"
 
 
-		if let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
-			mainLabel.text = "Selected: \(currentActivity)"
-		} else {
-			mainLabel.text = "Select your activity in \"Remedy\""
-		}
-
-
 		let circleBackgroundColor = UIColor.clear
 		let circleColor = UIColor(netHex: 0x2E2E2E)
 		let disbledCircleColor = UIColor.gray
@@ -100,6 +93,17 @@ class ViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
+		print("VC viewWillAppear")
+		mainLabel.text = "Select your activity in \"Remedy\""
+		if let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
+			if let data = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
+				if let activityData = data[currentActivity] as? [String: Any] {
+					if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
+						mainLabel.text = "Selected: \(title) \(icon)"
+					}
+				}
+			}
+		}
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {

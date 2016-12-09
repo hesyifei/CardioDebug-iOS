@@ -12,10 +12,11 @@ import Foundation
 import Async
 import MBProgressHUD
 
-class RemedyListViewController: UIViewController, WKNavigationDelegate {
+class RemedyListViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
 	// MARK: - static var
 	static let DEFAULTS_CURRENT_ACTIVITY = "currentActivity"
+	static let DEFAULTS_ACTIVITIES_DATA = "activitiesData"
 
 	// MARK: - basic var
 	let application = UIApplication.shared
@@ -62,6 +63,7 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 
 			if let url = URL(string: urlString) {
 				webView.load(URLRequest(url: url))
+				webView.configuration.userContentController.add(self, name: "selectedActivity")
 			}
 		} else {
 			print("ERROR: not enough settings data")
@@ -128,6 +130,13 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 			}
 		}
 		decisionHandler(.allow)
+	}
+
+	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+		if let data = message.body as? [String: Any] {
+			print(data)
+			defaults.set(data, forKey: Self.DEFAULTS_ACTIVITIES_DATA)
+		}
 	}
 
 	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
