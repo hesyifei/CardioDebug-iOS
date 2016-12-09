@@ -42,7 +42,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.tableView.sendSubview(toBack: refreshControl)
 
 
-		self.title = "Record"
+		self.title = "Records"
 
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 

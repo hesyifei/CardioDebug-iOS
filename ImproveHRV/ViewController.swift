@@ -42,7 +42,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 		}
 
 
-		self.title = "ANS Debug"
+		self.title = "Home"
+		self.navigationItem.title = "ANS Debug"
 
 		tableView.delegate = self
 		tableView.dataSource = self
