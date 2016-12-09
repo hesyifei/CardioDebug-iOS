@@ -10,6 +10,7 @@ import UIKit
 import WebKit
 import Foundation
 import Async
+import MBProgressHUD
 
 class RemedyListViewController: UIViewController, WKNavigationDelegate {
 
@@ -71,6 +72,14 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 		super.viewWillAppear(animated)
 	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+
+		Async.main {
+			MBProgressHUD.hide(for: self.view, animated: true)
+		}
+	}
+
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 	}
@@ -121,7 +130,23 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate {
 		decisionHandler(.allow)
 	}
 
+	func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+		Async.main {
+			MBProgressHUD.showAdded(to: self.view, animated: true)
+		}
+	}
+
 	func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 		self.title = self.webView.title
+		Async.main {
+			MBProgressHUD.hide(for: self.view, animated: true)
+		}
+	}
+
+	func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+		print("FAILED")
+		Async.main {
+			MBProgressHUD.hide(for: self.view, animated: true)
+		}
 	}
 }
