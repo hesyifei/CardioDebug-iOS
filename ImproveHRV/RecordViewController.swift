@@ -42,8 +42,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.tableView.sendSubview(toBack: refreshControl)
 
 
-		self.title = "Records"
-
+		self.navigationItem.title = "Records"
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
