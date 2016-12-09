@@ -214,7 +214,7 @@ class ViewController: UIViewController {
 
 
 	func showHudWithImage(text: String, imageName: String) {
-		showHudWithImage(text: text, imageName: imageName, afterDelay: 2.0)
+		showHudWithImage(text: text, imageName: imageName, afterDelay: 1.5)
 	}
 	func showHudWithImage(text: String, imageName: String, afterDelay: TimeInterval) {
 		Async.main {
