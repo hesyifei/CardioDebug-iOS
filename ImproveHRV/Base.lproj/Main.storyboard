@@ -163,11 +163,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Vg-6X-sv0" userLabel="Outer View">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x9y-OC-gjD" userLabel="Bottom Black View">
+                                        <rect key="frame" x="0.0" y="366.5" width="375" height="187"/>
+                                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Gf-Uq-cx1" userLabel="Upper Button Outer View" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="146.5" y="83" width="82.5" height="83"/>
+                                        <rect key="frame" x="146.5" y="83" width="83" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yC0-il-Dn6">
-                                                <rect key="frame" x="19" y="26.5" width="46" height="30"/>
+                                                <rect key="frame" x="18.5" y="27" width="46" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="Button"/>
                                             </button>
@@ -180,10 +184,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5m-HU-Cja" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="146" y="263.5" width="82.5" height="83"/>
+                                        <rect key="frame" x="146" y="249" width="83" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBC-yp-42C">
-                                                <rect key="frame" x="21" y="26.5" width="41" height="30"/>
+                                                <rect key="frame" x="21" y="26" width="41" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="Finish"/>
                                             </button>
@@ -196,10 +200,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dw-J3-dh1" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="145.5" y="443.5" width="83.5" height="83.5"/>
+                                        <rect key="frame" x="146" y="415" width="83" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Roa-Zl-hLh">
-                                                <rect key="frame" x="26.5" y="27" width="31" height="30"/>
+                                                <rect key="frame" x="26" y="27" width="31" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="ECG"/>
                                                 <connections>
@@ -218,7 +222,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pnl-nl-wAK">
-                                                <rect key="frame" x="162.5" y="29" width="51.5" height="26"/>
+                                                <rect key="frame" x="162" y="29" width="52" height="26"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -230,10 +234,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTH-h3-d2O" userLabel="Center Upper Space View">
-                                        <rect key="frame" x="0.0" y="166" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="166" width="375" height="83"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wnm-ON-Xby" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
-                                                <rect key="frame" x="176" y="14.5" width="22" height="68"/>
+                                                <rect key="frame" x="177.5" y="13" width="19" height="58"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Wnm-ON-Xby" secondAttribute="height" multiplier="1:3" id="wZE-CP-wgH"/>
@@ -247,10 +251,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eoy-C5-uQN" userLabel="Center Lower Space View">
-                                        <rect key="frame" x="0.0" y="346.5" width="375" height="97"/>
+                                        <rect key="frame" x="0.0" y="332" width="375" height="83"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmC-wB-bHc" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
-                                                <rect key="frame" x="176" y="14.5" width="23" height="68"/>
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmC-wB-bHc" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
+                                                <rect key="frame" x="177.5" y="12" width="20" height="58.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="CmC-wB-bHc" secondAttribute="height" multiplier="1:3" id="0T7-Ih-sFk"/>
@@ -262,6 +266,21 @@
                                             <constraint firstItem="CmC-wB-bHc" firstAttribute="centerY" secondItem="eoy-C5-uQN" secondAttribute="centerY" id="eR5-Eh-gl6"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MA-cw-RV1" userLabel="Lower Space View">
+                                        <rect key="frame" x="0.0" y="498.5" width="375" height="55.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(at every night)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zl9-KB-b4I">
+                                                <rect key="frame" x="147.5" y="10" width="80" height="13.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="zl9-KB-b4I" firstAttribute="top" secondItem="4MA-cw-RV1" secondAttribute="top" constant="10" id="eew-uT-O6T"/>
+                                            <constraint firstItem="zl9-KB-b4I" firstAttribute="centerX" secondItem="4MA-cw-RV1" secondAttribute="centerX" id="iFK-rl-KXe"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="r5m-HU-Cja" firstAttribute="top" secondItem="oTH-h3-d2O" secondAttribute="bottom" id="0Fo-CL-nBf"/>
@@ -269,26 +288,34 @@
                                     <constraint firstItem="r5m-HU-Cja" firstAttribute="width" secondItem="r5m-HU-Cja" secondAttribute="height" multiplier="1:1" id="AEM-Bk-cz0"/>
                                     <constraint firstAttribute="trailing" secondItem="Iei-Oz-adr" secondAttribute="trailing" id="Aa1-km-F5Z"/>
                                     <constraint firstItem="Iei-Oz-adr" firstAttribute="top" secondItem="6Vg-6X-sv0" secondAttribute="top" id="E5k-2p-Pds"/>
-                                    <constraint firstItem="oTH-h3-d2O" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.175" id="FOC-Gw-A1m"/>
+                                    <constraint firstItem="oTH-h3-d2O" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.15" id="FOC-Gw-A1m"/>
+                                    <constraint firstAttribute="trailing" secondItem="4MA-cw-RV1" secondAttribute="trailing" id="GTG-hw-ic8"/>
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="height" secondItem="7Gf-Uq-cx1" secondAttribute="height" id="I1O-8z-Bhi"/>
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="width" secondItem="2Dw-J3-dh1" secondAttribute="height" multiplier="1:1" id="Lo4-ue-fEX"/>
                                     <constraint firstItem="eoy-C5-uQN" firstAttribute="top" secondItem="r5m-HU-Cja" secondAttribute="bottom" id="M4F-Sy-xS1"/>
                                     <constraint firstItem="eoy-C5-uQN" firstAttribute="height" secondItem="oTH-h3-d2O" secondAttribute="height" id="NBS-UN-s45"/>
                                     <constraint firstItem="7Gf-Uq-cx1" firstAttribute="top" secondItem="Iei-Oz-adr" secondAttribute="bottom" id="Ncw-QC-9MI"/>
                                     <constraint firstItem="r5m-HU-Cja" firstAttribute="centerX" secondItem="6Vg-6X-sv0" secondAttribute="centerX" id="RSb-uX-Fj6"/>
+                                    <constraint firstItem="x9y-OC-gjD" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.3375" id="Rzc-hY-C9X"/>
                                     <constraint firstAttribute="trailing" secondItem="oTH-h3-d2O" secondAttribute="trailing" id="Tpv-Ol-C7X"/>
                                     <constraint firstItem="oTH-h3-d2O" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="WNk-Fs-uiU"/>
                                     <constraint firstItem="Iei-Oz-adr" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.15" id="ZwH-Oa-8s2"/>
                                     <constraint firstItem="7Gf-Uq-cx1" firstAttribute="centerX" secondItem="6Vg-6X-sv0" secondAttribute="centerX" id="aCh-Fj-4Zz"/>
+                                    <constraint firstItem="4MA-cw-RV1" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="dTl-qV-GV4"/>
+                                    <constraint firstAttribute="bottom" secondItem="x9y-OC-gjD" secondAttribute="bottom" id="ewA-0x-RKq"/>
                                     <constraint firstItem="eoy-C5-uQN" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="fEU-uc-TTa"/>
                                     <constraint firstItem="CmC-wB-bHc" firstAttribute="height" secondItem="Wnm-ON-Xby" secondAttribute="height" id="g8v-4Z-Avr"/>
+                                    <constraint firstAttribute="trailing" secondItem="x9y-OC-gjD" secondAttribute="trailing" id="in0-aa-nZf"/>
+                                    <constraint firstItem="x9y-OC-gjD" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="jJB-eH-P4R"/>
                                     <constraint firstItem="7Gf-Uq-cx1" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.15" id="qhI-8P-CXZ"/>
                                     <constraint firstItem="Iei-Oz-adr" firstAttribute="leading" secondItem="6Vg-6X-sv0" secondAttribute="leading" id="sBp-kU-jjm"/>
                                     <constraint firstItem="oTH-h3-d2O" firstAttribute="top" secondItem="7Gf-Uq-cx1" secondAttribute="bottom" id="tCH-io-feB"/>
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="top" secondItem="eoy-C5-uQN" secondAttribute="bottom" id="vCN-cX-UtZ"/>
                                     <constraint firstItem="2Dw-J3-dh1" firstAttribute="centerX" secondItem="6Vg-6X-sv0" secondAttribute="centerX" id="vMm-U1-yrF"/>
                                     <constraint firstItem="r5m-HU-Cja" firstAttribute="height" secondItem="7Gf-Uq-cx1" secondAttribute="height" id="vWq-3e-3I3"/>
+                                    <constraint firstItem="4MA-cw-RV1" firstAttribute="height" secondItem="6Vg-6X-sv0" secondAttribute="height" multiplier="0.1" id="w4S-1F-kPE"/>
                                     <constraint firstAttribute="trailing" secondItem="eoy-C5-uQN" secondAttribute="trailing" id="x1T-Mg-hYi"/>
+                                    <constraint firstAttribute="bottom" secondItem="4MA-cw-RV1" secondAttribute="bottom" id="xPY-zE-nli"/>
                                 </constraints>
                             </view>
                         </subviews>
