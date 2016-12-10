@@ -26,6 +26,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 
+	var values: [Double]!
+
 	var passedData: PassECGResult!
 	var tableData = [String]()
 	var result = [String: Double]()
@@ -77,7 +79,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				}.main {
 					loadingHUD.hide(animated: true)
 					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
-					//self.tableView.reloadData()
+					self.initChart()
 			}
 		} else {
 			print("isPassedDataValid false")
@@ -85,11 +87,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
-
-
-		if isPassedDataValid {
-			initChart()
-		}
 
 		if passedData.isNew == true {
 			Async.main {
@@ -166,7 +163,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		//let values = passedData.rawData[0...2000]
-		let values = passedData.rawData!
+		//let values = passedData.rawData!
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
@@ -195,6 +192,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		print("values count: \(inputValues.count)")
 
 
+		// raw data -> mV unit
 		var realDataValues: [Double] = []
 
 		for (no, _) in inputValues.enumerated() {
@@ -205,7 +203,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 
-		var values: [Double] = []
+		// reduce noise
+		values = []
 
 		for (no, _) in realDataValues.enumerated() {
 			if no >= 1 && no < realDataValues.count-1-1 {
