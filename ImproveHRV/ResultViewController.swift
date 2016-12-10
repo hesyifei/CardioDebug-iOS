@@ -61,7 +61,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if isPassedDataValid {
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
 			Async.background {
-				self.getHRVData(values: self.passedData.rawData)
+				self.getHRVData(inputValues: self.passedData.rawData)
 				if self.passedData.isNew == true {
 					let realm = try! Realm()
 
@@ -191,8 +191,27 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 
-	func getHRVData(values: [Int]) {
-		print("values count: \(values.count)")
+	func getHRVData(inputValues: [Int]) {
+		print("values count: \(inputValues.count)")
+
+
+		var realDataValues: [Double] = []
+
+		for (no, _) in inputValues.enumerated() {
+			let first = Double(inputValues[no])/(Surge.pow(2.0, 10.0))
+			realDataValues.append((first-1/2)*3.3)
+			realDataValues[no] = realDataValues[no]/1.1
+			//print(values[no])
+		}
+
+
+		var values: [Double] = []
+
+		for (no, _) in realDataValues.enumerated() {
+			if no >= 1 && no < realDataValues.count-1-1 {
+				values.append((realDataValues[no-1]+realDataValues[no]+realDataValues[no+1])/3)
+			}
+		}
 
 		var slopes: [Double] = [0, 0]
 		var importantSlopes: [Int] = []
@@ -380,7 +399,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		print("FFTTestNEW: \(FFTTestNEW)")
 	}
 
-	func getSlope(n: Int, values: [Int]) -> Double {
+	func getSlope(n: Int, values: [Double]) -> Double {
 		let one = Double(-2*values[n-2])
 		let two = Double(values[n-1])
 		let three = Double(values[n+1])
