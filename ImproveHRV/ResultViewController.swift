@@ -44,9 +44,16 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		tableView.delegate = self
 		tableView.dataSource = self
 
+		// FIXME: func to be changed
+		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.doneButtonAction))
+
 		if (self.navigationController?.isBeingPresented)! {
-			let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
+			let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonAction))
 			self.navigationItem.setRightBarButton(doneButton, animated: true)
+
+			self.navigationItem.setLeftBarButton(shareAction, animated: true)
+		} else {
+			self.navigationItem.setRightBarButton(shareAction, animated: true)
 		}
 
 
