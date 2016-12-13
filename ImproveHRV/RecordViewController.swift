@@ -46,7 +46,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
-		self.navigationItem.leftBarButtonItem = shareAction
+		self.navigationItem.setLeftBarButton(shareAction, animated: true)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
