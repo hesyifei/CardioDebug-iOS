@@ -71,9 +71,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
 			Async.background {
 				self.getHRVData(inputValues: self.passedData.rawData)
-				if self.passedData.isNew == true {
-					let realm = try! Realm()
 
+				let realm = try! Realm()
+				if self.passedData.isNew == true {
 					let ecgData = ECGData()
 					ecgData.startDate = self.passedData.startDate
 					ecgData.duration = Double(self.passedData.rawData.count)/100.0
@@ -81,6 +81,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					ecgData.result = self.result
 					try! realm.write {
 						realm.add(ecgData)
+					}
+				} else {
+					if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+						if thisData.result != self.result {
+							try! realm.write {
+								thisData.result = self.result
+							}
+						}
 					}
 				}
 				}.main {
