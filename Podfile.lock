@@ -1,17 +1,19 @@
 PODS:
-  - AsyncSwift (2.0.0)
-  - Charts (3.0.0):
-    - Charts/Core (= 3.0.0)
-  - Charts/Core (3.0.0)
+  - Alamofire (4.2.0)
+  - AsyncSwift (2.0.1)
+  - Charts (3.0.1):
+    - Charts/Core (= 3.0.1)
+  - Charts/Core (3.0.1)
   - Eureka (2.0.0-beta.1)
   - MBProgressHUD (1.0.0)
-  - Realm (2.0.3):
-    - Realm/Headers (= 2.0.3)
-  - Realm/Headers (2.0.3)
-  - RealmSwift (2.0.3):
-    - Realm (= 2.0.3)
+  - Realm (2.1.1):
+    - Realm/Headers (= 2.1.1)
+  - Realm/Headers (2.1.1)
+  - RealmSwift (2.1.1):
+    - Realm (= 2.1.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 4.0)
   - AsyncSwift
   - Charts
   - Eureka (~> 2.0.0-beta.1)
@@ -19,13 +21,14 @@ DEPENDENCIES:
   - RealmSwift
 
 SPEC CHECKSUMS:
-  AsyncSwift: 6ba6ed9ecb51344458063f7c86fe447ab824e313
-  Charts: beb341928d2135613b4325a6c6aff9f2f6de895e
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  AsyncSwift: 632138e42ead868b53c745fcde9bf733ce1527ad
+  Charts: 0e84f4418e87dad6a9edde221fba37ebb51d3ba7
   Eureka: d014adf16406745e1a78d5790ea37ed130a0a8e5
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  Realm: 5f008bfe3c8c47142eddfc30b8c1584cde22db24
-  RealmSwift: 5afb451f65b682242f272dbb52d5c6f6e343c980
+  Realm: a55959c0b171a5fe5267406d17f314fec3cefaae
+  RealmSwift: 749fd955bf8d6471c21d218b9389a47aaeccfe3f
 
-PODFILE CHECKSUM: 265399c3360b958690ad275caa8b7ad30b72e897
+PODFILE CHECKSUM: 4ba81ef4097ee09869606532a5a4d670dd61eaed
 
 COCOAPODS: 1.2.0.beta.1

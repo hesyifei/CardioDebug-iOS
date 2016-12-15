@@ -8,6 +8,7 @@ target 'ImproveHRV' do
 
   # Pods for ImproveHRV
   pod 'AsyncSwift'
+  pod 'Alamofire', '~> 4.0'
   pod 'Charts'
   pod 'Eureka', '~> 2.0.0-beta.1'
   pod 'RealmSwift'
