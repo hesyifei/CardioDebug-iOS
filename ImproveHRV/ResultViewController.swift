@@ -8,6 +8,7 @@
 
 import UIKit
 import Async
+import Alamofire
 import Charts
 import Surge
 import RealmSwift
@@ -28,6 +29,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	var values: [Double]!
 
+	var rPoints = [Double]()
+	var rrDurations = [Double]()
+
 	var passedData: PassECGResult!
 	var tableData = [String]()
 	var result = [String: Double]()
@@ -35,6 +39,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var isPassedDataValid = false
 
 	var passedBackData: ((Bool) -> Void)?
+
+
+	var sessionManager: SessionManager!
 
 
 	override func viewDidLoad() {
@@ -69,33 +76,92 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		if isPassedDataValid {
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
-			Async.background {
-				self.getHRVData(inputValues: self.passedData.rawData)
 
-				let realm = try! Realm()
-				if self.passedData.isNew == true {
-					let ecgData = ECGData()
-					ecgData.startDate = self.passedData.startDate
-					ecgData.duration = Double(self.passedData.rawData.count)/100.0
-					ecgData.rawData = self.passedData.rawData
-					ecgData.result = self.result
-					try! realm.write {
-						realm.add(ecgData)
-					}
-				} else {
-					if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
-						if thisData.result != self.result {
-							try! realm.write {
-								thisData.result = self.result
+			tableData = []
+			result = [:]
+			self.calculateECGValues(self.passedData.rawData)
+			Async.main {
+				self.initChart()
+			}
+			self.calculateExtraData()			// Data inside should not be stored into results as no online calculation is needed
+			self.getHRVData() { (successDownloadHRVData: Bool) in
+				if !successDownloadHRVData {
+					print("ERROR")
+				}
+				Async.background {
+					let realm = try! Realm()
+					if self.passedData.isNew == true {
+						let ecgData = ECGData()
+						ecgData.startDate = self.passedData.startDate
+						ecgData.duration = Double(self.passedData.rawData.count)/100.0
+						ecgData.rawData = self.passedData.rawData
+						ecgData.result = self.result
+						try! realm.write {
+							realm.add(ecgData)
+						}
+						if !successDownloadHRVData {
+							HelperFunctions.showAlert(self, title: "Warning", message: "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view.")
+						}
+					} else {
+						if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+							if successDownloadHRVData {
+								print("Can load online HRV. Saving it to local data.")
+								if thisData.result != self.result {
+									try! realm.write {
+										thisData.result = self.result
+									}
+								}
+							} else {
+								print("Cannot load online HRV. Reloading local data.")
+								self.result = thisData.result
 							}
 						}
 					}
+
+					let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms2"
+					let fullStringDict = [
+						"TOT PWR": "TOT Power",
+						"ULF PWR": "Ultra low frequency",
+						"VLF PWR": "Very low frequency",
+						"LF PWR": "Low frequency",
+						"HF PWR": "High frequency",
+					]
+					let unitDict = [
+						"AVNN": msUnit,
+						"SDSD": msUnit,
+						"SDNN": msUnit,
+						"SDANN": msUnit,
+						"SDNNIDX": msUnit,
+						"rMSSD": msUnit,
+						"pNN20": percentageUnit,
+						"pNN50": percentageUnit,
+						"TOT PWR": ms2Unit,
+						"ULF PWR": ms2Unit,
+						"VLF PWR": ms2Unit,
+						"LF PWR": ms2Unit,
+						"HF PWR": ms2Unit,
+						"LF/HF": "",
+					]
+					for (eachKey, eachResult) in self.result {
+						if eachResult != 0 {
+							var name = eachKey
+							if let abbName = fullStringDict[eachKey] {
+								name = abbName
+							}
+							var unit = ""
+							if let abbUnit = unitDict[eachKey] {
+								unit = abbUnit
+							}
+							self.tableData.append("\(name)|\(String(format: "%.2f", eachResult))\(unit)")
+						}
+					}
+
+					}.main {
+						loadingHUD.hide(animated: true)
+						self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 				}
-				}.main {
-					loadingHUD.hide(animated: true)
-					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
-					self.initChart()
 			}
+
 		} else {
 			print("isPassedDataValid false")
 		}
@@ -202,8 +268,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		chartView.setVisibleXRangeMaximum(800.0)
 	}
 
-
-	func getHRVData(inputValues: [Int]) {
+	func calculateECGValues(_ inputValues: [Int]) {
 		print("values count: \(inputValues.count)")
 
 
@@ -313,33 +378,31 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 
-		var RRDurations = [Double]()
+		rrDurations = []
 		for (no, maxRIndex) in allMaxRIndex.enumerated() {
 			if no < allMaxRIndex.count-1 {
 				let duration = allMaxRIndex[no+1]-maxRIndex
 				if duration > 10 {
 					// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
-					RRDurations.append(Double(duration)*10.0)
+					rrDurations.append(Double(duration)*10.0)
 				} else {
 					print("WARNNING !!!!!! LESS THAN 0.1s!!!")
 				}
 			}
 		}
 		print("----")
-		print("RRDurations (in ms): \(RRDurations)")
+		print("rrDurations (in ms): \(rrDurations)")
 
 
 		Async.main {
-			self.debugTextView.text = "allMaxRIndex: \(allMaxRIndex)\nRRDurations: \(RRDurations)"
+			self.debugTextView.text = "allMaxRIndex: \(allMaxRIndex)\nrrDurations: \(self.rrDurations)"
 		}
+	}
 
 
+	func getHRVData(completion completionBlock: @escaping (Bool) -> Void) {
 
-		tableData = []
-		result = [:]
-
-
-		let AVNN: Double = Surge.mean(RRDurations)
+		/*let AVNN: Double = Surge.mean(RRDurations)
 		print("AVNN: \(AVNN)")
 		//resultLabel.text = "RRMean: \(RRMean)"
 		tableData.append("AVNN|\(String(format: "%.2f", AVNN))ms")
@@ -410,7 +473,59 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let dataAverage: Double = Surge.mean(rawDataDouble)
 		let FFTTestNEW: [Double] = Surge.fft(passedData.rawData.map{ Double($0)-dataAverage })
-		print("FFTTestNEW: \(FFTTestNEW)")
+		print("FFTTestNEW: \(FFTTestNEW)")*/
+
+		let configuration = URLSessionConfiguration.default
+		configuration.urlCache = nil
+		sessionManager = Alamofire.SessionManager(configuration: configuration)
+		sessionManager.request(BasicConfig.hrvCalculationURL, method: .post).responseJSON { response in
+			print(response.request)  // original URL request
+			print(response.response) // HTTP URL response
+			print(response.data)     // server data
+			print(response.result)   // result of response serialization
+
+			self.result = [:]
+			var success = false
+			if let JSON = response.result.value {
+				print("JSON: \(JSON)")
+				if let jsonDict = JSON as? [String: Double] {
+					success = true
+					self.result = jsonDict
+				}
+			}
+			completionBlock(success)
+		}
+
+	}
+
+	func calculateExtraData() {
+		var sumInOneMin: Double = 0
+		var beatsSumInOneMin: Int = 0
+		var beatsEveryMin = [Int]()
+
+		for eachDuration in self.rrDurations {
+			if sumInOneMin < 60*1000 {
+				sumInOneMin += eachDuration
+				beatsSumInOneMin += 1
+			} else {
+				beatsEveryMin.append(beatsSumInOneMin)
+				sumInOneMin = 60*1000-sumInOneMin
+				beatsSumInOneMin = 0
+			}
+		}
+
+		print("beatsEveryMin: \(beatsEveryMin)")
+
+		if !beatsEveryMin.isEmpty {
+			let slowestBeat = beatsEveryMin.min()!
+			let fastestBeat = beatsEveryMin.max()!
+			self.tableData.append("Range|\(slowestBeat)-\(fastestBeat) bpm")
+
+
+			let averageBeat: Int = lround(Surge.mean(beatsEveryMin.map{ Double($0) }))
+			self.tableData.append("Average|\(averageBeat) bpm")
+			//self.result["AverageBPM"] = Double(averageBeat)
+		}
 	}
 
 	func getSlope(n: Int, values: [Double]) -> Double {

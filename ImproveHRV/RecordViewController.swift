@@ -207,6 +207,8 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if !result.isEmpty {
 			if let SDNN = result["SDNN"] {
 				cell.textLabel?.text = "SDNN: \(String(format:"%.2f", SDNN))ms"
+			} else {
+				cell.textLabel?.text = "[...]"
 			}
 		}
 		cell.detailTextLabel?.text = "\(DateFormatter.localizedString(from: tableData[indexPath.row].startDate, dateStyle: .short, timeStyle: .medium))"

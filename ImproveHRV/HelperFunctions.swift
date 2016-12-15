@@ -8,9 +8,20 @@
 
 import UIKit
 import Foundation
+import Async
 import Surge
 
 class HelperFunctions {
+
+	static func showAlert(_ selfVC: UIViewController, title: String, message: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+
+		Async.main {
+			selfVC.present(alert, animated: true, completion: nil)
+		}
+	}
+
 	static internal func secondsToHoursMinutesSeconds(_ seconds : Int) -> (Int, Int, Int) {
 		return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
 	}
