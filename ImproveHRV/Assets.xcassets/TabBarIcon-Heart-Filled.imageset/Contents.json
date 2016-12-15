@@ -7,12 +7,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "TabBarIcon-Heart-Filled-50.png",
+      "filename" : "TabBarIcon-Heart-Filled-60.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "TabBarIcon-Heart-Filled-75.png",
+      "filename" : "TabBarIcon-Heart-Filled-100.png",
       "scale" : "3x"
     }
   ],
