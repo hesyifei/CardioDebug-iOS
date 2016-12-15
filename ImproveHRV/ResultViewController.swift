@@ -29,8 +29,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	var values: [Double]!
 
-	var rPoints = [Double]()
-	var rrDurations = [Double]()
+	var rPoints = [Int]()
+	var rrDurations = [Int]()
 
 	var passedData: PassECGResult!
 	var tableData = [String]()
@@ -384,7 +384,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				let duration = allMaxRIndex[no+1]-maxRIndex
 				if duration > 10 {
 					// REMEMBER THIS VALUE NEED TO *10 TO BE RESULT IN MILISECONDS
-					rrDurations.append(Double(duration)*10.0)
+					rrDurations.append(duration*10)
 				} else {
 					print("WARNNING !!!!!! LESS THAN 0.1s!!!")
 				}
@@ -396,6 +396,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		Async.main {
 			self.debugTextView.text = "allMaxRIndex: \(allMaxRIndex)\nrrDurations: \(self.rrDurations)"
+		}
+
+		rPoints = []
+		rPoints.append(allMaxRIndex[0]*10)
+		for (no, eachDuration) in rrDurations.enumerated() {
+			if no >= 1 {
+				rPoints.append(rPoints[no-1]+eachDuration)
+			}
 		}
 	}
 
@@ -475,6 +483,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let FFTTestNEW: [Double] = Surge.fft(passedData.rawData.map{ Double($0)-dataAverage })
 		print("FFTTestNEW: \(FFTTestNEW)")*/
 
+
+		let rPointsToBeUploaded: [Double] = rPoints.map { Double($0)/1000.0 }
+		let rrDurationsToBeUploaded: [Double] = rrDurations.map { Double($0)/1000.0 }
+
+		print("rPointsToBeUploaded: \(rPointsToBeUploaded)")
+		print("rrDurationsToBeUploaded: \(rrDurationsToBeUploaded)")
+
+
 		let configuration = URLSessionConfiguration.default
 		configuration.urlCache = nil
 		sessionManager = Alamofire.SessionManager(configuration: configuration)
@@ -499,7 +515,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 	func calculateExtraData() {
-		var sumInOneMin: Double = 0
+		var sumInOneMin: Int = 0
 		var beatsSumInOneMin: Int = 0
 		var beatsEveryMin = [Int]()
 
