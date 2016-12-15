@@ -204,13 +204,13 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
 		let result = tableData[indexPath.row].result
+		var cellText = "[...]"
 		if !result.isEmpty {
 			if let SDNN = result["SDNN"] {
-				cell.textLabel?.text = "SDNN: \(String(format:"%.2f", SDNN))ms"
-			} else {
-				cell.textLabel?.text = "[...]"
+				cellText = "SDNN: \(String(format:"%.2f", SDNN))ms"
 			}
 		}
+		cell.textLabel?.text = cellText
 		cell.detailTextLabel?.text = "\(DateFormatter.localizedString(from: tableData[indexPath.row].startDate, dateStyle: .short, timeStyle: .medium))"
 		return cell
 	}
