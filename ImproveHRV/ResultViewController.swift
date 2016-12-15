@@ -142,17 +142,21 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						"HF PWR": ms2Unit,
 						"LF/HF": "",
 					]
-					for (eachKey, eachResult) in self.result {
-						if eachResult != 0 {
-							var name = eachKey
-							if let abbName = fullStringDict[eachKey] {
-								name = abbName
+					let timeDomainOrder = ["AVNN", "SDSD", "SDNN", "SDANN", "SDNNIDX", "rMSSD", "pNN20", "pNN50"]
+					let frequencyDomainOrder = ["TOTPWR", "ULFPWR", "VLFPWR", "LFPWR", "HFPWR", "LF/HF"]
+					for key in timeDomainOrder {
+						if let value = self.result[key] {
+							if value != 0 {
+								var name = key
+								if let abbName = fullStringDict[key] {
+									name = abbName
+								}
+								var unit = ""
+								if let abbUnit = unitDict[key] {
+									unit = abbUnit
+								}
+								self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit)")
 							}
-							var unit = ""
-							if let abbUnit = unitDict[eachKey] {
-								unit = abbUnit
-							}
-							self.tableData.append("\(name)|\(String(format: "%.2f", eachResult))\(unit)")
 						}
 					}
 
@@ -533,14 +537,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		print("beatsEveryMin: \(beatsEveryMin)")
 
 		if !beatsEveryMin.isEmpty {
+			let averageBeat: Int = lround(Surge.mean(beatsEveryMin.map{ Double($0) }))
+			self.tableData.append("Average|\(averageBeat) bpm")
+
 			let slowestBeat = beatsEveryMin.min()!
 			let fastestBeat = beatsEveryMin.max()!
 			self.tableData.append("Range|\(slowestBeat)-\(fastestBeat) bpm")
-
-
-			let averageBeat: Int = lround(Surge.mean(beatsEveryMin.map{ Double($0) }))
-			self.tableData.append("Average|\(averageBeat) bpm")
-			//self.result["AverageBPM"] = Double(averageBeat)
 		}
 	}
 
