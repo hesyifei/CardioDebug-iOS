@@ -324,16 +324,19 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					self.mainLabel.alpha = 1.0
 					self.upperLabel.alpha = 1.0
 				}, completion: { (complete: Bool) in
-					// DO NOTHING
+					self.application.isIdleTimerDisabled = true
 				})
 			})
 		}
 	}
 
 	func setupViewAndStopRecording(isNormalCondition: Bool) {
+		print("setupViewAndStopRecording()")
 
 		// Async main here to make sure the animation is shown
 		Async.main {
+			self.application.isIdleTimerDisabled = false
+
 			UIView.animate(withDuration: 1.0, animations: {
 				self.mainLabel.alpha = 0.0
 				self.upperLabel.alpha = 0.0
