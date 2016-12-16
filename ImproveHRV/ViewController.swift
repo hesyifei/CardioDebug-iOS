@@ -138,15 +138,14 @@ class ViewController: UIViewController {
 			var startButtonEnabled = true
 			var finishButtonEnabled = false
 			if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date {
+				if HelperFunctions.isDateSameDay(startDate, Date()) {
+					startButtonEnabled = false
+					finishButtonEnabled = true
+				}
 				if let endDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_END_DATE) as? Date {
 					if (HelperFunctions.isDateSameDay(startDate, endDate)) && (HelperFunctions.isDateSameDay(startDate, Date())) {
 						startButtonEnabled = false
 						finishButtonEnabled = false
-					}
-				} else {
-					if HelperFunctions.isDateSameDay(startDate, Date()) {
-						startButtonEnabled = false
-						finishButtonEnabled = true
 					}
 				}
 			}
