@@ -293,11 +293,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		let xAxis = chartView.xAxis
-		xAxis.drawAxisLineEnabled = true
-		xAxis.drawGridLinesEnabled = false
+		xAxis.drawAxisLineEnabled = false
+		xAxis.drawGridLinesEnabled = true
+		xAxis.gridColor = UIColor(netHex: 0xF6CECE)
 		xAxis.labelPosition = .bottom
 		xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
-		//xAxis.setLabelsToSkip(0)                    // X軸不隱藏任何值（見文檔）
 
 
 		//let values = passedData.rawData[0...2000]
