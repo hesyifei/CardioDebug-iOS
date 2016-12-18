@@ -18,6 +18,7 @@ class WarningViewController: UIViewController {
 	let application = UIApplication.shared
 
 	// MARK: - IBOutlet var
+	@IBOutlet var upperLabel: UILabel!
 	@IBOutlet var mainLabel: UILabel!
 	@IBOutlet var mainTextView: UITextView!
 	@IBOutlet var leftButton: UIButton!
@@ -85,12 +86,14 @@ class WarningViewController: UIViewController {
 			rightButton.setTitle("No", for: .normal)
 			mainLabel.text = "Did you feel..."
 			mainTextView.text = "\(symptoms[currentState])?"
+			upperLabel.text = "?"
 			break
 		case symptoms.count:
 			leftButton.isHidden = true
 			rightButton.setTitle("Close", for: .normal)
 			mainLabel.text = "Recommendation:"
 			mainTextView.text = "GO HOSPITAL NOW"
+			upperLabel.text = "!"
 			break
 		case symptoms.count+1:
 			self.dismiss(animated: true, completion: nil)
