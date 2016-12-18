@@ -328,7 +328,19 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		//let values = passedData.rawData[0...2000]
+
+		/*let inputValues = passedData.rawData!
+		var realDataValues: [Double] = []
+
+		for (no, _) in inputValues.enumerated() {
+			let first = Double(inputValues[no])/(Surge.pow(2.0, 10.0))
+			realDataValues.append((first-1/2)*3.3)
+			realDataValues[no] = realDataValues[no]/1.1
+		}
+		let values = realDataValues*/
+
 		let values = passedData.rawData!
+
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
