@@ -16,7 +16,6 @@ class WarningViewController: UIViewController {
 
 	// MARK: - basic var
 	let application = UIApplication.shared
-	let defaults = UserDefaults.standard
 
 	// MARK: - IBOutlet var
 	@IBOutlet var mainLabel: UILabel!
@@ -29,6 +28,12 @@ class WarningViewController: UIViewController {
 
 	// MARK: - data var
 	var symptoms = [String]()
+
+
+	// MARK: - override var
+	override var preferredStatusBarStyle: UIStatusBarStyle {
+		return .lightContent
+	}
 
 	// MARK: - override func
 	override func viewDidLoad() {
@@ -45,7 +50,10 @@ class WarningViewController: UIViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -58,6 +66,7 @@ class WarningViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
+	// MARK: - button action
 	func leftButtonAction() {
 		if currentState > 0 {
 			appendState()
