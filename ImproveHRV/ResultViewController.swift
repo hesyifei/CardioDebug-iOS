@@ -27,6 +27,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 
+	// MARK: - basic var
+	let application = UIApplication.shared
+
 	var passedData: PassECGResult!
 	var tableData = [String]()
 	var result = [String: Double]()
@@ -75,6 +78,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		if isPassedDataValid {
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+			self.application.beginIgnoringInteractionEvents()
 
 			Async.main {
 				self.initChart()
@@ -88,6 +92,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				}
 				self.getExtraData()
 				Async.background {
+					let warningTitle = "Warning"
 					let realm = try! Realm()
 					if self.passedData.isNew == true {
 						let ecgData = ECGData()
@@ -99,7 +104,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							realm.add(ecgData)
 						}
 						if !successDownloadHRVData {
-							HelperFunctions.showAlert(self, title: "Warning", message: "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view.")
+							HelperFunctions.showAlert(self, title: warningTitle, message: "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view.")
 						}
 					} else {
 						if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
@@ -113,6 +118,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							} else {
 								print("Cannot load online HRV. Reloading local data.")
 								self.result = thisData.result
+								if self.result.isEmpty {
+									HelperFunctions.showAlert(self, title: warningTitle, message: "The HRV cannot be analyzed for now. You can connect internet and enter this view again.")
+								}
 							}
 						}
 					}
@@ -171,6 +179,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 					}.main {
 						loadingHUD.hide(animated: true)
+						self.application.endIgnoringInteractionEvents()
 						self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 				}
 			}
@@ -503,37 +512,43 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		print("rPointsToBeUploaded: \(rPointsToBeUploaded)")
 		print("rrDurationsToBeUploaded: \(rrDurationsToBeUploaded)")*/
 
-		let parameters: Parameters = ["ecgRawData": inputValues]
+		Async.background {
+			let parameters: Parameters = ["ecgRawData": inputValues]
 
-		sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
-			print(response.request)  // original URL request
-			print(response.response) // HTTP URL response
-			print(response.data)     // server data
-			print(response.result)   // result of response serialization
+			self.sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
 
-			self.result = [:]
-			var success = false
-			if let JSON = response.result.value {
-				print("JSON: \(JSON)")
-				if let jsonDict = JSON as? [String: AnyObject] {
-					if let hrvDict = jsonDict["hrv"] as? [String: [String: AnyObject]] {
-						for (hrvKey, hrvValue) in hrvDict {
-							// hrvKey is useless for now. maybe useful in the future?
-							for (key, value) in hrvValue {
-								if let value = value.doubleValue {
-									self.result[key] = value
-									success = true
+				Async.main {
+					print(response.request)  // original URL request
+					print(response.response) // HTTP URL response
+					print(response.data)     // server data
+					print(response.result)   // result of response serialization
+
+					self.result = [:]
+					var success = false
+					if let JSON = response.result.value {
+						print("JSON: \(JSON)")
+						if let jsonDict = JSON as? [String: AnyObject] {
+							if let hrvDict = jsonDict["hrv"] as? [String: [String: AnyObject]] {
+								for (hrvKey, hrvValue) in hrvDict {
+									// hrvKey is useless for now. maybe useful in the future?
+									for (key, value) in hrvValue {
+										if let value = value.doubleValue {
+											self.result[key] = value
+											success = true
+										}
+									}
 								}
+							}
+							if let hrvDict = jsonDict["extra"] as? [String: AnyObject] {
+								// TODO: to be add
 							}
 						}
 					}
-					if let hrvDict = jsonDict["extra"] as? [String: AnyObject] {
-						// TODO: to be add
-					}
+					print("result: \(self.result)")
+					completionBlock(success)
 				}
+
 			}
-			print("result: \(self.result)")
-			completionBlock(success)
 		}
 
 	}
