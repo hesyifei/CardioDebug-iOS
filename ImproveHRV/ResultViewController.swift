@@ -27,11 +27,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 
-	var values: [Double]!
-
-	var rPoints = [Int]()
-	var rrDurations = [Int]()
-
 	var passedData: PassECGResult!
 	var tableData = [String]()
 	var result = [String: Double]()
@@ -50,6 +45,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		tableView.delegate = self
 		tableView.dataSource = self
+
+		let configuration = URLSessionConfiguration.default
+		configuration.urlCache = nil
+		sessionManager = Alamofire.SessionManager(configuration: configuration)
 
 		// FIXME: func to be changed
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.doneButtonAction))
@@ -77,17 +76,17 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		if isPassedDataValid {
 			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
 
-			tableData = []
-			result = [:]
-			self.calculateECGValues(self.passedData.rawData)
 			Async.main {
 				self.initChart()
 			}
-			self.calculateExtraData()			// Data inside should not be stored into results as no online calculation is needed
-			self.getHRVData() { (successDownloadHRVData: Bool) in
+
+			tableData = []
+			result = [:]
+			self.calculateECGData(self.passedData.rawData) { (successDownloadHRVData: Bool) in
 				if !successDownloadHRVData {
 					print("ERROR")
 				}
+				self.getExtraData()
 				Async.background {
 					let realm = try! Realm()
 					if self.passedData.isNew == true {
@@ -248,7 +247,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		//let values = passedData.rawData[0...2000]
-		//let values = passedData.rawData!
+		let values = passedData.rawData!
 		var dataEntries: [ChartDataEntry] = []
 		for (index, value) in values.enumerated() {
 			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
@@ -272,31 +271,31 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		chartView.setVisibleXRangeMaximum(800.0)
 	}
 
-	func calculateECGValues(_ inputValues: [Int]) {
+	/*func calculateECGValues(_ inputValues: [Int]) {
 		print("values count: \(inputValues.count)")
 
 
 		// raw data -> mV unit
-		var realDataValues: [Double] = []
+		/*var realDataValues: [Double] = []
 
 		for (no, _) in inputValues.enumerated() {
 			let first = Double(inputValues[no])/(Surge.pow(2.0, 10.0))
 			realDataValues.append((first-1/2)*3.3)
 			realDataValues[no] = realDataValues[no]/1.1
 			//print(values[no])
-		}
+		}*/
 
 
 		// reduce noise
-		values = []
+		/*values = []
 
 		for (no, _) in realDataValues.enumerated() {
 			if no >= 1 && no < realDataValues.count-1-1 {
 				values.append((realDataValues[no-1]+realDataValues[no]+realDataValues[no+1])/3)
 			}
-		}
+		}*/
 
-		var slopes: [Double] = [0, 0]
+		/*var slopes: [Double] = [0, 0]
 		var importantSlopes: [Int] = []
 
 		for (no, _) in values.enumerated() {
@@ -408,11 +407,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			if no >= 1 {
 				rPoints.append(rPoints[no-1]+eachDuration)
 			}
-		}
-	}
+		}*/
+	}*/
 
 
-	func getHRVData(completion completionBlock: @escaping (Bool) -> Void) {
+	func calculateECGData(_ inputValues: [Int], completion completionBlock: @escaping (Bool) -> Void) {
 
 		/*let AVNN: Double = Surge.mean(RRDurations)
 		print("AVNN: \(AVNN)")
@@ -488,17 +487,15 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		print("FFTTestNEW: \(FFTTestNEW)")*/
 
 
-		let rPointsToBeUploaded: [Double] = rPoints.map { Double($0)/1000.0 }
+		/*let rPointsToBeUploaded: [Double] = rPoints.map { Double($0)/1000.0 }
 		let rrDurationsToBeUploaded: [Double] = rrDurations.map { Double($0)/1000.0 }
 
 		print("rPointsToBeUploaded: \(rPointsToBeUploaded)")
-		print("rrDurationsToBeUploaded: \(rrDurationsToBeUploaded)")
+		print("rrDurationsToBeUploaded: \(rrDurationsToBeUploaded)")*/
 
+		let parameters: Parameters = ["ecgRawData": inputValues]
 
-		let configuration = URLSessionConfiguration.default
-		configuration.urlCache = nil
-		sessionManager = Alamofire.SessionManager(configuration: configuration)
-		sessionManager.request(BasicConfig.hrvCalculationURL, method: .post).responseJSON { response in
+		sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
 			print(response.request)  // original URL request
 			print(response.response) // HTTP URL response
 			print(response.data)     // server data
@@ -508,18 +505,27 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			var success = false
 			if let JSON = response.result.value {
 				print("JSON: \(JSON)")
-				if let jsonDict = JSON as? [String: Double] {
-					success = true
-					self.result = jsonDict
+				if let jsonDict = JSON as? [String: AnyObject] {
+					for (key, value) in jsonDict {
+						if let value = value.doubleValue {
+							self.result[key] = value
+							success = true
+						}
+					}
 				}
 			}
+			print("result: \(self.result)")
 			completionBlock(success)
 		}
 
 	}
 
-	func calculateExtraData() {
-		var sumInOneMin: Int = 0
+	func getExtraData() {
+
+	}
+
+	/*func calculateExtraData() {
+		/*var sumInOneMin: Int = 0
 		var beatsSumInOneMin: Int = 0
 		var beatsEveryMin = [Int]()
 
@@ -543,17 +549,17 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			let slowestBeat = beatsEveryMin.min()!
 			let fastestBeat = beatsEveryMin.max()!
 			self.tableData.append("Range|\(slowestBeat)-\(fastestBeat) bpm")
-		}
-	}
+		}*/
+	}*/
 
-	func getSlope(n: Int, values: [Double]) -> Double {
+	/*func getSlope(n: Int, values: [Double]) -> Double {
 		let one = Double(-2*values[n-2])
 		let two = Double(values[n-1])
 		let three = Double(values[n+1])
 		let four = Double(2*values[n+2])
 		
 		return one-two+three+four
-	}
+	}*/
 	
 }
 
