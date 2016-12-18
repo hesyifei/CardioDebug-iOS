@@ -49,9 +49,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		tableView.delegate = self
 		tableView.dataSource = self
 
+		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
+
+
 		let configuration = URLSessionConfiguration.default
 		configuration.urlCache = nil
 		sessionManager = Alamofire.SessionManager(configuration: configuration)
+
 
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareButtonAction))
 
@@ -76,8 +80,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 		if isPassedDataValid {
-			let loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
-			self.application.beginIgnoringInteractionEvents()
+			var addHUDTo: UIView!
+			if passedData.isNew == true {
+				addHUDTo = self.navigationController?.view
+			} else {
+				addHUDTo = self.navigationController?.tabBarController?.view
+			}
+			let loadingHUD = MBProgressHUD.showAdded(to: addHUDTo, animated: true)
 
 			Async.main {
 				self.initChart()
@@ -126,7 +135,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 					}.main {
 						loadingHUD.hide(animated: true)
-						self.application.endIgnoringInteractionEvents()
 						self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 				}
 			}
@@ -134,9 +142,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		} else {
 			print("isPassedDataValid false")
 		}
-
-
-		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
 
 		if passedData.isNew == true {
 			Async.main {
@@ -158,7 +163,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 					destination.passedBackData = { bool in
 						print("SymptomSelectionViewController passedBackData \(bool)")
-						if bool == true && self.passedData.isNew == true {
+						// checking passedData.isNew should be unnecessary here as SymptomSelectionViewController will be shown only when isNew
+						if bool == true {
 							// TODO: - judge if user have problem here
 							Async.main(after: 0.5) {
 								self.performSegue(withIdentifier: WarningViewController.SHOW_WARNING_SEGUE_ID, sender: self)
