@@ -178,7 +178,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					destination.passedData = passedData
 
 					destination.passedBackData = { bool in
-						print("haa\(bool)")
+						print("ResultViewController passedBackData \(bool)")
 						if bool == true {
 							Async.main(after: 0.5) {
 								self.mainButtonAction()
