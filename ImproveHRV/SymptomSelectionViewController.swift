@@ -17,6 +17,9 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 	var tableData = [[String]]()
 	var tableHeader = [String]()
 
+	var passedBackData: ((Bool) -> Void)?
+
+
 	// MARK: - override func
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -55,9 +58,7 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 
 
 	func doneButtonAction() {
-		/*if passedData.isNew == true {
-			passedBackData?(true)
-		}*/
+		passedBackData?(true)
 		navigationController?.dismiss(animated: true, completion: nil)
 	}
 

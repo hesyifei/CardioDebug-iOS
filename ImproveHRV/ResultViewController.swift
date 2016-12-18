@@ -149,8 +149,25 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		Async.main {
-			self.performSegue(withIdentifier: WarningViewController.SHOW_WARNING_SEGUE_ID, sender: self)
+	}
+
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == SymptomSelectionViewController.SHOW_SYMPTOM_SELECTION_SEGUE_ID {
+			if let destinationNavigationController = segue.destination as? UINavigationController {
+				if let destination = destinationNavigationController.topViewController as? SymptomSelectionViewController {
+
+					destination.passedBackData = { bool in
+						print("SymptomSelectionViewController passedBackData \(bool)")
+						if bool == true && self.passedData.isNew == true {
+							// TODO: - judge if user have problem here
+							Async.main(after: 0.5) {
+								self.performSegue(withIdentifier: WarningViewController.SHOW_WARNING_SEGUE_ID, sender: self)
+							}
+						}
+					}
+					
+				}
+			}
 		}
 	}
 
