@@ -148,6 +148,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+
+		Async.main {
+			self.performSegue(withIdentifier: WarningViewController.SHOW_WARNING_SEGUE_ID, sender: self)
+		}
 	}
 
 	override func didReceiveMemoryWarning() {
