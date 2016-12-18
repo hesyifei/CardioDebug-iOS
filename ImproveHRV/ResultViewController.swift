@@ -104,7 +104,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					} else {
 						if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 							if successDownloadHRVData {
-								print("Can load online HRV. Saving it to local data.")
+								print("Loaded online HRV. Saving it to local data.")
 								if thisData.result != self.result {
 									try! realm.write {
 										thisData.result = self.result
@@ -117,7 +117,17 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						}
 					}
 
-					let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms2"
+
+					/** BEGIN adding data to tableView **/
+					let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms2", bpmUnit = " bpm"
+
+					if let avgHR = self.result["AvgHR"] {
+						self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)")
+					}
+					if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
+						self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)")
+					}
+
 					let fullStringDict = [
 						"TOT PWR": "TOT Power",
 						"ULF PWR": "Ultra low frequency",
@@ -506,11 +516,19 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			if let JSON = response.result.value {
 				print("JSON: \(JSON)")
 				if let jsonDict = JSON as? [String: AnyObject] {
-					for (key, value) in jsonDict {
-						if let value = value.doubleValue {
-							self.result[key] = value
-							success = true
+					if let hrvDict = jsonDict["hrv"] as? [String: [String: AnyObject]] {
+						for (hrvKey, hrvValue) in hrvDict {
+							// hrvKey is useless for now. maybe useful in the future?
+							for (key, value) in hrvValue {
+								if let value = value.doubleValue {
+									self.result[key] = value
+									success = true
+								}
+							}
 						}
+					}
+					if let hrvDict = jsonDict["extra"] as? [String: AnyObject] {
+						// TODO: to be add
 					}
 				}
 			}
