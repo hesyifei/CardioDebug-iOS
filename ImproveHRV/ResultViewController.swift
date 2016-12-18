@@ -53,8 +53,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		configuration.urlCache = nil
 		sessionManager = Alamofire.SessionManager(configuration: configuration)
 
-		// FIXME: func to be changed
-		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.doneButtonAction))
+		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareButtonAction))
 
 		if (self.navigationController?.isBeingPresented)! {
 			let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonAction))
@@ -90,7 +89,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				if !successDownloadHRVData {
 					print("ERROR")
 				}
-				self.getExtraData()
 				Async.background {
 					let warningTitle = "Warning"
 					let realm = try! Realm()
@@ -213,6 +211,18 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			passedBackData?(true)
 		}
 		navigationController?.dismiss(animated: true, completion: nil)
+	}
+
+	func shareButtonAction() {
+		let alert = UIAlertController(title: "Share", message: "Share this ECG and HRV data to:", preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "Q&A Platform", style: .default, handler: { action in
+			print("Clicked Q&A Platform")
+		}))
+		alert.addAction(UIAlertAction(title: "Other...", style: .default, handler: { action in
+			print("Clicked Other...")
+		}))
+		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+		self.present(alert, animated: true, completion: nil)
 	}
 
 
