@@ -83,7 +83,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				self.initChart()
 			}
 
-			tableData = []
 			result = [:]
 			self.calculateECGData(self.passedData.rawData) { (successDownloadHRVData: Bool) in
 				if !successDownloadHRVData {
@@ -123,57 +122,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						}
 					}
 
-
-					/** BEGIN adding data to tableView **/
-					let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms2", bpmUnit = " bpm"
-
-					if let avgHR = self.result["AvgHR"] {
-						self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)")
-					}
-					if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
-						self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)")
-					}
-
-					let fullStringDict = [
-						"TOT PWR": "TOT Power",
-						"ULF PWR": "Ultra low frequency",
-						"VLF PWR": "Very low frequency",
-						"LF PWR": "Low frequency",
-						"HF PWR": "High frequency",
-					]
-					let unitDict = [
-						"AVNN": msUnit,
-						"SDSD": msUnit,
-						"SDNN": msUnit,
-						"SDANN": msUnit,
-						"SDNNIDX": msUnit,
-						"rMSSD": msUnit,
-						"pNN20": percentageUnit,
-						"pNN50": percentageUnit,
-						"TOT PWR": ms2Unit,
-						"ULF PWR": ms2Unit,
-						"VLF PWR": ms2Unit,
-						"LF PWR": ms2Unit,
-						"HF PWR": ms2Unit,
-						"LF/HF": "",
-					]
-					let timeDomainOrder = ["AVNN", "SDSD", "SDNN", "SDANN", "SDNNIDX", "rMSSD", "pNN20", "pNN50"]
-					let frequencyDomainOrder = ["TOTPWR", "ULFPWR", "VLFPWR", "LFPWR", "HFPWR", "LF/HF"]
-					for key in timeDomainOrder {
-						if let value = self.result[key] {
-							if value != 0 {
-								var name = key
-								if let abbName = fullStringDict[key] {
-									name = abbName
-								}
-								var unit = ""
-								if let abbUnit = unitDict[key] {
-									unit = abbUnit
-								}
-								self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit)")
-							}
-						}
-					}
+					self.updateHRVTableData(isTimeDomain: true)
 
 					}.main {
 						loadingHUD.hide(animated: true)
@@ -206,6 +155,19 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		// Dispose of any resources that can be recreated.
 	}
 
+	@IBAction func hrvSegmentedControlChanged(sender: UISegmentedControl) {
+		print("hrvSegmentedControlChanged: \(sender.selectedSegmentIndex)")
+		switch sender.selectedSegmentIndex {
+		case 0:
+			self.updateHRVTableData(isTimeDomain: true)
+		case 1:
+			self.updateHRVTableData(isTimeDomain: false)
+		default:
+			break;
+		}
+		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+	}
+
 	func doneButtonAction() {
 		if passedData.isNew == true {
 			passedBackData?(true)
@@ -223,6 +185,69 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}))
 		alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 		self.present(alert, animated: true, completion: nil)
+	}
+
+
+	func updateHRVTableData(isTimeDomain: Bool) {
+		tableData = []
+
+		let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms²", bpmUnit = " bpm"
+
+		if isTimeDomain {
+			if let avgHR = self.result["AvgHR"] {
+				self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)")
+			}
+			if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
+				self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)")
+			}
+		}
+
+
+		let fullStringDict = [
+			"TOT PWR": "Total HRV Power",
+			"ULF PWR": "Ultra-low Frequency Power",
+			"VLF PWR": "Very Low Frequency Power",
+			"LF PWR": "Low Frequency Power",
+			"HF PWR": "High Frequency Power",
+			]
+		let unitDict = [
+			"AVNN": msUnit,
+			"SDSD": msUnit,
+			"SDNN": msUnit,
+			"SDANN": msUnit,
+			"SDNNIDX": msUnit,
+			"rMSSD": msUnit,
+			"pNN20": percentageUnit,
+			"pNN50": percentageUnit,
+			"TOT PWR": ms2Unit,
+			"ULF PWR": ms2Unit,
+			"VLF PWR": ms2Unit,
+			"LF PWR": ms2Unit,
+			"HF PWR": ms2Unit,
+			"LF/HF": "",
+			]
+
+		let timeDomainOrder = ["AVNN", "SDSD", "SDNN", "SDANN", "SDNNIDX", "rMSSD", "pNN20", "pNN50"]
+		let frequencyDomainOrder = ["TOT PWR", "ULF PWR", "VLF PWR", "LF PWR", "HF PWR", "LF/HF"]
+		var allKey = frequencyDomainOrder
+		if isTimeDomain {
+			allKey = timeDomainOrder
+		}
+		for key in allKey {
+			if let value = self.result[key] {
+				if value != 0 {
+					var name = key
+					if let abbName = fullStringDict[key] {
+						name = abbName
+					}
+					var unit = ""
+					if let abbUnit = unitDict[key] {
+						unit = abbUnit
+					}
+					self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit)")
+				}
+			}
+		}
 	}
 
 
