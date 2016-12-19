@@ -1,5 +1,5 @@
 //
-//  WarningViewController.swift
+//  SimpleResultViewController.swift
 //  ImproveHRV
 //
 //  Created by Arefly on 18/12/2016.
