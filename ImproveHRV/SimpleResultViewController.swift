@@ -28,24 +28,63 @@ class SimpleResultViewController: UIViewController {
 	var currentState = 0
 
 	// MARK: - data var
+	var isGood: Bool!
+
 	var symptoms = [String]()
 
 
 	// MARK: - override var
 	override var preferredStatusBarStyle: UIStatusBarStyle {
-		return .lightContent
+		if isGood == false {
+			return .lightContent
+		} else {
+			return .default
+		}
 	}
 
 	// MARK: - override func
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		if isGood == true {
+			self.view.backgroundColor = UIColor.white
+
+			self.upperLabel.text = " "
+			self.upperLabel.textColor = UIColor.green
+
+			self.mainLabel.text = "Congrats! You looks fine!"
+			self.mainLabel.font = UIFont.systemFont(ofSize: 25)
+
+			let centerParagraphStyle = NSMutableParagraphStyle()
+			centerParagraphStyle.alignment = .center
+
+			let attrText = NSAttributedString(string: "✓", attributes: [NSForegroundColorAttributeName: UIColor(netHex: 0x0B610B), NSFontAttributeName: UIFont.systemFont(ofSize: 100), NSParagraphStyleAttributeName: centerParagraphStyle])
+			self.mainTextView.attributedText = attrText
+		} else {
+			self.view.backgroundColor = UIColor(netHex: 0x333333)
+
+			self.leftButton.setTitleColor(.white, for: .normal)
+			self.rightButton.setTitleColor(.white, for: .normal)
+
+			self.upperLabel.text = "!"
+			self.upperLabel.textColor = UIColor.red
+
+			self.mainLabel.text = "We detected that you may have:"
+			self.mainLabel.textColor = UIColor.white
+
+			self.mainTextView.textColor = UIColor.white
+		}
+
 		symptoms = ["Headache", "Heart attack"]
 
 		leftButton.isHidden = true
 		leftButton.addTarget(self, action: #selector(self.leftButtonAction), for: .touchUpInside)
 
-		rightButton.setTitle("Next", for: .normal)
+		if isGood == true {
+			rightButton.setTitle("Done", for: .normal)
+		} else {
+			rightButton.setTitle("Next", for: .normal)
+		}
 		rightButton.addTarget(self, action: #selector(self.rightButtonAction), for: .touchUpInside)
 	}
 
@@ -79,28 +118,32 @@ class SimpleResultViewController: UIViewController {
 	}
 
 	func appendState() {
-		switch currentState {
-		case 0:
-			leftButton.setTitle("Yes", for: .normal)
-			leftButton.isHidden = false
-			rightButton.setTitle("No", for: .normal)
-			mainLabel.text = "Did you feel..."
-			mainTextView.text = "\(symptoms[currentState])?"
-			upperLabel.text = "?"
-			break
-		case symptoms.count:
-			leftButton.isHidden = true
-			rightButton.setTitle("Close", for: .normal)
-			mainLabel.text = "Recommendation:"
-			mainTextView.text = "GO HOSPITAL NOW"
-			upperLabel.text = "!"
-			break
-		case symptoms.count+1:
+		if isGood == true {
 			self.dismiss(animated: true, completion: nil)
-			break
-		default:
-			mainTextView.text = "\(symptoms[currentState])?"
-			break
+		} else {
+			switch currentState {
+			case 0:
+				leftButton.setTitle("Yes", for: .normal)
+				leftButton.isHidden = false
+				rightButton.setTitle("No", for: .normal)
+				mainLabel.text = "Did you feel..."
+				mainTextView.text = "\(symptoms[currentState])?"
+				upperLabel.text = "?"
+				break
+			case symptoms.count:
+				leftButton.isHidden = true
+				rightButton.setTitle("Close", for: .normal)
+				mainLabel.text = "Recommendation:"
+				mainTextView.text = "GO HOSPITAL NOW"
+				upperLabel.text = "!"
+				break
+			case symptoms.count+1:
+				self.dismiss(animated: true, completion: nil)
+				break
+			default:
+				mainTextView.text = "\(symptoms[currentState])?"
+				break
+			}
 		}
 		currentState += 1
 	}

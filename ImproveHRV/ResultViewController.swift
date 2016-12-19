@@ -165,7 +165,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						print("SymptomSelectionViewController passedBackData \(bool)")
 						// checking passedData.isNew should be unnecessary here as SymptomSelectionViewController will be shown only when isNew
 						if bool == true {
-							// FIXME: whether or not user is sick, a good/bad VC will always been shown
 							Async.main(after: 0.5) {
 								self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
 							}
@@ -173,6 +172,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					}
 					
 				}
+			}
+		}
+		if segue.identifier == SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID {
+			if let destinationViewController = segue.destination as? SimpleResultViewController {
+					destinationViewController.isGood = false
 			}
 		}
 	}
