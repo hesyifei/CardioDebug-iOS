@@ -130,17 +130,17 @@
                         <outlet property="debugTextView" destination="BYj-Ii-8jV" id="OVR-7r-VtH"/>
                         <outlet property="tableView" destination="Ack-wT-SzJ" id="giD-wD-3wp"/>
                         <segue destination="ejo-Ys-Sy4" kind="presentation" identifier="showSymptomSelection" id="3iO-M0-ycj"/>
-                        <segue destination="q9y-FK-bL3" kind="presentation" identifier="showWarningView" id="XQE-mC-ecs"/>
+                        <segue destination="q9y-FK-bL3" kind="presentation" identifier="showSimpleResultView" id="XQE-mC-ecs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GBZ-j3-5jU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53.600000000000001" y="802.848575712144"/>
         </scene>
-        <!--Warning View Controller-->
+        <!--Simple Result View Controller-->
         <scene sceneID="mFg-vg-wdJ">
             <objects>
-                <viewController id="q9y-FK-bL3" customClass="WarningViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="q9y-FK-bL3" customClass="SimpleResultViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qjy-g5-y9M"/>
                         <viewControllerLayoutGuide type="bottom" id="RoA-DK-nsq"/>

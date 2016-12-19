@@ -9,10 +9,10 @@
 import UIKit
 import Foundation
 
-class WarningViewController: UIViewController {
+class SimpleResultViewController: UIViewController {
 
 	// MARK: - static var
-	static let SHOW_WARNING_SEGUE_ID = "showWarningView"
+	static let SHOW_SIMPLE_RESULT_SEGUE_ID = "showSimpleResultView"
 
 	// MARK: - basic var
 	let application = UIApplication.shared
