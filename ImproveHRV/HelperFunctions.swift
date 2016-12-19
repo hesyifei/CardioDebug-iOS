@@ -13,9 +13,9 @@ import Surge
 
 class HelperFunctions {
 
-	static func showAlert(_ selfVC: UIViewController, title: String, message: String) {
+	static func showAlert(_ selfVC: UIViewController, title: String, message: String, completion completionBlock: ((UIAlertAction) -> Void)?) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: completionBlock))
 
 		Async.main {
 			selfVC.present(alert, animated: true, completion: nil)

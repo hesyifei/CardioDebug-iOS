@@ -32,6 +32,8 @@ class SimpleResultViewController: UIViewController {
 
 	var symptoms = [String]()
 
+	var passedBackData: ((Bool) -> Void)?
+
 
 	// MARK: - override var
 	override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -119,6 +121,7 @@ class SimpleResultViewController: UIViewController {
 
 	func appendState() {
 		if isGood == true {
+			passedBackData?(true)
 			self.dismiss(animated: true, completion: nil)
 		} else {
 			switch currentState {
@@ -138,6 +141,7 @@ class SimpleResultViewController: UIViewController {
 				upperLabel.text = "!"
 				break
 			case symptoms.count+1:
+				passedBackData?(true)
 				self.dismiss(animated: true, completion: nil)
 				break
 			default:

@@ -36,6 +36,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	var isPassedDataValid = false
 
+	var isCalculationError = false
+	var calculationErrorTitle = "Warning"
+	var calculationErrorMessage = ""
+
+
 	var passedBackData: ((Bool) -> Void)?
 
 
@@ -98,7 +103,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					print("ERROR")
 				}
 				Async.background {
-					let warningTitle = "Warning"
 					let realm = try! Realm()
 					if self.passedData.isNew == true {
 						let ecgData = ECGData()
@@ -110,7 +114,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							realm.add(ecgData)
 						}
 						if !successDownloadHRVData {
-							HelperFunctions.showAlert(self, title: warningTitle, message: "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view.")
+							self.isCalculationError = true
+							self.calculationErrorMessage = "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view."
 						}
 					} else {
 						if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
@@ -125,7 +130,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 								print("Cannot load online HRV. Reloading local data.")
 								self.result = thisData.result
 								if self.result.isEmpty {
-									HelperFunctions.showAlert(self, title: warningTitle, message: "The HRV cannot be analyzed for now. You can connect internet and enter this view again.")
+									self.isCalculationError = true
+									self.calculationErrorMessage = "The HRV cannot be analyzed for now. You can connect internet and enter this view again."
 								}
 							}
 						}
@@ -136,6 +142,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					}.main {
 						loadingHUD.hide(animated: true)
 						self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+
+						if self.isCalculationError == true {
+							HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
+								self.isCalculationError = false
+							}
+						}
 				}
 			}
 
@@ -175,8 +187,21 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 		}
 		if segue.identifier == SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID {
-			if let destinationViewController = segue.destination as? SimpleResultViewController {
-					destinationViewController.isGood = false
+			if let destination = segue.destination as? SimpleResultViewController {
+				// FIXME: pass real value here
+				destination.isGood = false
+				destination.passedBackData = { bool in
+					print("SimpleResultViewController passedBackData \(bool)")
+					if bool == true {
+						if self.isCalculationError == true {
+							Async.main(after: 0.5) {
+								HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
+									self.isCalculationError = false
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
