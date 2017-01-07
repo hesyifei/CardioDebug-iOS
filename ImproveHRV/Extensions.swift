@@ -79,10 +79,10 @@ extension CBCentralManager {
 }
 
 
-// http://stackoverflow.com/a/34190968/2603230 and modified
+// http://stackoverflow.com/a/34190968/2603230 and modified (http://stackoverflow.com/a/41519178/2603230)
 extension UITextView {
 	func setAttributedStringFromHTML(_ htmlCode: String, completionBlock: @escaping (NSAttributedString?) ->()) {
-		let inputText = "<body>\(htmlCode)<style>body { font-family: '\((self.font?.fontName)!)'; font-size:\((self.font?.pointSize)!)px; color: \((self.textColor)!.toHexString()); }</style></body>"
+		let inputText = "<body><div>\(htmlCode)</div><style>body { font-family: '\((self.font?.fontName)!)'; font-size:\((self.font?.pointSize)!)px; color: \((self.textColor)!.toHexString()); }</style></body>"
 		//print(inputText)
 
 		guard let data = inputText.data(using: String.Encoding.utf16) else {
