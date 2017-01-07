@@ -40,6 +40,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var calculationErrorTitle = "Warning"
 	var calculationErrorMessage = ""
 
+	var isProblemOnPerson = false
+	var problemOnPersonData = [String: AnyObject]()
+
 
 	var passedBackData: ((Bool) -> Void)?
 
@@ -147,6 +150,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
 								self.isCalculationError = false
 							}
+						} else {
+							if self.passedData.isNew == true {
+								// TODO: may not really be shown if user still didn't close SymptomSelectionViewController
+								self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
+							}
 						}
 				}
 			}
@@ -177,9 +185,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						print("SymptomSelectionViewController passedBackData \(bool)")
 						// checking passedData.isNew should be unnecessary here as SymptomSelectionViewController will be shown only when isNew
 						if bool == true {
-							Async.main(after: 0.5) {
-								self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
-							}
+							// do nothing
 						}
 					}
 					
@@ -188,8 +194,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 		if segue.identifier == SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID {
 			if let destination = segue.destination as? SimpleResultViewController {
-				// FIXME: pass real value here
-				destination.isGood = false
+				destination.isGood = !self.isProblemOnPerson			// "!" here is important!
+				destination.problemData = self.problemOnPersonData
 				destination.passedBackData = { bool in
 					print("SimpleResultViewController passedBackData \(bool)")
 					if bool == true {
@@ -422,7 +428,18 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 									}
 								}
 							}
-							if let hrvDict = jsonDict["extra"] as? [String: AnyObject] {
+							if let problemsArray = jsonDict["problems"] as? [AnyObject] {
+								if !problemsArray.isEmpty {
+									for eachProblem in problemsArray {
+										// TODO: what about more than 1 problem?
+										if let eachProblem = eachProblem as? [String: AnyObject] {
+											self.isProblemOnPerson = true
+											self.problemOnPersonData = eachProblem
+										}
+									}
+								}
+							}
+							if let extraDict = jsonDict["extra"] as? [String: AnyObject] {
 								// TODO: to be add
 							}
 						}

@@ -29,6 +29,7 @@ class SimpleResultViewController: UIViewController {
 
 	// MARK: - data var
 	var isGood: Bool!
+	var problemData: [String: AnyObject]!
 
 	var symptoms = [String]()
 
@@ -63,6 +64,8 @@ class SimpleResultViewController: UIViewController {
 			let attrText = NSAttributedString(string: "✓", attributes: [NSForegroundColorAttributeName: UIColor(netHex: 0x0B610B), NSFontAttributeName: UIFont.systemFont(ofSize: 100), NSParagraphStyleAttributeName: centerParagraphStyle])
 			self.mainTextView.attributedText = attrText
 		} else {
+			print("problemData: \(problemData)")
+
 			self.view.backgroundColor = UIColor(netHex: 0x333333)
 
 			self.leftButton.setTitleColor(.white, for: .normal)
@@ -71,13 +74,16 @@ class SimpleResultViewController: UIViewController {
 			self.upperLabel.text = "!"
 			self.upperLabel.textColor = UIColor.red
 
+			// TODO: use problemData here
 			self.mainLabel.text = "We detected that you may have:"
 			self.mainLabel.textColor = UIColor.white
 
 			self.mainTextView.textColor = UIColor.white
-		}
 
-		symptoms = ["Headache", "Heart attack"]
+			if let questions = problemData["questions"] as? [String] {
+				symptoms = questions
+			}
+		}
 
 		leftButton.isHidden = true
 		leftButton.addTarget(self, action: #selector(self.leftButtonAction), for: .touchUpInside)
@@ -124,8 +130,13 @@ class SimpleResultViewController: UIViewController {
 			passedBackData?(true)
 			self.dismiss(animated: true, completion: nil)
 		} else {
+			var firstPageCount = 0
+			if symptoms.count == 0 {
+				// never do this case when symptoms.count == 0
+				firstPageCount = -999
+			}
 			switch currentState {
-			case 0:
+			case firstPageCount:
 				leftButton.setTitle("Yes", for: .normal)
 				leftButton.isHidden = false
 				rightButton.setTitle("No", for: .normal)
