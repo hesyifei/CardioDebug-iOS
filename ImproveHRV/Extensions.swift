@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Async
 
 extension UIApplication {
 	// http://stackoverflow.com/a/30858591/2603230
@@ -40,6 +41,7 @@ extension UIView {
 
 
 // http://stackoverflow.com/a/24263296/2603230
+// http://stackoverflow.com/a/40018698/2603230
 extension UIColor {
 	convenience init(red: Int, green: Int, blue: Int) {
 		assert(red >= 0 && red <= 255, "Invalid red component")
@@ -52,6 +54,17 @@ extension UIColor {
 	convenience init(netHex:Int) {
 		self.init(red:(netHex >> 16) & 0xff, green:(netHex >> 8) & 0xff, blue:netHex & 0xff)
 	}
+
+	func toHexString() -> String {
+		var r: CGFloat = 0
+		var g: CGFloat = 0
+		var b: CGFloat = 0
+		var a: CGFloat = 0
+		getRed(&r, green: &g, blue: &b, alpha: &a)
+
+		let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+		return String(format:"#%06x", rgb)
+	}
 }
 
 
@@ -61,6 +74,30 @@ extension CBCentralManager {
 	internal var centralManagerState: CBCentralManagerState  {
 		get {
 			return CBCentralManagerState(rawValue: state.rawValue) ?? .unknown
+		}
+	}
+}
+
+
+// http://stackoverflow.com/a/34190968/2603230 and modified
+extension String {
+	func attributedStringFromHTMLToTextView(_ textView: UITextView, completionBlock: @escaping (NSAttributedString?) ->()) {
+		let inputText = "<body>\(self)<style>body { font-family: '\((textView.font?.fontName)!)'; font-size:\((textView.font?.pointSize)!)px; color: \((textView.textColor)!.toHexString()); }</style></body>"
+		//print(inputText)
+
+		guard let data = inputText.data(using: String.Encoding.utf16) else {
+			print("Unable to decode data from html string: \(self)")
+			return completionBlock(nil)
+		}
+
+		Async.main {
+			if let attributedString = try? NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
+				textView.attributedText = attributedString
+				completionBlock(attributedString)
+			} else {
+				print("Unable to create attributed string from html string: \(self)")
+				completionBlock(nil)
+			}
 		}
 	}
 }

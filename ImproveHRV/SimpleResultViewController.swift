@@ -26,6 +26,7 @@ class SimpleResultViewController: UIViewController {
 
 	// MARK: - init var
 	var currentState = 0
+	var numberOfYes = 0
 
 	// MARK: - data var
 	var isGood: Bool!
@@ -78,7 +79,12 @@ class SimpleResultViewController: UIViewController {
 			self.mainLabel.text = "We detected that you may have:"
 			self.mainLabel.textColor = UIColor.white
 
-			self.mainTextView.textColor = UIColor.white
+			self.mainTextView.textColor = UIColor.white		// have to put before using any attributedStringFromHTMLToTextView
+			if let htmlDescription = problemData["description"] as? String {
+				htmlDescription.attributedStringFromHTMLToTextView(self.mainTextView) { _ in }
+			} else {
+				self.mainTextView.text = "Error :(\nPlease contact app developer."
+			}
 
 			if let questions = problemData["questions"] as? [String] {
 				symptoms = questions
@@ -117,6 +123,7 @@ class SimpleResultViewController: UIViewController {
 	// MARK: - button action
 	func leftButtonAction() {
 		if currentState > 0 {
+			numberOfYes += 1
 			appendState()
 		}
 	}
@@ -141,14 +148,24 @@ class SimpleResultViewController: UIViewController {
 				leftButton.isHidden = false
 				rightButton.setTitle("No", for: .normal)
 				mainLabel.text = "Did you feel..."
-				mainTextView.text = "\(symptoms[currentState])?"
+
+				symptoms[currentState].attributedStringFromHTMLToTextView(self.mainTextView) { _ in }
+
 				upperLabel.text = "?"
 				break
 			case symptoms.count:
 				leftButton.isHidden = true
 				rightButton.setTitle("Close", for: .normal)
 				mainLabel.text = "Recommendation:"
-				mainTextView.text = "GO HOSPITAL NOW"
+
+				if let resultDict = problemData["result"] as? [String: String] {
+					if let htmlDescription = resultDict["\(numberOfYes)"] {
+						htmlDescription.attributedStringFromHTMLToTextView(self.mainTextView) { _ in }
+					} else {
+						self.mainTextView.text = "Error :(\nPlease contact app developer."
+					}
+				}
+
 				upperLabel.text = "!"
 				break
 			case symptoms.count+1:
