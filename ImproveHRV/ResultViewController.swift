@@ -40,6 +40,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var calculationErrorTitle = "Warning"
 	var calculationErrorMessage = ""
 
+	var isPresentSimpleResultNecessary = false
+
 	var isProblemOnPerson = false
 	var problemOnPersonData = [String: AnyObject]()
 
@@ -152,7 +154,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							}
 						} else {
 							if self.passedData.isNew == true {
-								// TODO: may not really be shown if user still didn't close SymptomSelectionViewController
+								self.isPresentSimpleResultNecessary = true
 								self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
 							}
 						}
@@ -185,7 +187,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						print("SymptomSelectionViewController passedBackData \(bool)")
 						// checking passedData.isNew should be unnecessary here as SymptomSelectionViewController will be shown only when isNew
 						if bool == true {
-							// do nothing
+							if self.isPresentSimpleResultNecessary == true {
+								Async.main(after: 0.5) {
+									self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
+								}
+							}
 						}
 					}
 					
@@ -199,6 +205,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				destination.passedBackData = { bool in
 					print("SimpleResultViewController passedBackData \(bool)")
 					if bool == true {
+						self.isPresentSimpleResultNecessary = false
+
 						if self.isCalculationError == true {
 							Async.main(after: 0.5) {
 								HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
