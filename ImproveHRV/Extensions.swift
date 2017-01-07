@@ -80,9 +80,9 @@ extension CBCentralManager {
 
 
 // http://stackoverflow.com/a/34190968/2603230 and modified
-extension String {
-	func attributedStringFromHTMLToTextView(_ textView: UITextView, completionBlock: @escaping (NSAttributedString?) ->()) {
-		let inputText = "<body>\(self)<style>body { font-family: '\((textView.font?.fontName)!)'; font-size:\((textView.font?.pointSize)!)px; color: \((textView.textColor)!.toHexString()); }</style></body>"
+extension UITextView {
+	func setAttributedStringFromHTML(_ htmlCode: String, completionBlock: @escaping (NSAttributedString?) ->()) {
+		let inputText = "<body>\(htmlCode)<style>body { font-family: '\((self.font?.fontName)!)'; font-size:\((self.font?.pointSize)!)px; color: \((self.textColor)!.toHexString()); }</style></body>"
 		//print(inputText)
 
 		guard let data = inputText.data(using: String.Encoding.utf16) else {
@@ -92,7 +92,7 @@ extension String {
 
 		Async.main {
 			if let attributedString = try? NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
-				textView.attributedText = attributedString
+				self.attributedText = attributedString
 				completionBlock(attributedString)
 			} else {
 				print("Unable to create attributed string from html string: \(self)")

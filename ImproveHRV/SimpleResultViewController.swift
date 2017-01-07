@@ -81,7 +81,7 @@ class SimpleResultViewController: UIViewController {
 
 			self.mainTextView.textColor = UIColor.white		// have to put before using any attributedStringFromHTMLToTextView
 			if let htmlDescription = problemData["description"] as? String {
-				htmlDescription.attributedStringFromHTMLToTextView(self.mainTextView) { _ in }
+				self.mainTextView.setAttributedStringFromHTML(htmlDescription) { _ in }
 			} else {
 				self.mainTextView.text = "Error :(\nPlease contact app developer."
 			}
@@ -149,7 +149,7 @@ class SimpleResultViewController: UIViewController {
 				rightButton.setTitle("No", for: .normal)
 				mainLabel.text = "Did you feel..."
 
-				symptoms[currentState].attributedStringFromHTMLToTextView(self.mainTextView) { _ in }
+				self.mainTextView.setAttributedStringFromHTML(symptoms[currentState]) { _ in }
 
 				upperLabel.text = "?"
 				break
@@ -160,7 +160,7 @@ class SimpleResultViewController: UIViewController {
 
 				if let resultDict = problemData["result"] as? [String: String] {
 					if let htmlDescription = resultDict["\(numberOfYes)"] {
-						htmlDescription.attributedStringFromHTMLToTextView(self.mainTextView) { _ in }
+						self.mainTextView.setAttributedStringFromHTML(htmlDescription) { _ in }
 					} else {
 						self.mainTextView.text = "Error :(\nPlease contact app developer."
 					}
