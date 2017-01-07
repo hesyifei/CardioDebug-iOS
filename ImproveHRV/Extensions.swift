@@ -82,6 +82,7 @@ extension CBCentralManager {
 // http://stackoverflow.com/a/34190968/2603230 and modified (http://stackoverflow.com/a/41519178/2603230)
 extension UITextView {
 	func setAttributedStringFromHTML(_ htmlCode: String, completionBlock: @escaping (NSAttributedString?) ->()) {
+
 		let inputText = "<body><div>\(htmlCode)</div><style>body { font-family: '\((self.font?.fontName)!)'; font-size:\((self.font?.pointSize)!)px; color: \((self.textColor)!.toHexString()); }</style></body>"
 		//print(inputText)
 
@@ -92,6 +93,10 @@ extension UITextView {
 
 		Async.main {
 			if let attributedString = try? NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
+				// http://stackoverflow.com/a/27874968/2603230
+				self.text = ""
+				self.insertText("")
+
 				self.attributedText = attributedString
 				completionBlock(attributedString)
 			} else {

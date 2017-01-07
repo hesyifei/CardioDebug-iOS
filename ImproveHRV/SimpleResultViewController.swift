@@ -83,6 +83,7 @@ class SimpleResultViewController: UIViewController {
 			self.mainLabel.textColor = UIColor.white
 
 			self.mainTextView.textColor = UIColor.white		// have to put before using any attributedStringFromHTMLToTextView
+			self.mainTextView.tintColor = UIColor.white
 			if let htmlDescription = problemData["description"] as? String {
 				self.mainTextView.setAttributedStringFromHTML(htmlDescription) { _ in }
 			} else {
