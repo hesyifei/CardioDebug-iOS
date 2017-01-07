@@ -24,6 +24,9 @@ class SimpleResultViewController: UIViewController {
 	@IBOutlet var leftButton: UIButton!
 	@IBOutlet var rightButton: UIButton!
 
+	// MARK: - constant var
+	let errorHTMLText = "Error :(<br />Please contact app developer."
+
 	// MARK: - init var
 	var currentState = 0
 	var numberOfYes = 0
@@ -83,7 +86,7 @@ class SimpleResultViewController: UIViewController {
 			if let htmlDescription = problemData["description"] as? String {
 				self.mainTextView.setAttributedStringFromHTML(htmlDescription) { _ in }
 			} else {
-				self.mainTextView.text = "Error :(\nPlease contact app developer."
+				self.mainTextView.setAttributedStringFromHTML(errorHTMLText) { _ in }
 			}
 
 			if let questions = problemData["questions"] as? [String] {
@@ -149,7 +152,7 @@ class SimpleResultViewController: UIViewController {
 				rightButton.setTitle("No", for: .normal)
 				mainLabel.text = "Did you feel..."
 
-				self.mainTextView.setAttributedStringFromHTML(symptoms[currentState]) { _ in }
+				mainTextView.setAttributedStringFromHTML(symptoms[currentState]) { _ in }
 
 				upperLabel.text = "?"
 				break
@@ -162,7 +165,7 @@ class SimpleResultViewController: UIViewController {
 					if let htmlDescription = resultDict["\(numberOfYes)"] {
 						self.mainTextView.setAttributedStringFromHTML(htmlDescription) { _ in }
 					} else {
-						self.mainTextView.text = "Error :(\nPlease contact app developer."
+						self.mainTextView.setAttributedStringFromHTML(errorHTMLText) { _ in }
 					}
 				}
 
@@ -173,7 +176,7 @@ class SimpleResultViewController: UIViewController {
 				self.dismiss(animated: true, completion: nil)
 				break
 			default:
-				mainTextView.text = "\(symptoms[currentState])?"
+				mainTextView.setAttributedStringFromHTML(symptoms[currentState]) { _ in }
 				break
 			}
 		}
