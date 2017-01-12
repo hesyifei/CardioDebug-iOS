@@ -27,6 +27,13 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		if let navController = self.navigationController {
+			// http://stackoverflow.com/a/18969325/2603230
+			navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+			navController.navigationBar.shadowImage = UIImage()
+			navController.navigationBar.isTranslucent = true
+		}
+
 		tableView.delegate = self
 		tableView.dataSource = self
 
