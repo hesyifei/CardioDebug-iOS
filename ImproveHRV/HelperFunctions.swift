@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 import Async
-import Surge
 
 class HelperFunctions {
 
@@ -60,7 +59,7 @@ class HelperFunctions {
 	}
 
 	static internal func getBMI(height: Double, weight: Double) -> Double {
-		let bmi: Double = weight / Surge.pow(height, 2)
+		let bmi: Double = weight / pow(height, 2)
 		return bmi
 	}
 

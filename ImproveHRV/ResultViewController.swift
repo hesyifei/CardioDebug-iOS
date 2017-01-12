@@ -10,7 +10,6 @@ import UIKit
 import Async
 import Alamofire
 import Charts
-import Surge
 import RealmSwift
 import MBProgressHUD
 
