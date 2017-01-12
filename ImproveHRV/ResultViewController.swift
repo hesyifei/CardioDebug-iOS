@@ -26,6 +26,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 	@IBOutlet var upperSegmentedControl: UISegmentedControl!
+	@IBOutlet var lowerSegmentedControl: UISegmentedControl!
 
 	// MARK: - basic var
 	let application = UIApplication.shared
@@ -77,6 +78,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		sessionManager = Alamofire.SessionManager(configuration: configuration)
 
 
+		if let navController = self.navigationController {
+			navController.navigationBar.tintColor = StoredColor.middleBlue
+		}
+
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareButtonAction))
 
 		if (self.navigationController?.isBeingPresented)! {
@@ -87,6 +92,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		} else {
 			self.navigationItem.setRightBarButton(shareAction, animated: true)
 		}
+
+		upperSegmentedControl.tintColor = StoredColor.middleBlue
+		lowerSegmentedControl.tintColor = StoredColor.middleBlue
 
 
 		loadDataAndChart(force: false)
@@ -411,6 +419,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.drawAxisLineEnabled = false
 		xAxis.drawGridLinesEnabled = true
 		xAxis.gridColor = UIColor(netHex: 0xF6CECE)
+		//xAxis.gridColor = StoredColor.middleBlue
 		xAxis.labelPosition = .bottom
 		xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
 

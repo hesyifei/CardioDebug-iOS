@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Override point for customization after application launch.
 		UITabBar.appearance().barTintColor = UIColor.white
 		UITabBar.appearance().isOpaque = false
+		UITabBar.appearance().tintColor = StoredColor.middleBlue
+
+		self.window?.tintColor = StoredColor.middleBlue
 
 		return true
 	}

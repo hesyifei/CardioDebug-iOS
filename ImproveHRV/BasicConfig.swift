@@ -6,6 +6,7 @@
 //  Copyright © 2016 Arefly. All rights reserved.
 //
 
+import UIKit
 import Foundation
 
 class BasicConfig {
@@ -14,4 +15,9 @@ class BasicConfig {
 
 	static let ecgCalculationURL = "http://52.89.180.188:8080/"
 	//static let ecgCalculationURL = "http://arefly.com/"
+}
+
+class StoredColor {
+	static let middleBlue = UIColor(netHex: 0x2d7eb9)
+	static let darkRed = UIColor(netHex: 0xba2e57)
 }

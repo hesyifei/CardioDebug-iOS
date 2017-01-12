@@ -38,7 +38,9 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
 			navController.navigationBar.shadowImage = UIImage()
 			navController.navigationBar.isTranslucent = true
+			navController.navigationBar.tintColor = StoredColor.middleBlue
 		}
+
 
 		tableView.delegate = self
 		tableView.dataSource = self
@@ -74,7 +76,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		viewPaddings["leftmostImageView"] = 10.0
 
 		outerViewPaddings["left"] = 10.0
-		outerViewPaddings["right"] = 10.0
+		outerViewPaddings["right"] = 0.0
 		outerViewPaddings["top"] = 10.0
 		outerViewPaddings["bottom"] = 10.0
 	}
@@ -202,20 +204,20 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let userLFHFDataSet = LineChartDataSet(values: userLFHFDataEntries, label: "Your LF/HF")
 		userLFHFDataSet.axisDependency = .left
-		userLFHFDataSet.colors = [UIColor(netHex: 0xba2e57)]
+		userLFHFDataSet.colors = [StoredColor.darkRed]
 		userLFHFDataSet.drawCirclesEnabled = true
 		userLFHFDataSet.circleRadius = 5
-		userLFHFDataSet.circleColors = [UIColor(netHex: 0xba2e57)]
+		userLFHFDataSet.circleColors = [StoredColor.darkRed]
 		userLFHFDataSet.mode = .cubicBezier
 		userLFHFDataSet.lineWidth = 2.0
 		userLFHFDataSet.highlightColor = UIColor.red
 
 		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
 		userAVNNDataSet.axisDependency = .right
-		userAVNNDataSet.colors = [UIColor(netHex: 0x509ed4)]
+		userAVNNDataSet.colors = [StoredColor.middleBlue]
 		userAVNNDataSet.drawCirclesEnabled = true
 		userAVNNDataSet.circleRadius = 5
-		userAVNNDataSet.circleColors = [UIColor(netHex: 0x509ed4)]
+		userAVNNDataSet.circleColors = [StoredColor.middleBlue]
 		userAVNNDataSet.mode = .cubicBezier
 		userAVNNDataSet.lineWidth = 2.0
 		userAVNNDataSet.highlightColor = UIColor.blue
@@ -372,6 +374,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		}
 
+		cell.accessoryType = .disclosureIndicator
 		cell.separatorInset = UIEdgeInsetsMake(0, outerViewPaddings["left"]!+viewWidths["leftView"]!+PaddingLabel.padding, 0, 0)
 
 		/*** 初始化TableCell結束 ***/
@@ -398,7 +401,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 
-		upperLeftLabel.textColor = UIColor(netHex: 0x509ed4)
+		upperLeftLabel.textColor = StoredColor.middleBlue
 		upperLeftLabel.font = UIFont(name: (upperLeftLabel.font?.fontName)!, size: 20.0)
 		lowerLeftLabel.textColor = UIColor(netHex: 0x8e9092)
 		upperRightLabel.font = UIFont(name: (upperRightLabel.font?.fontName)!, size: 20.0)
@@ -418,8 +421,8 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.tableView.deselectRow(at: indexPath, animated: true)
 		self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+		self.tableView.deselectRow(at: indexPath, animated: true)
 	}
 
 	func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {

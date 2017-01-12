@@ -76,9 +76,8 @@ class ViewController: UIViewController {
 			navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
 			navController.navigationBar.shadowImage = UIImage()
 			navController.navigationBar.isTranslucent = true
+			navController.navigationBar.tintColor = StoredColor.middleBlue
 		}
-
-
 
 
 		upperButtonOuterView.circleColor = circleColor
