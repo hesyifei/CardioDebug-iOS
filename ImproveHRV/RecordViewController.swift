@@ -180,7 +180,9 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let userLFHFDataSet = LineChartDataSet(values: userLFHFDataEntries, label: "Your LF/HF")
 		userLFHFDataSet.axisDependency = .left
 		userLFHFDataSet.colors = [UIColor(netHex: 0xba2e57)]
-		userLFHFDataSet.drawCirclesEnabled = false
+		userLFHFDataSet.drawCirclesEnabled = true
+		userLFHFDataSet.circleRadius = 5
+		userLFHFDataSet.circleColors = [UIColor(netHex: 0xba2e57)]
 		userLFHFDataSet.mode = .cubicBezier
 		userLFHFDataSet.lineWidth = 2.0
 		userLFHFDataSet.highlightColor = UIColor.red
@@ -188,7 +190,9 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
 		userAVNNDataSet.axisDependency = .right
 		userAVNNDataSet.colors = [UIColor(netHex: 0x509ed4)]
-		userAVNNDataSet.drawCirclesEnabled = false
+		userAVNNDataSet.drawCirclesEnabled = true
+		userAVNNDataSet.circleRadius = 5
+		userAVNNDataSet.circleColors = [UIColor(netHex: 0x509ed4)]
 		userAVNNDataSet.mode = .cubicBezier
 		userAVNNDataSet.lineWidth = 2.0
 		userAVNNDataSet.highlightColor = UIColor.blue

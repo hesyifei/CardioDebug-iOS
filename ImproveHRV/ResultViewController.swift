@@ -26,9 +26,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	@IBOutlet var tableView: UITableView!
 	@IBOutlet var chartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
+	@IBOutlet var upperSegmentedControl: UISegmentedControl!
 
 	// MARK: - basic var
 	let application = UIApplication.shared
+
+	var refreshControl: UIRefreshControl!
 
 	var passedData: PassECGResult!
 	var tableData = [String]()
@@ -39,6 +42,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var isCalculationError = false
 	var calculationErrorTitle = "Warning"
 	var calculationErrorMessage = ""
+	let HRVUnableToAnalyseMessage = "The HRV cannot be analyzed for now. You can connect internet and enter this view again."
 
 	var isPresentSimpleResultNecessary = false
 
@@ -58,6 +62,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		tableView.delegate = self
 		tableView.dataSource = self
+
+		refreshControl = UIRefreshControl()
+		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+		refreshControl.addTarget(self, action: #selector(self.refreshData), for: UIControlEvents.valueChanged)
+		self.tableView.addSubview(refreshControl)
+		self.tableView.sendSubview(toBack: refreshControl)
+
 
 		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
 
@@ -79,6 +90,21 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 
 
+		loadDataAndChart(force: false)
+
+		if passedData.isNew == true {
+			Async.main {
+				self.performSegue(withIdentifier: SymptomSelectionViewController.SHOW_SYMPTOM_SELECTION_SEGUE_ID, sender: self)
+			}
+		}
+
+	}
+
+	func refreshData() {
+		loadDataAndChart(force: true)
+	}
+
+	func loadDataAndChart(force: Bool) {
 		if let rawData = passedData.rawData, let _ = passedData.startDate, let _ = passedData.isNew {
 			if !rawData.isEmpty {
 				if rawData.count >= 10*100 {
@@ -103,74 +129,94 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 
 			result = [:]
-			self.calculateECGData(self.passedData.rawData) { (successDownloadHRVData: Bool) in
-				if !successDownloadHRVData {
-					print("ERROR")
-				}
-				Async.background {
-					let realm = try! Realm()
-					if self.passedData.isNew == true {
-						let ecgData = ECGData()
-						ecgData.startDate = self.passedData.startDate
-						ecgData.duration = Double(self.passedData.rawData.count)/100.0
-						ecgData.rawData = self.passedData.rawData
-						ecgData.result = self.result
-						try! realm.write {
-							realm.add(ecgData)
-						}
-						if !successDownloadHRVData {
-							self.isCalculationError = true
-							self.calculationErrorMessage = "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view."
-						}
-					} else {
-						if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
-							if successDownloadHRVData {
-								print("Loaded online HRV. Saving it to local data.")
-								if thisData.result != self.result {
-									try! realm.write {
-										thisData.result = self.result
+
+			if self.passedData.isNew == true || force == true {
+				self.calculateECGData(self.passedData.rawData) { (successDownloadHRVData: Bool) in
+					if !successDownloadHRVData {
+						print("ERROR")
+					}
+					Async.background {
+						let realm = try! Realm()
+						if self.passedData.isNew == true {
+							let ecgData = ECGData()
+							ecgData.startDate = self.passedData.startDate
+							ecgData.duration = Double(self.passedData.rawData.count)/100.0
+							ecgData.rawData = self.passedData.rawData
+							ecgData.result = self.result
+							try! realm.write {
+								realm.add(ecgData)
+							}
+							if !successDownloadHRVData {
+								self.isCalculationError = true
+								self.calculationErrorMessage = "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view."
+							}
+						} else if force == true {
+							if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+								if successDownloadHRVData {
+									print("Loaded online HRV. Saving it to local data.")
+									if thisData.result != self.result {
+										try! realm.write {
+											thisData.result = self.result
+										}
 									}
-								}
-							} else {
-								print("Cannot load online HRV. Reloading local data.")
-								self.result = thisData.result
-								if self.result.isEmpty {
-									self.isCalculationError = true
-									self.calculationErrorMessage = "The HRV cannot be analyzed for now. You can connect internet and enter this view again."
+								} else {
+									print("Cannot load online HRV. Reloading local data.")
+									self.result = thisData.result
+									if self.result.isEmpty {
+										self.isCalculationError = true
+										self.calculationErrorMessage = self.HRVUnableToAnalyseMessage
+									}
 								}
 							}
 						}
+
+						self.updateHRVTableData(isTimeDomain: true)
+
+						}.main {
+							loadingHUD.hide(animated: true)
+							self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+
+							if self.isCalculationError == true {
+								HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
+									self.isCalculationError = false
+								}
+							} else {
+								if self.passedData.isNew == true {
+									self.isPresentSimpleResultNecessary = true
+									self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
+								}
+							}
+
+							// http://stackoverflow.com/q/5273775/2603230
+							self.upperSegmentedControl.selectedSegmentIndex = 0
+
+							if self.refreshControl.isRefreshing {
+								self.refreshControl.endRefreshing()
+							}
 					}
+				}
+			} else {
+				let realm = try! Realm()
+				if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+					self.result = thisData.result
 
 					self.updateHRVTableData(isTimeDomain: true)
 
-					}.main {
-						loadingHUD.hide(animated: true)
-						self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+					if self.result.isEmpty {
+						HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.HRVUnableToAnalyseMessage) { (_) in () }
+					}
+					loadingHUD.hide(animated: true)
+					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 
-						if self.isCalculationError == true {
-							HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
-								self.isCalculationError = false
-							}
-						} else {
-							if self.passedData.isNew == true {
-								self.isPresentSimpleResultNecessary = true
-								self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
-							}
-						}
+					if refreshControl.isRefreshing {
+						self.refreshControl.endRefreshing()
+					}
 				}
 			}
 
 		} else {
 			print("isPassedDataValid false")
 		}
-
-		if passedData.isNew == true {
-			Async.main {
-				self.performSegue(withIdentifier: SymptomSelectionViewController.SHOW_SYMPTOM_SELECTION_SEGUE_ID, sender: self)
-			}
-		}
-
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -406,6 +452,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		chartView.data?.highlightEnabled = false
 		chartView.setVisibleXRangeMinimum(100.0)
 		chartView.setVisibleXRangeMaximum(600.0)
+		Async.main {
+			self.chartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
+			self.chartView.zoom(scaleX: CGFloat(600/200), scaleY: 1, x: 0, y: 0)
+			self.chartView.moveViewToX(0)
+		}
 	}
 
 	func calculateECGData(_ inputValues: [Int], completion completionBlock: @escaping (Bool) -> Void) {

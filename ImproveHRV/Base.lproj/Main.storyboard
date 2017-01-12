@@ -129,6 +129,7 @@
                         <outlet property="chartView" destination="Oqo-Lm-mLq" id="AI6-OR-9bz"/>
                         <outlet property="debugTextView" destination="BYj-Ii-8jV" id="OVR-7r-VtH"/>
                         <outlet property="tableView" destination="Ack-wT-SzJ" id="giD-wD-3wp"/>
+                        <outlet property="upperSegmentedControl" destination="jrJ-Vp-lFy" id="de0-5J-Xfu"/>
                         <segue destination="ejo-Ys-Sy4" kind="presentation" identifier="showSymptomSelection" id="3iO-M0-ycj"/>
                         <segue destination="q9y-FK-bL3" kind="presentation" identifier="showSimpleResultView" id="XQE-mC-ecs"/>
                     </connections>
