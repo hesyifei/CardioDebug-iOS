@@ -166,7 +166,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		let xAxis = chartView.xAxis
-		xAxis.drawAxisLineEnabled = true
+		xAxis.drawAxisLineEnabled = false
 		xAxis.drawGridLinesEnabled = false
 		xAxis.labelPosition = .bottom
 		xAxis.valueFormatter = ChartDateToStringFormatter()
@@ -176,10 +176,28 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		var userSDNNDataEntries: [ChartDataEntry] = []
 		var userLFHFDataEntries: [ChartDataEntry] = []
 		var userAVNNDataEntries: [ChartDataEntry] = []
+
+		var LFHFUpperLimitDataEntries: [ChartDataEntry] = []
+		var LFHFLowerLimitDataEntries: [ChartDataEntry] = []
+
+		var AVNNUpperLimitDataEntries: [ChartDataEntry] = []
+		var AVNNLowerLimitDataEntries: [ChartDataEntry] = []
+
 		if let _ = tableData {
 			let values = tableData.reversed()
 			for (_, value) in values.enumerated() {
 				let time = Double(value.startDate.timeIntervalSinceReferenceDate)
+
+				let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 5)
+				LFHFUpperLimitDataEntries.append(LFHFUpperLimitDataEntry)
+				let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 2)
+				LFHFLowerLimitDataEntries.append(LFHFLowerLimitDataEntry)
+
+				let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 859)
+				AVNNUpperLimitDataEntries.append(AVNNUpperLimitDataEntry)
+				let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 818)
+				AVNNLowerLimitDataEntries.append(AVNNLowerLimitDataEntry)
+
 				if let SDNN = value.result["SDNN"] {
 					print("SDNN: \(SDNN) time: \(time)")
 					let userSDNNDataEntry = ChartDataEntry(x: time, y: SDNN)
@@ -204,25 +222,76 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let userLFHFDataSet = LineChartDataSet(values: userLFHFDataEntries, label: "Your LF/HF")
 		userLFHFDataSet.axisDependency = .left
-		userLFHFDataSet.colors = [StoredColor.darkRed]
+		userLFHFDataSet.colors = [StoredColor.middleBlue]
 		userLFHFDataSet.drawCirclesEnabled = true
 		userLFHFDataSet.circleRadius = 5
-		userLFHFDataSet.circleColors = [StoredColor.darkRed]
+		userLFHFDataSet.circleColors = [StoredColor.middleBlue]
 		userLFHFDataSet.mode = .cubicBezier
 		userLFHFDataSet.lineWidth = 2.0
-		userLFHFDataSet.highlightColor = UIColor.red
+		//userLFHFDataSet.highlightColor = UIColor.red
+		userLFHFDataSet.highlightEnabled = false
 
 		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
 		userAVNNDataSet.axisDependency = .right
-		userAVNNDataSet.colors = [StoredColor.middleBlue]
+		userAVNNDataSet.colors = [StoredColor.darkRed]
 		userAVNNDataSet.drawCirclesEnabled = true
 		userAVNNDataSet.circleRadius = 5
-		userAVNNDataSet.circleColors = [StoredColor.middleBlue]
+		userAVNNDataSet.circleColors = [StoredColor.darkRed]
 		userAVNNDataSet.mode = .cubicBezier
 		userAVNNDataSet.lineWidth = 2.0
 		userAVNNDataSet.highlightColor = UIColor.blue
+		userAVNNDataSet.highlightEnabled = false
 
-		let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet])
+
+		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: "")
+		LFHFUpperLimitDataSet.axisDependency = .left
+		LFHFUpperLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
+		LFHFUpperLimitDataSet.drawValuesEnabled = false
+		LFHFUpperLimitDataSet.drawCirclesEnabled = false
+		LFHFUpperLimitDataSet.mode = .linear
+		LFHFUpperLimitDataSet.lineWidth = 0.5
+		LFHFUpperLimitDataSet.highlightEnabled = false
+		/*LFHFUpperLimitDataSet.fillAlpha = 0.1
+		LFHFUpperLimitDataSet.fillColor = StoredColor.middleBlue
+		LFHFUpperLimitDataSet.drawFilledEnabled = true*/
+
+		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: "")
+		LFHFLowerLimitDataSet.axisDependency = .left
+		LFHFLowerLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
+		LFHFLowerLimitDataSet.drawValuesEnabled = false
+		LFHFLowerLimitDataSet.drawCirclesEnabled = false
+		LFHFLowerLimitDataSet.mode = .linear
+		LFHFLowerLimitDataSet.lineWidth = 0.5
+		LFHFLowerLimitDataSet.highlightEnabled = false
+		/*LFHFLowerLimitDataSet.fillAlpha = 1.0
+		LFHFLowerLimitDataSet.fillColor = UIColor.white
+		LFHFLowerLimitDataSet.drawFilledEnabled = true*/
+
+		let AVNNUpperLimitDataSet = LineChartDataSet(values: AVNNUpperLimitDataEntries, label: "")
+		AVNNUpperLimitDataSet.axisDependency = .right
+		AVNNUpperLimitDataSet.colors = [StoredColor.darkRed.withAlphaComponent(0.3)]
+		AVNNUpperLimitDataSet.drawValuesEnabled = false
+		AVNNUpperLimitDataSet.drawCirclesEnabled = false
+		AVNNUpperLimitDataSet.mode = .linear
+		AVNNUpperLimitDataSet.lineWidth = 0.5
+		AVNNUpperLimitDataSet.highlightEnabled = false
+		//AVNNUpperLimitDataSet.fillAlpha = 0.1
+		//AVNNUpperLimitDataSet.fillColor = StoredColor.darkRed
+		//AVNNUpperLimitDataSet.drawFilledEnabled = true
+
+		let AVNNLowerLimitDataSet = LineChartDataSet(values: AVNNLowerLimitDataEntries, label: "")
+		AVNNLowerLimitDataSet.axisDependency = .right
+		AVNNLowerLimitDataSet.colors = [StoredColor.darkRed.withAlphaComponent(0.3)]
+		AVNNLowerLimitDataSet.drawValuesEnabled = false
+		AVNNLowerLimitDataSet.drawCirclesEnabled = false
+		AVNNLowerLimitDataSet.mode = .linear
+		AVNNLowerLimitDataSet.lineWidth = 0.5
+		AVNNLowerLimitDataSet.highlightEnabled = false
+		//AVNNLowerLimitDataSet.fillAlpha = 1.0
+		//AVNNLowerLimitDataSet.fillColor = UIColor.white
+		//AVNNLowerLimitDataSet.drawFilledEnabled = true
+
+		let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
 		chartView.data = lineChartData
 	}
 
