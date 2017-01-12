@@ -16,6 +16,7 @@
 		ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6201DBC5A1100301D30 /* ResultViewController.swift */; };
 		ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */; };
 		ED952E821DCB8F6800D9B3ED /* RemedyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED952E811DCB8F6800D9B3ED /* RemedyListViewController.swift */; };
+		EDB3AD601E27AF91004A3016 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3AD5F1E27AF91004A3016 /* PaddingLabel.swift */; };
 		EDC031411E06CB0C002F2724 /* SimpleResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC031401E06CB0C002F2724 /* SimpleResultViewController.swift */; };
 		EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */; };
 		EDCF4C911DB9C858006A8045 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCF4C901DB9C858006A8045 /* RecordingViewController.swift */; };
@@ -83,6 +84,7 @@
 		ED86F6201DBC5A1100301D30 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		ED952E811DCB8F6800D9B3ED /* RemedyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemedyListViewController.swift; sourceTree = "<group>"; };
+		EDB3AD5F1E27AF91004A3016 /* PaddingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		EDC031401E06CB0C002F2724 /* SimpleResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleResultViewController.swift; sourceTree = "<group>"; };
 		EDCF4C8B1DB9C858006A8045 /* ImproveHRV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImproveHRV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			children = (
 				EDD34D4C1DC4CE6200698598 /* CircleView.swift */,
 				EDFA80A31DFA505100F53585 /* TriangleView.swift */,
+				EDB3AD5F1E27AF91004A3016 /* PaddingLabel.swift */,
 			);
 			name = "Supporting Views";
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				EDCF4C8F1DB9C858006A8045 /* AppDelegate.swift in Sources */,
 				EDE490E51DC77AC6000B5678 /* ECGData.swift in Sources */,
 				EDFA80A91DFAE77500F53585 /* BasicConfig.swift in Sources */,
+				EDB3AD601E27AF91004A3016 /* PaddingLabel.swift in Sources */,
 				EDC031411E06CB0C002F2724 /* SimpleResultViewController.swift in Sources */,
 				EDE490E71DC78964000B5678 /* RecordViewController.swift in Sources */,
 				ED2C5B511DD20BA700E6D3BD /* SymptomSelectionViewController.swift in Sources */,
