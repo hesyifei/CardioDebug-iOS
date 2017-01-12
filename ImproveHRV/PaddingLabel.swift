@@ -11,8 +11,10 @@ import Foundation
 
 @IBDesignable
 class PaddingLabel: UILabel {
+	static let padding: CGFloat = 10.0
+
 	override func drawText(in rect: CGRect) {
-		let insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+		let insets = UIEdgeInsets(top: 0, left: PaddingLabel.padding, bottom: 0, right: PaddingLabel.padding)
 		super.drawText(in: UIEdgeInsetsInsetRect(rect, insets))
 	}
 }
