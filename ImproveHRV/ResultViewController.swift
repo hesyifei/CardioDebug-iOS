@@ -392,6 +392,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let ecgRawDataSet = LineChartDataSet(values: dataEntries, label: nil)
 		ecgRawDataSet.colors = [UIColor.lightGray]
+		ecgRawDataSet.mode = .cubicBezier
 		ecgRawDataSet.drawCirclesEnabled = false
 
 
@@ -404,7 +405,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		chartView.data = lineChartData
 		chartView.data?.highlightEnabled = false
 		chartView.setVisibleXRangeMinimum(100.0)
-		chartView.setVisibleXRangeMaximum(800.0)
+		chartView.setVisibleXRangeMaximum(600.0)
 	}
 
 	func calculateECGData(_ inputValues: [Int], completion completionBlock: @escaping (Bool) -> Void) {

@@ -49,7 +49,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		self.tableView.sendSubview(toBack: refreshControl)
 
 
-		self.navigationItem.title = "Records"
+		self.navigationItem.title = "History"
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
@@ -125,7 +125,7 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		chartView.noDataText = "No chart data available."
 		chartView.chartDescription?.text = ""
 		chartView.pinchZoomEnabled = false
-		chartView.animate(xAxisDuration: 1.0)
+		//chartView.animate(xAxisDuration: 1.0)
 
 
 		let rightAxis = chartView.rightAxis
@@ -136,8 +136,8 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let leftAxis = chartView.leftAxis
 		leftAxis.drawLabelsEnabled = false
-		leftAxis.drawAxisLineEnabled = true
-		leftAxis.drawGridLinesEnabled = true
+		leftAxis.drawAxisLineEnabled = false
+		leftAxis.drawGridLinesEnabled = false
 
 
 		let xAxis = chartView.xAxis
@@ -149,18 +149,23 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 		var userSDNNDataEntries: [ChartDataEntry] = []
+		var userLFHFDataEntries: [ChartDataEntry] = []
 		var userAVNNDataEntries: [ChartDataEntry] = []
 		if let _ = tableData {
 			let values = tableData.reversed()
 			for (_, value) in values.enumerated() {
+				let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 				if let SDNN = value.result["SDNN"] {
-					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 					print("SDNN: \(SDNN) time: \(time)")
 					let userSDNNDataEntry = ChartDataEntry(x: time, y: SDNN)
 					userSDNNDataEntries.append(userSDNNDataEntry)
 				}
+				if let LFHF = value.result["LF/HF"] {
+					print("LFHF: \(LFHF) time: \(time)")
+					let userLFHFDataEntry = ChartDataEntry(x: time, y: LFHF)
+					userLFHFDataEntries.append(userLFHFDataEntry)
+				}
 				if let AVNN = value.result["AVNN"] {
-					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 					print("AVNN: \(AVNN) time: \(time)")
 					let userAVNNDataEntry = ChartDataEntry(x: time, y: AVNN)
 					userAVNNDataEntries.append(userAVNNDataEntry)
@@ -168,16 +173,27 @@ class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 		}
 
-		let userSDNNDataSet = LineChartDataSet(values: userSDNNDataEntries, label: "Your SDNN")
+		/*let userSDNNDataSet = LineChartDataSet(values: userSDNNDataEntries, label: "Your SDNN")
 		userSDNNDataSet.colors = [UIColor.gray]
-		userSDNNDataSet.drawCirclesEnabled = false
+		userSDNNDataSet.drawCirclesEnabled = false*/
+
+		let userLFHFDataSet = LineChartDataSet(values: userLFHFDataEntries, label: "Your LF/HF")
+		userLFHFDataSet.axisDependency = .left
+		userLFHFDataSet.colors = [UIColor(netHex: 0xba2e57)]
+		userLFHFDataSet.drawCirclesEnabled = false
+		userLFHFDataSet.mode = .cubicBezier
+		userLFHFDataSet.lineWidth = 2.0
+		userLFHFDataSet.highlightColor = UIColor.red
 
 		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
 		userAVNNDataSet.axisDependency = .right
-		userAVNNDataSet.colors = [UIColor.lightGray]
+		userAVNNDataSet.colors = [UIColor(netHex: 0x509ed4)]
 		userAVNNDataSet.drawCirclesEnabled = false
+		userAVNNDataSet.mode = .cubicBezier
+		userAVNNDataSet.lineWidth = 2.0
+		userAVNNDataSet.highlightColor = UIColor.blue
 
-		let lineChartData = LineChartData(dataSets: [userSDNNDataSet, userAVNNDataSet])
+		let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet])
 		chartView.data = lineChartData
 	}
 
