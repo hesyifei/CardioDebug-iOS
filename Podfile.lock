@@ -6,11 +6,11 @@ PODS:
   - Charts/Core (3.0.1)
   - Eureka (2.0.0-beta.1)
   - MBProgressHUD (1.0.0)
-  - Realm (2.1.1):
-    - Realm/Headers (= 2.1.1)
-  - Realm/Headers (2.1.1)
-  - RealmSwift (2.1.1):
-    - Realm (= 2.1.1)
+  - Realm (2.2.0):
+    - Realm/Headers (= 2.2.0)
+  - Realm/Headers (2.2.0)
+  - RealmSwift (2.2.0):
+    - Realm (= 2.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
@@ -26,9 +26,9 @@ SPEC CHECKSUMS:
   Charts: 0e84f4418e87dad6a9edde221fba37ebb51d3ba7
   Eureka: d014adf16406745e1a78d5790ea37ed130a0a8e5
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  Realm: a55959c0b171a5fe5267406d17f314fec3cefaae
-  RealmSwift: 749fd955bf8d6471c21d218b9389a47aaeccfe3f
+  Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
+  RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
 
 PODFILE CHECKSUM: 4ba81ef4097ee09869606532a5a4d670dd61eaed
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.1.1

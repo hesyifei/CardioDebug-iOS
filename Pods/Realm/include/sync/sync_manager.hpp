@@ -71,7 +71,6 @@ public:
 
     void set_log_level(util::Logger::Level) noexcept;
     void set_logger_factory(SyncLoggerFactory&) noexcept;
-    void set_error_handler(std::function<sync::Client::ErrorHandler>);
 
     /// Control whether the sync client attempts to reconnect immediately. Only set this to `true` for testing purposes.
     void set_client_should_reconnect_immediately(bool reconnect_immediately);
@@ -99,6 +98,8 @@ public:
     std::shared_ptr<SyncUser> get_existing_logged_in_user(const std::string& identity) const;
     // Get all the users that are logged in and not errored out.
     std::vector<std::shared_ptr<SyncUser>> all_logged_in_users() const;
+    // Gets the currently logged in user. If there are more than 1 users logged in, an exception is thrown.
+    std::shared_ptr<SyncUser> get_current_user() const;
 
     // Get the default path for a Realm for the given user and absolute unresolved URL.
     std::string path_for_realm(const std::string& user_identity, const std::string& raw_realm_url) const;
@@ -109,6 +110,7 @@ public:
     void reset_for_testing();
 
 private:
+    using ReconnectMode = sync::Client::ReconnectMode;
     void dropped_last_reference_to_session(SyncSession*);
 
     // Stop tracking the session for the given path if it is inactive.
@@ -120,8 +122,8 @@ private:
     SyncManager(const SyncManager&) = delete;
     SyncManager& operator=(const SyncManager&) = delete;
 
-    std::shared_ptr<_impl::SyncClient> get_sync_client() const;
-    std::shared_ptr<_impl::SyncClient> create_sync_client() const;
+    _impl::SyncClient& get_sync_client() const;
+    std::unique_ptr<_impl::SyncClient> create_sync_client() const;
 
     std::shared_ptr<SyncSession> get_existing_active_session_locked(const std::string& path) const;
     std::unique_ptr<SyncSession> get_existing_inactive_session_locked(const std::string& path);
@@ -131,8 +133,7 @@ private:
     // FIXME: Should probably be util::Logger::Level::error
     util::Logger::Level m_log_level = util::Logger::Level::info;
     SyncLoggerFactory* m_logger_factory = nullptr;
-    std::function<sync::Client::ErrorHandler> m_error_handler;
-    sync::Client::Reconnect m_client_reconnect_mode = sync::Client::Reconnect::normal;
+    ReconnectMode m_client_reconnect_mode = ReconnectMode::normal;
     bool m_client_validate_ssl = true;
 
     // Protects m_users
@@ -141,7 +142,7 @@ private:
     // A map of user identities to (shared pointers to) SyncUser objects.
     std::unordered_map<std::string, std::shared_ptr<SyncUser>> m_users;
 
-    mutable std::shared_ptr<_impl::SyncClient> m_sync_client;
+    mutable std::unique_ptr<_impl::SyncClient> m_sync_client;
 
     // Protects m_active_sessions and m_inactive_sessions
     mutable std::mutex m_session_mutex;

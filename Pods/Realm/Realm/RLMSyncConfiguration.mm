@@ -27,17 +27,25 @@
 #import "sync/sync_manager.hpp"
 #import "sync/sync_config.hpp"
 
+#import <realm/sync/protocol.hpp>
+
 using namespace realm;
 
 namespace {
-RLMSyncSessionErrorKind errorKindForSessionError(SyncSessionError error) {
-    switch (error) {
-        case SyncSessionError::AccessDenied:    return RLMSyncSessionErrorKindAccessDenied;
-        case SyncSessionError::Debug:           return RLMSyncSessionErrorKindDebug;
-        case SyncSessionError::SessionFatal:    return RLMSyncSessionErrorKindSessionFatal;
-        case SyncSessionError::UserFatal:       return RLMSyncSessionErrorKindUserFatal;
+using ProtocolError = realm::sync::ProtocolError;
+
+RLMSyncSystemErrorKind errorKindForSyncError(SyncError error) {
+    if (error.error_code == ProtocolError::bad_authentication) {
+        return RLMSyncSystemErrorKindUser;
+    } else if (error.is_session_level_protocol_error()) {
+        return RLMSyncSystemErrorKindSession;
+    } else if (error.is_connection_level_protocol_error()) {
+        return RLMSyncSystemErrorKindConnection;
+    } else if (error.is_client_error()) {
+        return RLMSyncSystemErrorKindClient;
+    } else {
+        return RLMSyncSystemErrorKindUnknown;
     }
-    REALM_UNREACHABLE();
 }
 }
 
@@ -61,6 +69,8 @@ static BOOL isValidRealmURL(NSURL *url) {
 @end
 
 @implementation RLMSyncConfiguration
+
+@dynamic stopPolicy;
 
 - (instancetype)initWithRawConfig:(realm::SyncConfig)config {
     if (self = [super init]) {
@@ -89,6 +99,10 @@ static BOOL isValidRealmURL(NSURL *url) {
 
 - (RLMSyncStopPolicy)stopPolicy {
     return translateStopPolicy(_config->stop_policy);
+}
+
+- (void)setStopPolicy:(RLMSyncStopPolicy)stopPolicy {
+    _config->stop_policy = translateStopPolicy(stopPolicy);
 }
 
 - (NSURL *)realmURL {
@@ -124,14 +138,14 @@ static BOOL isValidRealmURL(NSURL *url) {
         };
         if (!errorHandler) {
             errorHandler = [=](std::shared_ptr<SyncSession> errored_session,
-                               int error_code,
-                               std::string message,
-                               realm::SyncSessionError error_type) {
+                               SyncError error) {
                 RLMSyncSession *session = [[RLMSyncSession alloc] initWithSyncSession:errored_session];
-                [[RLMSyncManager sharedManager] _fireErrorWithCode:error_code
-                                                           message:@(message.c_str())
+                // FIXME: how should the binding respond if the `is_fatal` bool is true?
+                [[RLMSyncManager sharedManager] _fireErrorWithCode:error.error_code.value()
+                                                           message:@(error.message.c_str())
+                                                           isFatal:error.is_fatal
                                                            session:session
-                                                        errorClass:errorKindForSessionError(error_type)];
+                                                        errorClass:errorKindForSyncError(error)];
             };
         }
 

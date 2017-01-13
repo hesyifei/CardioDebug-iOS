@@ -22,6 +22,7 @@
 #include "sync/sync_manager.hpp"
 #include "sync/sync_user.hpp"
 
+#include <realm/sync/client.hpp>
 #include <realm/sync/protocol.hpp>
 
 using namespace realm;
@@ -211,15 +212,7 @@ struct sync_session_states::Dying : public SyncSession::State {
     void enter_state(std::unique_lock<std::mutex>&, SyncSession& session) const override
     {
         size_t current_death_count = ++session.m_death_count;
-        session.m_session->async_wait_for_upload_completion([session=&session, current_death_count](std::error_code error_code) {
-            if (error_code == util::error::operation_aborted) {
-                // Session was killed beneath us. Don't do anything.
-                return;
-            }
-            // FIXME: It's possible for the session to be destroyed while the callback is running,
-            // which is something we should address in the future. It is only possible when 
-            // SyncManager::reset_for_testing() is called.
-            // c.f. https://github.com/realm/realm-object-store/issues/269
+        session.m_session->async_wait_for_upload_completion([session=&session, current_death_count](std::error_code) {
             std::unique_lock<std::mutex> lock(session->m_state_mutex);
             if (session->m_state == &State::dying && session->m_death_count == current_death_count) {
                 session->advance_state(lock, inactive);
@@ -284,20 +277,20 @@ const SyncSession::State& SyncSession::State::inactive = Inactive();
 const SyncSession::State& SyncSession::State::error = Error();
 
 
-SyncSession::SyncSession(std::shared_ptr<SyncClient> client, std::string realm_path, SyncConfig config)
+SyncSession::SyncSession(SyncClient& client, std::string realm_path, SyncConfig config)
 : m_state(&State::inactive)
 , m_config(std::move(config))
 , m_realm_path(std::move(realm_path))
-, m_client(std::move(client)) { }
+, m_client(client) { }
 
 void SyncSession::create_sync_session()
 {
     REALM_ASSERT(!m_session);
-    m_session = std::make_unique<sync::Session>(m_client->client, m_realm_path);
+    m_session = std::make_unique<sync::Session>(m_client.client, m_realm_path);
 
     // Set up the wrapped handler
     std::weak_ptr<SyncSession> weak_self = shared_from_this();
-    auto wrapped_handler = [this, weak_self](int error_code, std::string message) {
+    auto wrapped_handler = [this, weak_self](std::error_code error_code, bool is_fatal, std::string message) {
         auto self = weak_self.lock();
         if (!self) {
             // An error was delivered after the session it relates to was destroyed. There's nothing useful
@@ -305,73 +298,99 @@ void SyncSession::create_sync_session()
             return;
         }
 
-        using ProtocolError = realm::sync::ProtocolError;
+        SyncError error{error_code, std::move(message), is_fatal};
+        bool should_invalidate_session = is_fatal;
 
-        SyncSessionError error_type = SyncSessionError::Debug;
-        // Precondition: error_code is a valid realm::sync::Error raw value.
-        ProtocolError strong_code = static_cast<ProtocolError>(error_code);
-
-        switch (strong_code) {
-            // Client errors; all ignored (for now)
-            case ProtocolError::invalid_error:
-            case ProtocolError::connection_closed:
-            case ProtocolError::other_error:
-            case ProtocolError::unknown_message:
-            case ProtocolError::bad_syntax:
-            case ProtocolError::limits_exceeded:
-            case ProtocolError::wrong_protocol_version:
-            case ProtocolError::bad_session_ident:
-            case ProtocolError::reuse_of_session_ident:
-            case ProtocolError::bound_in_other_session:
-            case ProtocolError::bad_message_order:
-                return;
-            // Session errors
-            case ProtocolError::disabled_session:
-            case ProtocolError::session_closed:
-            case ProtocolError::other_session_error:
-                // The binding doesn't need to be aware of these because they are strictly informational, and do not
-                // represent actual errors.
-                return;
-            case ProtocolError::token_expired: {
-                std::unique_lock<std::mutex> lock(m_state_mutex);
-                // This isn't an error from the binding's point of view. If we're connected we'll
-                // simply ask the binding to log in again.
-                m_state->access_token_expired(lock, *this);
-                return;
-            }
-            case ProtocolError::bad_authentication: {
-                std::shared_ptr<SyncUser> user_to_invalidate;
-                {
+        if (error_code.category() == realm::sync::protocol_error_category()) {
+            using ProtocolError = realm::sync::ProtocolError;
+            switch (static_cast<ProtocolError>(error_code.value())) {
+                // Connection level errors
+                case ProtocolError::connection_closed:
+                case ProtocolError::other_error:
+                    // Not real errors, don't need to be reported to the binding.
+                    return;
+                case ProtocolError::unknown_message:
+                case ProtocolError::bad_syntax:
+                case ProtocolError::limits_exceeded:
+                case ProtocolError::wrong_protocol_version:
+                case ProtocolError::bad_session_ident:
+                case ProtocolError::reuse_of_session_ident:
+                case ProtocolError::bound_in_other_session:
+                case ProtocolError::bad_message_order:
+                    break;
+                // Session errors
+                case ProtocolError::session_closed:
+                case ProtocolError::other_session_error:
+                case ProtocolError::disabled_session:
+                    // The binding doesn't need to be aware of these because they are strictly informational, and do not
+                    // represent actual errors.
+                    return;
+                case ProtocolError::token_expired: {
                     std::unique_lock<std::mutex> lock(m_state_mutex);
-                    error_type = SyncSessionError::UserFatal;
-                    user_to_invalidate = user();
-                    advance_state(lock, State::error);
+                    // This isn't an error from the binding's point of view. If we're connected we'll
+                    // simply ask the binding to log in again.
+                    m_state->access_token_expired(lock, *this);
+                    return;
                 }
-                if (user_to_invalidate)
-                    user_to_invalidate->invalidate();
-                break;
+                case ProtocolError::bad_authentication: {
+                    std::shared_ptr<SyncUser> user_to_invalidate;
+                    should_invalidate_session = false;
+                    {
+                        std::unique_lock<std::mutex> lock(m_state_mutex);
+                        user_to_invalidate = user();
+                        advance_state(lock, State::error);
+                    }
+                    if (user_to_invalidate)
+                        user_to_invalidate->invalidate();
+                    break;
+                }
+                case ProtocolError::illegal_realm_path:
+                case ProtocolError::no_such_realm:
+                case ProtocolError::permission_denied:
+                case ProtocolError::bad_server_file_ident:
+                case ProtocolError::bad_client_file_ident:
+                case ProtocolError::bad_server_version:
+                case ProtocolError::bad_client_version:
+                case ProtocolError::diverging_histories:
+                case ProtocolError::bad_changeset:
+                    break;
             }
-            case ProtocolError::illegal_realm_path:
-            case ProtocolError::no_such_realm:
-            case ProtocolError::bad_server_file_ident:
-            case ProtocolError::diverging_histories:
-            case ProtocolError::bad_changeset: {
-                std::unique_lock<std::mutex> lock(m_state_mutex);
-                error_type = SyncSessionError::SessionFatal;
-                advance_state(lock, State::error);
-                break;
+        } else if (error_code.category() == realm::sync::client_error_category()) {
+            using ClientError = realm::sync::Client::Error;
+            switch (static_cast<ClientError>(error_code.value())) {
+                case ClientError::connection_closed:
+                    // Not real errors, don't need to be reported to the binding.
+                    return;
+                case ClientError::unknown_message:
+                case ClientError::bad_syntax:
+                case ClientError::limits_exceeded:
+                case ClientError::bad_session_ident:
+                case ClientError::bad_message_order:
+                case ClientError::bad_file_ident_pair:
+                case ClientError::bad_progress:
+                case ClientError::bad_changeset_header_syntax:
+                case ClientError::bad_changeset_size:
+                case ClientError::bad_origin_file_ident:
+                case ClientError::bad_server_version:
+                case ClientError::bad_changeset:
+                case ClientError::bad_request_ident:
+                case ClientError::bad_error_code:
+                    // Don't do anything special for these errors.
+                    // Future functionality may require special-case handling for existing
+                    // errors, or newly introduced error codes.
+                    break;
             }
-            case ProtocolError::permission_denied:
-                error_type = SyncSessionError::AccessDenied;
-                break;
-            case ProtocolError::bad_client_file_ident:
-            case ProtocolError::bad_server_version:
-            case ProtocolError::bad_client_version:
-                error_type = SyncSessionError::Debug;
-                break;
+        } else {
+            // Unrecognized error code; just ignore it.
+            return;
+        }
+        
+        if (should_invalidate_session) {
+            std::unique_lock<std::mutex> lock(m_state_mutex);
+            advance_state(lock, State::error);
         }
         if (m_error_handler) {
-            m_error_handler(std::move(self), error_code, message, error_type);
+            m_error_handler(std::move(self), std::move(error));
         }
     };
     m_session->set_error_handler(std::move(wrapped_handler));
