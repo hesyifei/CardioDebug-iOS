@@ -17,11 +17,13 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Home-->
+        <!--Navigation Controller-->
         <scene sceneID="2jp-VL-KMS">
             <objects>
                 <navigationController id="R8L-wK-Rbr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="TabBarIcon-Heart" selectedImage="TabBarIcon-Heart-Filled" id="tRg-qa-ja0"/>
+                    <tabBarItem key="tabBarItem" title="" image="TabBarIcon-Heart" selectedImage="TabBarIcon-Heart-Filled" id="tRg-qa-ja0">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oo3-9X-Vos">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -451,11 +453,13 @@
             </objects>
             <point key="canvasLocation" x="-746.39999999999998" y="115.59220389805098"/>
         </scene>
-        <!--History-->
+        <!--Navigation Controller-->
         <scene sceneID="mTm-5x-mf4">
             <objects>
                 <navigationController id="1zp-W8-5gP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="History" image="TabBarIcon-List" id="V1W-96-hJu"/>
+                    <tabBarItem key="tabBarItem" title="" image="TabBarIcon-List" id="V1W-96-hJu">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D2I-FX-Iff">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -480,31 +484,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Avb-MG-jK9">
-                                <rect key="frame" x="0.0" y="64" width="375" height="400"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Ke-he-hue" userLabel="Outer View">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l2a-d7-fPz">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="443"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-c7-Jot" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="443" width="375" height="111"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1mU-yI-51J" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="464" width="375" height="154"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="l2a-d7-fPz" firstAttribute="leading" secondItem="8Ke-he-hue" secondAttribute="leading" id="49l-57-dPv"/>
+                                    <constraint firstItem="NZ1-c7-Jot" firstAttribute="top" secondItem="l2a-d7-fPz" secondAttribute="bottom" id="CAD-Pn-ANN"/>
+                                    <constraint firstAttribute="trailing" secondItem="NZ1-c7-Jot" secondAttribute="trailing" id="Dey-d3-aFG"/>
+                                    <constraint firstItem="l2a-d7-fPz" firstAttribute="height" secondItem="8Ke-he-hue" secondAttribute="height" multiplier="0.8" id="KXN-lV-oqz"/>
+                                    <constraint firstItem="NZ1-c7-Jot" firstAttribute="leading" secondItem="8Ke-he-hue" secondAttribute="leading" id="LWu-0l-FPz"/>
+                                    <constraint firstAttribute="trailing" secondItem="NZ1-c7-Jot" secondAttribute="trailing" id="N2P-hP-b8n"/>
+                                    <constraint firstAttribute="trailing" secondItem="l2a-d7-fPz" secondAttribute="trailing" id="Q16-je-4vu"/>
+                                    <constraint firstAttribute="trailing" secondItem="l2a-d7-fPz" secondAttribute="trailing" id="d3W-el-lDh"/>
+                                    <constraint firstAttribute="bottom" secondItem="NZ1-c7-Jot" secondAttribute="bottom" id="pQG-4b-iY9"/>
+                                    <constraint firstItem="NZ1-c7-Jot" firstAttribute="leading" secondItem="8Ke-he-hue" secondAttribute="leading" id="qQA-eC-wls"/>
+                                    <constraint firstItem="l2a-d7-fPz" firstAttribute="leading" secondItem="8Ke-he-hue" secondAttribute="leading" id="vde-4M-4TK"/>
+                                    <constraint firstItem="l2a-d7-fPz" firstAttribute="top" secondItem="8Ke-he-hue" secondAttribute="top" id="xxN-aq-OcZ"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1mU-yI-51J" firstAttribute="leading" secondItem="BIu-P9-KbP" secondAttribute="leading" id="05Z-RK-2Xh"/>
-                            <constraint firstAttribute="trailing" secondItem="Avb-MG-jK9" secondAttribute="trailing" id="8z4-po-mH1"/>
-                            <constraint firstItem="Avb-MG-jK9" firstAttribute="height" secondItem="BIu-P9-KbP" secondAttribute="height" multiplier="0.6" id="BNO-gv-eYC"/>
-                            <constraint firstItem="1mU-yI-51J" firstAttribute="top" secondItem="Avb-MG-jK9" secondAttribute="bottom" id="Cig-Vd-anT"/>
-                            <constraint firstItem="P9F-fD-Rg2" firstAttribute="top" secondItem="1mU-yI-51J" secondAttribute="bottom" id="PBn-rs-pac"/>
-                            <constraint firstAttribute="trailing" secondItem="1mU-yI-51J" secondAttribute="trailing" id="cQq-xd-PRK"/>
-                            <constraint firstItem="Avb-MG-jK9" firstAttribute="leading" secondItem="BIu-P9-KbP" secondAttribute="leading" id="cZ5-zf-PZO"/>
-                            <constraint firstItem="Avb-MG-jK9" firstAttribute="top" secondItem="YNK-8B-FgW" secondAttribute="bottom" id="mHc-tH-qrR"/>
+                            <constraint firstItem="8Ke-he-hue" firstAttribute="leading" secondItem="BIu-P9-KbP" secondAttribute="leading" id="26P-zd-33z"/>
+                            <constraint firstItem="8Ke-he-hue" firstAttribute="leading" secondItem="BIu-P9-KbP" secondAttribute="leading" id="H0B-rg-k0L"/>
+                            <constraint firstAttribute="trailing" secondItem="8Ke-he-hue" secondAttribute="trailing" id="HO2-AX-nNR"/>
+                            <constraint firstItem="P9F-fD-Rg2" firstAttribute="top" secondItem="8Ke-he-hue" secondAttribute="bottom" id="IgR-IQ-pzq"/>
+                            <constraint firstItem="8Ke-he-hue" firstAttribute="top" secondItem="YNK-8B-FgW" secondAttribute="bottom" id="L8P-qF-8FZ"/>
+                            <constraint firstItem="P9F-fD-Rg2" firstAttribute="top" secondItem="8Ke-he-hue" secondAttribute="bottom" id="Rjw-CB-HhV"/>
+                            <constraint firstAttribute="trailing" secondItem="8Ke-he-hue" secondAttribute="trailing" id="asg-y2-zvg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2Nd-hy-NnI"/>
                     <connections>
-                        <outlet property="chartView" destination="1mU-yI-51J" id="z89-fg-71D"/>
-                        <outlet property="tableView" destination="Avb-MG-jK9" id="qvC-F2-pIx"/>
+                        <outlet property="chartView" destination="NZ1-c7-Jot" id="LxR-1X-ybz"/>
+                        <outlet property="tableView" destination="l2a-d7-fPz" id="cav-OD-oGE"/>
                         <segue destination="Whc-jM-XXx" kind="show" identifier="showResult" id="AVZ-sP-xzk"/>
                     </connections>
                 </viewController>
@@ -591,10 +614,31 @@
             </objects>
             <point key="canvasLocation" x="-746.39999999999998" y="1513.4932533733136"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--View Controller-->
+        <scene sceneID="3QG-dp-2KV">
+            <objects>
+                <viewController storyboardIdentifier="NewButtonHolderView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="TqD-i2-78M" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6Yx-sj-Ro2"/>
+                        <viewControllerLayoutGuide type="bottom" id="tud-tw-smB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uH9-jt-lS5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="TabBarIcon-Add" id="crf-NK-bqE">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dIn-ft-vlf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3156" y="493"/>
+        </scene>
+        <!--Custom Tab Bar Controller-->
         <scene sceneID="vAa-km-jhw">
             <objects>
-                <tabBarController id="8tx-PJ-9Ej" sceneMemberID="viewController">
+                <tabBarController id="8tx-PJ-9Ej" customClass="CustomTabBarController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="UjA-sD-hde">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -602,6 +646,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="R8L-wK-Rbr" kind="relationship" relationship="viewControllers" id="Gwk-ib-6oh"/>
+                        <segue destination="TqD-i2-78M" kind="relationship" relationship="viewControllers" id="R0R-gt-44A"/>
                         <segue destination="1zp-W8-5gP" kind="relationship" relationship="viewControllers" id="OI6-R8-NLG"/>
                     </connections>
                 </tabBarController>
@@ -735,6 +780,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="TabBarIcon-Add" width="30" height="30"/>
         <image name="TabBarIcon-Heart" width="30" height="30"/>
         <image name="TabBarIcon-Heart-Filled" width="30" height="30"/>
         <image name="TabBarIcon-List" width="30" height="30"/>

@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "TabBarIcon-Heart-Filled-25.png",
+      "filename" : "TabBarIcon-Heart-Filled-30.png",
       "scale" : "1x"
     },
     {
@@ -12,7 +12,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "TabBarIcon-Heart-Filled-100.png",
+      "filename" : "TabBarIcon-Heart-Filled-90.png",
       "scale" : "3x"
     }
   ],

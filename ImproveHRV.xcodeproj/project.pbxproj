@@ -31,6 +31,7 @@
 		EDE490DE1DC76130000B5678 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490DD1DC76130000B5678 /* SettingsViewController.swift */; };
 		EDE490E51DC77AC6000B5678 /* ECGData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490E41DC77AC6000B5678 /* ECGData.swift */; };
 		EDE490E71DC78964000B5678 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490E61DC78964000B5678 /* RecordViewController.swift */; };
+		EDF4A4F51E2923E700947B30 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF4A4F41E2923E700947B30 /* CustomTabBarController.swift */; };
 		EDFA80A41DFA505200F53585 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A31DFA505100F53585 /* TriangleView.swift */; };
 		EDFA80A61DFA86F300F53585 /* ActivityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A51DFA86F300F53585 /* ActivityData.swift */; };
 		EDFA80A91DFAE77500F53585 /* BasicConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A81DFAE77500F53585 /* BasicConfig.swift */; };
@@ -103,6 +104,7 @@
 		EDE490DD1DC76130000B5678 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EDE490E41DC77AC6000B5678 /* ECGData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECGData.swift; sourceTree = "<group>"; };
 		EDE490E61DC78964000B5678 /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		EDF4A4F41E2923E700947B30 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		EDFA80A31DFA505100F53585 /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		EDFA80A51DFA86F300F53585 /* ActivityData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityData.swift; sourceTree = "<group>"; };
 		EDFA80A81DFAE77500F53585 /* BasicConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicConfig.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				EDD34D4C1DC4CE6200698598 /* CircleView.swift */,
 				EDFA80A31DFA505100F53585 /* TriangleView.swift */,
 				EDB3AD5F1E27AF91004A3016 /* PaddingLabel.swift */,
+				EDF4A4F41E2923E700947B30 /* CustomTabBarController.swift */,
 			);
 			name = "Supporting Views";
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				EDFA80A91DFAE77500F53585 /* BasicConfig.swift in Sources */,
 				EDB3AD601E27AF91004A3016 /* PaddingLabel.swift in Sources */,
 				EDC031411E06CB0C002F2724 /* SimpleResultViewController.swift in Sources */,
+				EDF4A4F51E2923E700947B30 /* CustomTabBarController.swift in Sources */,
 				EDE490E71DC78964000B5678 /* RecordViewController.swift in Sources */,
 				ED2C5B511DD20BA700E6D3BD /* SymptomSelectionViewController.swift in Sources */,
 				ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */,
