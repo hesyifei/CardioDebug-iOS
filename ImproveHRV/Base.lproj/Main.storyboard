@@ -22,7 +22,7 @@
             <objects>
                 <navigationController id="R8L-wK-Rbr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="TabBarIcon-Heart" selectedImage="TabBarIcon-Heart-Filled" id="tRg-qa-ja0">
-                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oo3-9X-Vos">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

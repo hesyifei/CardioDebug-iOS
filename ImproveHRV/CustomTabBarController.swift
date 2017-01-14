@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 
+// TODO: its not vertically center on iPad?
 class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 	override func viewDidLoad() {
 		self.delegate = self
