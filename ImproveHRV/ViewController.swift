@@ -69,7 +69,7 @@ class ViewController: UIViewController {
 		}
 
 
-		self.navigationItem.title = "Debug ANS"
+		self.navigationItem.title = "Cardio Debug"
 
 		if let navController = self.navigationController {
 			// http://stackoverflow.com/a/18969325/2603230
