@@ -19,5 +19,6 @@ class BasicConfig {
 
 class StoredColor {
 	static let middleBlue = UIColor(netHex: 0x2d7eb9)
+	static let darkGreen = UIColor(netHex: 0x19672c)
 	static let darkRed = UIColor(netHex: 0xba2e57)
 }

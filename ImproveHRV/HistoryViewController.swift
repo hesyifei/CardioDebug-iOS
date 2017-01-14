@@ -17,12 +17,18 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	@IBOutlet var tableView: UITableView!
 	@IBOutlet var chartView: LineChartView!
 
+	// MARK: - basic var
+	let application = UIApplication.shared
+	let defaults = UserDefaults.standard
+
+
 	var refreshControl: UIRefreshControl!
 
 	var realm: Realm!
 
 	var tableData: [Any]!
 	var ecgData: [ECGData]!
+	var activityData: [ActivityData]!
 
 	let cellID = "HistoryCell"
 	var tagIDs: [String: Int] = [:]               // 謹記不能為0（否則於cell.tag重複）或小於100（可能於其後cell.tag設置後重複）
@@ -105,8 +111,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						passedData.isNew = false
 
 						destination.passedData = passedData
-
-						self.tableView.deselectRow(at: indexPath, animated: true)
 					}
 				}
 			}
@@ -124,11 +128,27 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	}
 
 	func refreshData() {
-		let allECGData = realm.objects(ECGData.self).sorted(byProperty: "startDate", ascending: false)
+		let allECGData = realm.objects(ECGData.self).sorted(byKeyPath: "startDate", ascending: false)
 		//print(allECGData)
-
 		ecgData = Array(allECGData)
-		tableData = ecgData
+
+		let allActivityData = realm.objects(ActivityData.self).sorted(byKeyPath: "startDate", ascending: false)
+		//print(allActivityData)
+		activityData = Array(allActivityData)
+
+		var allDataWithTimeDict = [Date: Any]()
+		for eachECGData in ecgData {
+			allDataWithTimeDict[eachECGData.startDate] = eachECGData
+		}
+		for eachActivityData in activityData {
+			allDataWithTimeDict[eachActivityData.startDate] = eachActivityData
+		}
+
+		// http://stackoverflow.com/a/29552821/2603230
+		let sortedDictWithValueAndKey = allDataWithTimeDict.sorted{ $0.0.compare($1.0) == .orderedDescending}
+		// http://stackoverflow.com/a/31845495/2603230
+		let resultantArray = sortedDictWithValueAndKey.map { $0.value }
+		tableData = resultantArray
 
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 
@@ -408,7 +428,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .leading, relatedBy: .equal, toItem: rightView, attribute: .leading, multiplier: 1.0, constant: 0.0))
 			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .top, relatedBy: .equal, toItem: rightView, attribute: .top, multiplier: 1.0, constant: 0.0))
 			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .height, relatedBy: .equal, toItem: rightView, attribute: .height, multiplier: 0.6, constant: 0.0))
-			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .width, relatedBy: .equal, toItem: rightView, attribute: .width, multiplier: 0.5, constant: 0.0))
+			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .width, relatedBy: .equal, toItem: rightView, attribute: .width, multiplier: 0.7, constant: 0.0))
 
 
 			/** lowerLeftLabel 開始 **/
@@ -459,7 +479,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		let row = indexPath.row
 		cell.tag = section*1000 + row
 
+		var upperLeftFontSize: CGFloat = 20.0
+		var upperLeftColor = UIColor.black
 		var upperLeftText = "[...]"
+		var upperRightFontSize: CGFloat = 20.0
 		var upperRightText = "[...]"
 		var lowerLeftText = "[...]"
 
@@ -475,17 +498,42 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			}
 			lowerLeftText = "\(DateFormatter.localizedString(from: cellECGData.startDate, dateStyle: .short, timeStyle: .short))"
 
+			upperLeftColor = StoredColor.middleBlue
 
 			if let iconImage = UIImage(named: "CellIcon-ECG") {
 				leftmostImageView.image = iconImage
 			}
+		} else if let cellActivityData = tableData[row] as? ActivityData {
+			let cellActivityId = cellActivityData.id
+			if let data = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
+				if let activityData = data[cellActivityId] as? [String: Any] {
+					if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
+						upperLeftText = "\(title)"
+
+						let duration = cellActivityData.endDate.timeIntervalSince(cellActivityData.startDate)
+						let (h, m, _) = HelperFunctions.secondsToHoursMinutesSeconds(Int(duration))
+						if h > 0 {
+							upperRightText = String(format: "%d h %d min", h, m)
+						} else {
+							upperRightText = String(format: "%d min", m)
+						}
+
+						if let iconImage = icon.imageFromEmoji() {
+							leftmostImageView.image = iconImage
+						}
+					}
+				}
+			}
+			lowerLeftText = "\(DateFormatter.localizedString(from: cellActivityData.startDate, dateStyle: .short, timeStyle: .short))"
+
+			upperLeftColor = StoredColor.darkGreen
 		}
 
 
-		upperLeftLabel.textColor = StoredColor.middleBlue
-		upperLeftLabel.font = UIFont(name: (upperLeftLabel.font?.fontName)!, size: 20.0)
+		upperLeftLabel.textColor = upperLeftColor
+		upperLeftLabel.font = UIFont(name: (upperLeftLabel.font?.fontName)!, size: upperLeftFontSize)
 		lowerLeftLabel.textColor = UIColor(netHex: 0x8e9092)
-		upperRightLabel.font = UIFont(name: (upperRightLabel.font?.fontName)!, size: 20.0)
+		upperRightLabel.font = UIFont(name: (upperRightLabel.font?.fontName)!, size: upperRightFontSize)
 
 
 		upperLeftLabel.text = upperLeftText
@@ -502,7 +550,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+		if let _ = tableData[indexPath.row] as? ECGData {
+			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+		}
 		self.tableView.deselectRow(at: indexPath, animated: true)
 	}
 

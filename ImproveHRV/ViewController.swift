@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 
 	// MARK: - static var
 	static let DEFAULTS_ACTIVITY_START_DATE = "activityStartDate"
-	static let DEFAULTS_ACTIVITY_END_DATE = "activityEndDate"
+	static let DEFAULTS_ACTIVITY_END_DATE = "activityEndDate"		// maybe it's useless?
 
 	// MARK: - basic var
 	let application = UIApplication.shared
@@ -149,12 +149,12 @@ class ViewController: UIViewController {
 					startButtonEnabled = false
 					finishButtonEnabled = true
 				}
-				if let endDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_END_DATE) as? Date {
+				/*if let endDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_END_DATE) as? Date {
 					if (HelperFunctions.isDateSameDay(startDate, endDate)) && (HelperFunctions.isDateSameDay(startDate, Date())) {
-						startButtonEnabled = false
-						finishButtonEnabled = false
+						//startButtonEnabled = false
+						//finishButtonEnabled = false
 					}
-				}
+				}*/
 			}
 			upperButton.isEnabled = startButtonEnabled
 			middleButton.isEnabled = finishButtonEnabled
@@ -211,10 +211,7 @@ class ViewController: UIViewController {
 		if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date, let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
 			let endDate = Date()
 			if HelperFunctions.isDateSameDay(startDate, endDate) {
-				upperButton.isEnabled = false
-				middleButton.isEnabled = false
-				defaults.set(Date(), forKey: Self.DEFAULTS_ACTIVITY_END_DATE)
-				showHudWithImage(text: "Recorded", imageName: "Checkmark")
+				defaults.set(endDate, forKey: Self.DEFAULTS_ACTIVITY_END_DATE)
 
 				let realm = try! Realm()
 				let activityData = ActivityData()
@@ -224,6 +221,14 @@ class ViewController: UIViewController {
 				try! realm.write {
 					realm.add(activityData)
 				}
+
+				defaults.set(Date(timeIntervalSinceReferenceDate: 0), forKey: Self.DEFAULTS_ACTIVITY_START_DATE)
+				defaults.set(Date(timeIntervalSinceReferenceDate: 1), forKey: Self.DEFAULTS_ACTIVITY_END_DATE)
+
+				showHudWithImage(text: "Recorded", imageName: "Checkmark")
+
+				upperButton.isEnabled = true
+				middleButton.isEnabled = false
 			}
 		}
 	}

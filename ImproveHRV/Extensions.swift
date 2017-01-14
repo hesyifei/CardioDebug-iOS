@@ -106,3 +106,19 @@ extension UITextView {
 		}
 	}
 }
+
+
+// http://stackoverflow.com/a/38809531/2603230
+extension String {
+	func imageFromEmoji() -> UIImage? {
+		let size = CGSize(width: 60, height: 70)
+		UIGraphicsBeginImageContextWithOptions(size, false, 0)
+		UIColor.clear.set()
+		let rect = CGRect(origin: CGPoint(), size: size)
+		UIRectFill(CGRect(origin: CGPoint(), size: size))
+		(self as NSString).draw(in: rect, withAttributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 60)])
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		return image
+	}
+}
