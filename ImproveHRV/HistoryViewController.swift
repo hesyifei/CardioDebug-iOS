@@ -458,9 +458,13 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 		let result = tableData[row].result
 		var cellText = "[...]"
+		var rightCellText = "[...]"
 		if !result.isEmpty {
 			if let LFHF = result["LF/HF"] {
 				cellText = "LF/HF: \(String(format:"%.2f", LFHF))"
+			}
+			if let averageBpm = result["AvgHR"] {
+				rightCellText = "\(String(format:"%.0f", averageBpm)) bpm"
 			}
 		}
 
@@ -478,7 +482,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 		upperLeftLabel.text = cellText
 		lowerLeftLabel.text = "\(DateFormatter.localizedString(from: tableData[indexPath.row].startDate, dateStyle: .short, timeStyle: .short))"
-		upperRightLabel.text = "upperRightLabel"
+		upperRightLabel.text = rightCellText
 
 		/*** 修改數據結束 ***/
 
