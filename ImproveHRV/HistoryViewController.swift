@@ -459,8 +459,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		let result = tableData[row].result
 		var cellText = "[...]"
 		if !result.isEmpty {
-			if let SDNN = result["SDNN"] {
-				cellText = "SDNN: \(String(format:"%.2f", SDNN))ms"
+			if let LFHF = result["LF/HF"] {
+				cellText = "LF/HF: \(String(format:"%.2f", LFHF))"
 			}
 		}
 
