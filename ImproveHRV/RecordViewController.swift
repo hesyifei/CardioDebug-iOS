@@ -1,5 +1,5 @@
 //
-//  RecordViewController.swift
+//  HistoryViewController.swift
 //  ImproveHRV
 //
 //  Created by Jason Ho on 31/10/2016.
@@ -12,7 +12,7 @@ import Async
 import Charts
 import RealmSwift
 
-class RecordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 	@IBOutlet var tableView: UITableView!
 	@IBOutlet var chartView: LineChartView!
