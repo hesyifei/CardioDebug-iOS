@@ -17,6 +17,75 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Add New Data View Controller-->
+        <scene sceneID="5rD-6i-wct">
+            <objects>
+                <viewController id="Bbh-J8-2Z5" customClass="AddNewDataViewController" customModule="ImproveHRV" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z9e-I9-fGh"/>
+                        <viewControllerLayoutGuide type="bottom" id="ett-Iq-IZa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fkk-VI-i4I">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="ibI-3P-PVP">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="0oI-5z-xMy" style="IBUITableViewCellStyleDefault" id="AxY-4N-OFL">
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AxY-4N-OFL" id="f1N-MB-JjA">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0oI-5z-xMy">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ibI-3P-PVP" firstAttribute="leading" secondItem="Fkk-VI-i4I" secondAttribute="leading" id="5Da-Sv-2uB"/>
+                            <constraint firstAttribute="trailing" secondItem="ibI-3P-PVP" secondAttribute="trailing" id="HnD-1F-9mW"/>
+                            <constraint firstItem="ibI-3P-PVP" firstAttribute="top" secondItem="Fkk-VI-i4I" secondAttribute="top" id="T5a-DY-g8t"/>
+                            <constraint firstItem="ett-Iq-IZa" firstAttribute="top" secondItem="ibI-3P-PVP" secondAttribute="bottom" id="ecr-Ya-5Zl"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="3UW-H8-Hf4"/>
+                    <connections>
+                        <outlet property="tableView" destination="ibI-3P-PVP" id="iO1-us-eXS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wyr-UD-ZM1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3156" y="-224.4377811094453"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="u5P-ez-nxo">
+            <objects>
+                <navigationController id="aCF-qZ-35X" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5sG-PP-cza">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Bbh-J8-2Z5" kind="relationship" relationship="rootViewController" id="0SU-gH-cu3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DIh-1U-xiu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2394" y="-224"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="2jp-VL-KMS">
             <objects>
@@ -648,6 +717,7 @@
                         <segue destination="R8L-wK-Rbr" kind="relationship" relationship="viewControllers" id="Gwk-ib-6oh"/>
                         <segue destination="TqD-i2-78M" kind="relationship" relationship="viewControllers" id="R0R-gt-44A"/>
                         <segue destination="1zp-W8-5gP" kind="relationship" relationship="viewControllers" id="OI6-R8-NLG"/>
+                        <segue destination="aCF-qZ-35X" kind="presentation" identifier="presentAddDataView" id="xGP-xf-k5e"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sKf-iu-ubT" userLabel="First Responder" sceneMemberID="firstResponder"/>

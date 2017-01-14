@@ -14,6 +14,10 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 	override func viewDidLoad() {
 		self.delegate = self
 	}
+	override func didReceiveMemoryWarning() {
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
 	/*
 	// http://stackoverflow.com/a/29011197/2603230
 	override func viewWillLayoutSubviews() {
@@ -26,6 +30,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 	func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
 		if viewController.restorationIdentifier == "NewButtonHolderView" {
 			print("selected NewButtonHolderView")
+			self.performSegue(withIdentifier: AddNewDataViewController.PRESENT_ADD_DATA_VIEW, sender: self)
 			return false
 		}
 		return true
