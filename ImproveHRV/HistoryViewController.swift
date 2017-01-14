@@ -21,7 +21,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 	var realm: Realm!
 
-	var tableData: [ECGData]!
+	var tableData: [Any]!
+	var ecgData: [ECGData]!
 
 	let cellID = "HistoryCell"
 	var tagIDs: [String: Int] = [:]               // 謹記不能為0（否則於cell.tag重複）或小於100（可能於其後cell.tag設置後重複）
@@ -97,17 +98,16 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		if segue.identifier == ResultViewController.SHOW_RESULT_SEGUE_ID {
 			if let destination = segue.destination as? ResultViewController {
 				if let indexPath: IndexPath = self.tableView.indexPathForSelectedRow {
-					let data = tableData[indexPath.row]
+					if let data = tableData[indexPath.row] as? ECGData {
+						let passedData = PassECGResult()
+						passedData.startDate = data.startDate
+						passedData.rawData = data.rawData
+						passedData.isNew = false
 
-					let passedData = PassECGResult()
-					passedData.startDate = data.startDate
-					passedData.rawData = data.rawData
-					passedData.isNew = false
+						destination.passedData = passedData
 
-					destination.passedData = passedData
-
-
-					self.tableView.deselectRow(at: indexPath, animated: true)
+						self.tableView.deselectRow(at: indexPath, animated: true)
+					}
 				}
 			}
 		}
@@ -127,7 +127,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		let allECGData = realm.objects(ECGData.self).sorted(byProperty: "startDate", ascending: false)
 		//print(allECGData)
 
-		tableData = Array(allECGData)
+		ecgData = Array(allECGData)
+		tableData = ecgData
 
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 
@@ -183,8 +184,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		var AVNNUpperLimitDataEntries: [ChartDataEntry] = []
 		var AVNNLowerLimitDataEntries: [ChartDataEntry] = []
 
-		if let _ = tableData {
-			let values = tableData.reversed()
+		if let _ = ecgData {
+			let values = ecgData.reversed()
 			for (_, value) in values.enumerated() {
 				let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 
@@ -458,22 +459,26 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		let row = indexPath.row
 		cell.tag = section*1000 + row
 
+		var upperLeftText = "[...]"
+		var upperRightText = "[...]"
+		var lowerLeftText = "[...]"
 
-		let result = tableData[row].result
-		var cellText = "[...]"
-		var rightCellText = "[...]"
-		if !result.isEmpty {
-			if let LFHF = result["LF/HF"] {
-				cellText = "LF/HF: \(String(format:"%.2f", LFHF))"
+		if let cellECGData = tableData[row] as? ECGData {
+			let result = cellECGData.result
+			if !result.isEmpty {
+				if let LFHF = result["LF/HF"] {
+					upperLeftText = "LF/HF: \(String(format:"%.2f", LFHF))"
+				}
+				if let averageBpm = result["AvgHR"] {
+					upperRightText = "\(String(format:"%.0f", averageBpm)) bpm"
+				}
 			}
-			if let averageBpm = result["AvgHR"] {
-				rightCellText = "\(String(format:"%.0f", averageBpm)) bpm"
+			lowerLeftText = "\(DateFormatter.localizedString(from: cellECGData.startDate, dateStyle: .short, timeStyle: .short))"
+
+
+			if let iconImage = UIImage(named: "CellIcon-ECG") {
+				leftmostImageView.image = iconImage
 			}
-		}
-
-
-		if let iconImage = UIImage(named: "CellIcon-ECG") {
-			leftmostImageView.image = iconImage
 		}
 
 
@@ -483,9 +488,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		upperRightLabel.font = UIFont(name: (upperRightLabel.font?.fontName)!, size: 20.0)
 
 
-		upperLeftLabel.text = cellText
-		lowerLeftLabel.text = "\(DateFormatter.localizedString(from: tableData[indexPath.row].startDate, dateStyle: .short, timeStyle: .short))"
-		upperRightLabel.text = rightCellText
+		upperLeftLabel.text = upperLeftText
+		lowerLeftLabel.text = lowerLeftText
+		upperRightLabel.text = upperRightText
 
 		/*** 修改數據結束 ***/
 
@@ -510,9 +515,15 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	}
 
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-		if (editingStyle == .delete) {
-			try! realm.write {
-				realm.delete(tableData[indexPath.row])
+		if editingStyle == .delete {
+			if let thisECGData = tableData[indexPath.row] as? ECGData {
+				try! realm.write {
+					realm.delete(thisECGData)
+				}
+			} else if let thisActivityData = tableData[indexPath.row] as? ActivityData {
+				try! realm.write {
+					realm.delete(thisActivityData)
+				}
 			}
 			tableData.remove(at: indexPath.row)
 			tableView.deleteRows(at: [indexPath], with: .automatic)
