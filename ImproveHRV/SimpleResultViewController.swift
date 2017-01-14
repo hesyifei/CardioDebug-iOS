@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import Async
 
 class SimpleResultViewController: UIViewController {
 
@@ -20,7 +21,7 @@ class SimpleResultViewController: UIViewController {
 	// MARK: - IBOutlet var
 	@IBOutlet var upperLabel: UILabel!
 	@IBOutlet var mainLabel: UILabel!
-	@IBOutlet var mainTextView: UITextView!
+	@IBOutlet var mainTextView: NonSelectableTextView!
 	@IBOutlet var leftButton: UIButton!
 	@IBOutlet var rightButton: UIButton!
 

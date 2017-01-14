@@ -94,6 +94,7 @@ extension UITextView {
 		Async.main {
 			if let attributedString = try? NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil) {
 				// http://stackoverflow.com/a/27874968/2603230
+				self.attributedText = nil
 				self.text = ""
 				self.insertText("")
 
