@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import Async
 import MBProgressHUD
+import RealmSwift
 
 class ViewController: UIViewController {
 
@@ -207,12 +208,22 @@ class ViewController: UIViewController {
 	}
 
 	func finishActivityAction() {
-		if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date {
-			if HelperFunctions.isDateSameDay(startDate, Date()) {
+		if let startDate = defaults.object(forKey: Self.DEFAULTS_ACTIVITY_START_DATE) as? Date, let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
+			let endDate = Date()
+			if HelperFunctions.isDateSameDay(startDate, endDate) {
 				upperButton.isEnabled = false
 				middleButton.isEnabled = false
 				defaults.set(Date(), forKey: Self.DEFAULTS_ACTIVITY_END_DATE)
 				showHudWithImage(text: "Recorded", imageName: "Checkmark")
+
+				let realm = try! Realm()
+				let activityData = ActivityData()
+				activityData.id = currentActivity
+				activityData.startDate = startDate
+				activityData.endDate = endDate
+				try! realm.write {
+					realm.add(activityData)
+				}
 			}
 		}
 	}
