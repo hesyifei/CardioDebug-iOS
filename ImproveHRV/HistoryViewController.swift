@@ -243,7 +243,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userAVNNDataSet.highlightEnabled = false
 
 
-		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: "")
+		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: nil)
 		LFHFUpperLimitDataSet.axisDependency = .left
 		LFHFUpperLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
 		LFHFUpperLimitDataSet.drawValuesEnabled = false
@@ -255,7 +255,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFUpperLimitDataSet.fillColor = StoredColor.middleBlue
 		LFHFUpperLimitDataSet.drawFilledEnabled = true*/
 
-		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: "")
+		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: nil)
 		LFHFLowerLimitDataSet.axisDependency = .left
 		LFHFLowerLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
 		LFHFLowerLimitDataSet.drawValuesEnabled = false
@@ -267,7 +267,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFLowerLimitDataSet.fillColor = UIColor.white
 		LFHFLowerLimitDataSet.drawFilledEnabled = true*/
 
-		let AVNNUpperLimitDataSet = LineChartDataSet(values: AVNNUpperLimitDataEntries, label: "")
+		let AVNNUpperLimitDataSet = LineChartDataSet(values: AVNNUpperLimitDataEntries, label: nil)
 		AVNNUpperLimitDataSet.axisDependency = .right
 		AVNNUpperLimitDataSet.colors = [StoredColor.darkRed.withAlphaComponent(0.3)]
 		AVNNUpperLimitDataSet.drawValuesEnabled = false
@@ -279,7 +279,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		//AVNNUpperLimitDataSet.fillColor = StoredColor.darkRed
 		//AVNNUpperLimitDataSet.drawFilledEnabled = true
 
-		let AVNNLowerLimitDataSet = LineChartDataSet(values: AVNNLowerLimitDataEntries, label: "")
+		let AVNNLowerLimitDataSet = LineChartDataSet(values: AVNNLowerLimitDataEntries, label: nil)
 		AVNNLowerLimitDataSet.axisDependency = .right
 		AVNNLowerLimitDataSet.colors = [StoredColor.darkRed.withAlphaComponent(0.3)]
 		AVNNLowerLimitDataSet.drawValuesEnabled = false
@@ -293,6 +293,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 		let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
 		chartView.data = lineChartData
+		// only show first two legends
+		let legendEntries = chartView.legend.entries
+		chartView.legend.entries = Array(legendEntries.prefix(2))
 	}
 
 
