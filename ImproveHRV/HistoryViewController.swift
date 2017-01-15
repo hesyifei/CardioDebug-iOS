@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import HealthKit
 import Foundation
 import Async
 import Charts
@@ -144,21 +145,49 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			allDataWithTimeDict[eachActivityData.startDate] = eachActivityData
 		}
 
+		var bpSystolicResults = [HKSample]()
+		var bpDiastolicResults = [HKSample]()
+		HealthManager.readAllSamples(HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)!) { (bloodPressureSystolicResults, bpSError) -> Void in
+			if let error = bpSError {
+				print("bloodPressureSystolicResults error: \(error.localizedDescription)")
+			} else {
+				//print(bloodPressureSystolicResults)
+				bpSystolicResults = bloodPressureSystolicResults
+			}
+			HealthManager.readAllSamples(HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic)!) { (bloodPressureDiastolicResults, bpDError) -> Void in
+				if let error = bpDError {
+					print("bloodPressureDiastolicResults error: \(error.localizedDescription)")
+				} else {
+					//print(bloodPressureDiastolicResults)
+					bpDiastolicResults = bloodPressureDiastolicResults
+				}
+				for (index, bpSystolicResult) in bpSystolicResults.enumerated() {
+					allDataWithTimeDict[bpSystolicResult.startDate] = ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]
+				}
+				self.loadDataToTableViewAndChart(allDataWithTimeDict)
+			}
+		}
+
+	}
+
+	func loadDataToTableViewAndChart(_ allDataWithTimeDict: [Date: Any]) {
 		// http://stackoverflow.com/a/29552821/2603230
 		let sortedDictWithValueAndKey = allDataWithTimeDict.sorted{ $0.0.compare($1.0) == .orderedDescending}
 		// http://stackoverflow.com/a/31845495/2603230
 		let resultantArray = sortedDictWithValueAndKey.map { $0.value }
-		tableData = resultantArray
+		//print(resultantArray)
+
+		self.tableData = resultantArray
 
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 
-		if refreshControl.isRefreshing {
+		if self.refreshControl.isRefreshing {
 			HelperFunctions.delay(1.0) {
 				self.refreshControl.endRefreshing()
 			}
 		}
 
-		if !tableData.isEmpty {
+		if !self.ecgData.isEmpty {
 			Async.main {
 				self.initChart()
 			}
