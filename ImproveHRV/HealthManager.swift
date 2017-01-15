@@ -67,4 +67,32 @@ class HealthManager {
 		}
 		self.healthKitStore.execute(query)
 	}
+
+	// http://stackoverflow.com/q/25642949/2603230
+	static func saveBloodPressure(systolic systolicValue: Double, diastolic diastolicValue: Double, completion completionBlock: @escaping (Bool, Error?) -> Void) {
+		let unit = HKUnit.millimeterOfMercury()
+
+		let systolicQuantity = HKQuantity(unit: unit, doubleValue: systolicValue)
+		let diastolicQuantity = HKQuantity(unit: unit, doubleValue: diastolicValue)
+
+		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
+		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
+
+		let nowDate = Date()
+		let systolicSample = HKQuantitySample(type: systolicType
+			, quantity: systolicQuantity, start: nowDate, end: nowDate)
+		let diastolicSample = HKQuantitySample(type: diastolicType
+			, quantity: diastolicQuantity, start: nowDate, end: nowDate)
+
+		let objects: Set<HKSample> = [systolicSample, diastolicSample]
+		let type = HKObjectType.correlationType(forIdentifier: .bloodPressure)!
+		let correlation = HKCorrelation(type: type, start: nowDate, end: nowDate, objects: objects)
+
+		self.healthKitStore.save(correlation) { (success, error) -> Void in
+			if !success {
+				print("An error occured saving the Blood pressure sample \(systolicSample). In your app, try to handle this gracefully. The error was: \(error).")
+			}
+			completionBlock(success, error)
+		}
+	}
 }

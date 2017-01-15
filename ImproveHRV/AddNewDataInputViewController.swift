@@ -38,8 +38,28 @@ class AddNewDataInputViewController: UIViewController, UITableViewDelegate, UITa
 	}
 
 	func saveButtonAction() {
-		// TODO: save data
-		self.dismiss(animated: true, completion: nil)
+		switch viewTitle {
+		case "Blood Pressure":
+			let systolicCell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0))! as! TextFieldInputTableCell
+			let diastolicCell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 0))! as! TextFieldInputTableCell
+
+			if let systolicText = systolicCell.textField.text, let diastolicText = diastolicCell.textField.text {
+				if let systolicValue = Double(systolicText), let diastolicValue = Double(diastolicText) {
+					HealthManager.saveBloodPressure(systolic: systolicValue, diastolic: diastolicValue) { (success, error) -> Void in
+						print("save state: \(success), \(error)")
+						if let _ = error {
+							HelperFunctions.showAlert(self, title: "Error", message: "Please add the blood pressure manually in Health app!", completion: nil)
+						}
+						self.dismiss(animated: true, completion: nil)
+					}
+				} else {
+					HelperFunctions.showAlert(self, title: "Notice", message: "Please enter correct value!", completion: nil)
+				}
+			}
+			break
+		default:
+			break
+		}
 	}
 
 	// MARK: - tableView related
@@ -48,7 +68,7 @@ class AddNewDataInputViewController: UIViewController, UITableViewDelegate, UITa
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = getCell(indexPath)
+		let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID)! as! TextFieldInputTableCell
 
 		cell.titleLabel.text = tableData[indexPath.row]
 		cell.textField.text = ""
@@ -57,18 +77,14 @@ class AddNewDataInputViewController: UIViewController, UITableViewDelegate, UITa
 		return cell
 	}
 
-	func getCell(_ indexPath: IndexPath) -> TextFieldInputTableCell {
-		return self.tableView.dequeueReusableCell(withIdentifier: cellID)! as! TextFieldInputTableCell
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let cell = self.tableView.cellForRow(at: indexPath)! as! TextFieldInputTableCell
+		cell.textField.becomeFirstResponder()
+		self.tableView.deselectRow(at: indexPath, animated: true)
 	}
 }
 
 class TextFieldInputTableCell: UITableViewCell {
 	@IBOutlet var titleLabel: UILabel!
 	@IBOutlet var textField: UITextField!
-
-	override var canBecomeFirstResponder: Bool { return true }
-
-	override func becomeFirstResponder() -> Bool {
-		return self.textField.becomeFirstResponder()
-	}
 }
