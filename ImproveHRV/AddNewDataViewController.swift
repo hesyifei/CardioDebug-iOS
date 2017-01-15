@@ -16,6 +16,7 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 	@IBOutlet var tableView: UITableView!
 
 	var tableData = [String]()
+	var tableDataToBePassed = [String]()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -24,10 +25,24 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 
 		self.title = "Add"
 
-		tableData = ["blood pressure", "height", "weight"]
+		tableData = ["Blood Pressure", "Height", "Weight"]
+		tableDataToBePassed = ["Systoloc|Diastolic", "m", "kg"]
 
-		let closeButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.closeButtonAction))
-		self.navigationItem.setRightBarButton(closeButton, animated: true)
+		let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.closeButtonAction))
+		self.navigationItem.setLeftBarButton(closeButton, animated: true)
+	}
+
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == AddNewDataInputViewController.SHOW_INPUT_TABLE_VIEW {
+			if let destination = segue.destination as? AddNewDataInputViewController {
+				if let indexPath: IndexPath = self.tableView.indexPathForSelectedRow {
+					let viewTitle = tableData[indexPath.row]
+					let viewData = tableDataToBePassed[indexPath.row].components(separatedBy: "|")
+					destination.viewTitle = viewTitle
+					destination.tableData = viewData
+				}
+			}
+		}
 	}
 
 	override func didReceiveMemoryWarning() {
