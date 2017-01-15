@@ -272,15 +272,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		//xAxis.labelPosition = .bottom
 		//xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
 
-		let values: [Int] = []
-
-		var dataEntries: [ChartDataEntry] = []
-		for (index, value) in values.enumerated() {
-			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
-			dataEntries.append(dataEntry)
-		}
-
-		let ecgRawDataSet = LineChartDataSet(values: dataEntries, label: nil)
+		// TODO: crash here?
+		let ecgRawDataSet = LineChartDataSet(values: [ChartDataEntry](), label: nil)
 		ecgRawDataSet.colors = [StoredColor.middleBlue]
 		//ecgRawDataSet.mode = .cubicBezier			// commented as performance issue
 		ecgRawDataSet.drawCirclesEnabled = false
@@ -302,6 +295,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		} else {
 			currentState = 0
 			self.enableButtons()
+			_ = self.navigationController?.popViewController(animated: true)
 		}
 	}
 
@@ -466,6 +460,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
 			startTime = Date()
 			duration = TimeInterval(5*60)+extraPreTime
+			//duration = extraPreTime
 			endTime = startTime.addingTimeInterval(duration)
 			self.timerAction()		// 為避免延遲一秒才開始執行
 
@@ -500,7 +495,9 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			}
 			//self.mainLabel.text = "Finished"
 			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+			self.initChart()		// TODO: crash here
 		} else {
+			_ = self.navigationController?.popViewController(animated: true)
 			print("not NormalCondition")
 		}
 
@@ -567,6 +564,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		print("Disconnected device \(peripheral.identifier.uuidString)")
 		if isConnectedAndRecording == true {
 			self.stopTimer()
+			self.progressCircleView.progressCircle.removeFromSuperlayer()
 			mainLabel.text = "Disconnected :("
 			HelperFunctions.delay(1.0) {
 				self.setupViewAndStopRecording(isNormalCondition: false)
@@ -652,6 +650,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		print("Disconnected")
 		if isConnectedAndRecording == true {
 			self.stopTimer()
+			self.progressCircleView.progressCircle.removeFromSuperlayer()
 			mainLabel.text = "Disconnected :("
 			HelperFunctions.delay(1.0) {
 				self.setupViewAndStopRecording(isNormalCondition: false)
