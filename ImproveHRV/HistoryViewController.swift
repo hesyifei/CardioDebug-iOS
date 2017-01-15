@@ -616,6 +616,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		if editingStyle == .delete {
 			var successfullyDelete = true
 			if let thisECGData = tableData[row] as? ECGData {
+				// TODO: crash when remove :(
 				try! realm.write {
 					realm.delete(thisECGData)
 				}
