@@ -79,10 +79,8 @@ class HealthManager {
 		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
 
 		let nowDate = Date()
-		let systolicSample = HKQuantitySample(type: systolicType
-			, quantity: systolicQuantity, start: nowDate, end: nowDate)
-		let diastolicSample = HKQuantitySample(type: diastolicType
-			, quantity: diastolicQuantity, start: nowDate, end: nowDate)
+		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: nowDate, end: nowDate)
+		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: nowDate, end: nowDate)
 
 		let objects: Set<HKSample> = [systolicSample, diastolicSample]
 		let type = HKObjectType.correlationType(forIdentifier: .bloodPressure)!
