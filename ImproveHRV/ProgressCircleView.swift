@@ -10,18 +10,33 @@ import UIKit
 import Foundation
 
 class ProgressCircleView: UIView {
-	private var progressCircle = CAShapeLayer()
+	var progressCircle = CAShapeLayer()
 
-	init(frame: CGRect, circleColor: UIColor) {
-		super.init(frame: frame)
+	var circleColor = UIColor.red
+
+	init(circleColor: UIColor) {
+		self.circleColor = circleColor
+		super.init(frame: CGRect.zero)
 
 		self.backgroundColor = UIColor.clear
+	}
 
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+	}
+
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		self.progressCircle.frame = self.layer.bounds
+	}
+
+	func setupCircle() {
 		let centerPoint = CGPoint(x: self.bounds.width / 2, y: self.bounds.width / 2)
 		let circleRadius: CGFloat = self.bounds.width / 2 * 0.83
 		let circlePath = UIBezierPath(arcCenter: centerPoint, radius: circleRadius, startAngle: CGFloat(-0.5 * M_PI), endAngle: CGFloat(1.5 * M_PI), clockwise: true)
 
 		progressCircle = CAShapeLayer()
+		progressCircle.masksToBounds = true
 		progressCircle.path = circlePath.cgPath
 		progressCircle.strokeColor = circleColor.cgColor
 		progressCircle.fillColor = UIColor.clear.cgColor
@@ -31,13 +46,9 @@ class ProgressCircleView: UIView {
 		self.layer.addSublayer(progressCircle)
 	}
 
-	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-	}
-
-	func startAnimation(duration: CFTimeInterval) {
+	func startAnimation(duration: CFTimeInterval, fromValue: Double = 0.0) {
 		let animation = CABasicAnimation(keyPath: "strokeEnd")
-		animation.fromValue = 0.0
+		animation.fromValue = fromValue
 		animation.toValue = 1.0
 		animation.duration = duration
 		animation.fillMode = kCAFillModeForwards

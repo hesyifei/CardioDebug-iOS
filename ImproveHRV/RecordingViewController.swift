@@ -111,8 +111,17 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 		Async.main {
-			self.progressCircleView = ProgressCircleView.init(frame: self.outerProgressCircleView.bounds, circleColor: StoredColor.darkRed)
+			self.progressCircleView = ProgressCircleView(circleColor: StoredColor.darkRed)
+			self.progressCircleView.translatesAutoresizingMaskIntoConstraints = false
 			self.outerProgressCircleView.addSubview(self.progressCircleView)
+
+			self.outerProgressCircleView.addConstraint(NSLayoutConstraint(item: self.progressCircleView, attribute: .leading, relatedBy: .equal, toItem: self.outerProgressCircleView, attribute: .leading, multiplier: 1.0, constant: 0))
+			self.outerProgressCircleView.addConstraint(NSLayoutConstraint(item: self.progressCircleView, attribute: .top, relatedBy: .equal, toItem: self.outerProgressCircleView, attribute: .top, multiplier: 1.0, constant: 0))
+			self.outerProgressCircleView.addConstraint(NSLayoutConstraint(item: self.progressCircleView, attribute: .bottom, relatedBy: .equal, toItem: self.outerProgressCircleView, attribute: .bottom, multiplier: 1.0, constant: 0))
+			self.outerProgressCircleView.addConstraint(NSLayoutConstraint(item: self.progressCircleView, attribute: .trailing, relatedBy: .equal, toItem: self.outerProgressCircleView, attribute: .trailing, multiplier: 1.0, constant: 0))
+			self.outerProgressCircleView.layoutIfNeeded()
+
+			self.progressCircleView.setupCircle()
 		}
 	}
 
@@ -157,6 +166,19 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			let orient = self.application.statusBarOrientation
 
 			self.adjustFontSize()
+
+			if UIDevice.current.userInterfaceIdiom == .phone {
+				if UIInterfaceOrientationIsLandscape(orient) {
+					// as the circle is too big to display
+					self.progressCircleView.isHidden = true
+				} else {
+					self.progressCircleView.isHidden = false
+				}
+			}
+
+			self.progressCircleView.progressCircle.removeFromSuperlayer()
+			self.progressCircleView.setupCircle()
+			self.progressCircleView.startAnimation(duration: self.endTime.timeIntervalSinceNow, fromValue: Double(1)-(self.endTime.timeIntervalSinceNow/self.duration))
 
 			self.view.layoutIfNeeded()
 
