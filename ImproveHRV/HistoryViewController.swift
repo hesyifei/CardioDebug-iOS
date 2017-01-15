@@ -145,32 +145,38 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			allDataWithTimeDict[eachActivityData.startDate] = eachActivityData
 		}
 
+		// TODO: what if user allow writing don't allow reading? What if allow reading don't allow writing? What if don't have healthkit? what if both writing and reading don't allow?
 		var bpSystolicResults = [HKSample]()
 		var bpDiastolicResults = [HKSample]()
 		HealthManager.readAllSamples(HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)!) { (bloodPressureSystolicResults, bpSError) -> Void in
 			if let error = bpSError {
 				print("bloodPressureSystolicResults error: \(error.localizedDescription)")
 			} else {
-				//print(bloodPressureSystolicResults)
+				print(bloodPressureSystolicResults)
 				bpSystolicResults = bloodPressureSystolicResults
 			}
 			HealthManager.readAllSamples(HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic)!) { (bloodPressureDiastolicResults, bpDError) -> Void in
 				if let error = bpDError {
 					print("bloodPressureDiastolicResults error: \(error.localizedDescription)")
 				} else {
-					//print(bloodPressureDiastolicResults)
+					print(bloodPressureDiastolicResults)
 					bpDiastolicResults = bloodPressureDiastolicResults
 				}
 				for (index, bpSystolicResult) in bpSystolicResults.enumerated() {
-					allDataWithTimeDict[bpSystolicResult.startDate] = ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]
+					allDataWithTimeDict[bpSystolicResult.startDate] = ["bp": ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]]
 				}
-				self.loadDataToTableViewAndChart(allDataWithTimeDict)
+				self.loadDataToTableView(allDataWithTimeDict)
 			}
 		}
 
+		if !self.ecgData.isEmpty {
+			Async.main {
+				self.initChart()
+			}
+		}
 	}
 
-	func loadDataToTableViewAndChart(_ allDataWithTimeDict: [Date: Any]) {
+	func loadDataToTableView(_ allDataWithTimeDict: [Date: Any]) {
 		// http://stackoverflow.com/a/29552821/2603230
 		let sortedDictWithValueAndKey = allDataWithTimeDict.sorted{ $0.0.compare($1.0) == .orderedDescending}
 		// http://stackoverflow.com/a/31845495/2603230
@@ -184,12 +190,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		if self.refreshControl.isRefreshing {
 			HelperFunctions.delay(1.0) {
 				self.refreshControl.endRefreshing()
-			}
-		}
-
-		if !self.ecgData.isEmpty {
-			Async.main {
-				self.initChart()
 			}
 		}
 	}
@@ -513,7 +513,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		var upperLeftText = "[...]"
 		var upperRightFontSize: CGFloat = 20.0
 		var upperRightText = "[...]"
-		var lowerLeftText = "[...]"
+		var thisDate = Date(timeIntervalSinceNow: 0)
 
 		if let cellECGData = tableData[row] as? ECGData {
 			let result = cellECGData.result
@@ -525,7 +525,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					upperRightText = "\(String(format:"%.0f", averageBpm)) bpm"
 				}
 			}
-			lowerLeftText = "\(DateFormatter.localizedString(from: cellECGData.startDate, dateStyle: .short, timeStyle: .short))"
+			thisDate = cellECGData.startDate
 
 			upperLeftColor = StoredColor.middleBlue
 
@@ -553,9 +553,27 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					}
 				}
 			}
-			lowerLeftText = "\(DateFormatter.localizedString(from: cellActivityData.startDate, dateStyle: .short, timeStyle: .short))"
+			thisDate = cellActivityData.startDate
 
 			upperLeftColor = StoredColor.darkGreen
+		} else if let otherData = tableData[row] as? [String: Any] {
+			if let bpData = otherData["bp"] as? [String: HKSample] {
+				if let systolicData = bpData["systolic"] as? HKQuantitySample, let diastolicData = bpData["diastolic"] as? HKQuantitySample {
+					thisDate = systolicData.startDate
+					let unit = HKUnit.millimeterOfMercury()
+					let systolicValue = Int(systolicData.quantity.doubleValue(for: unit))
+					let diastolicValue = Int(diastolicData.quantity.doubleValue(for: unit))
+					upperLeftText = String(format: "%d/%d mmHg", systolicValue, diastolicValue)
+
+					upperLeftColor = StoredColor.darkRed
+
+					upperRightText = ""
+
+					if let iconImage = UIImage(named: "CellIcon-BP") {
+						leftmostImageView.image = iconImage
+					}
+				}
+			}
 		}
 
 
@@ -566,7 +584,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 		upperLeftLabel.text = upperLeftText
-		lowerLeftLabel.text = lowerLeftText
+		lowerLeftLabel.text = "\(DateFormatter.localizedString(from: thisDate, dateStyle: .short, timeStyle: .short))"
 		upperRightLabel.text = upperRightText
 
 		/*** 修改數據結束 ***/
@@ -594,18 +612,38 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	}
 
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+		let row = indexPath.row
 		if editingStyle == .delete {
-			if let thisECGData = tableData[indexPath.row] as? ECGData {
+			var successfullyDelete = true
+			if let thisECGData = tableData[row] as? ECGData {
 				try! realm.write {
 					realm.delete(thisECGData)
 				}
-			} else if let thisActivityData = tableData[indexPath.row] as? ActivityData {
+			} else if let thisActivityData = tableData[row] as? ActivityData {
 				try! realm.write {
 					realm.delete(thisActivityData)
 				}
+			} else if let otherData = tableData[row] as? [String: Any] {
+				if let bpData = otherData["bp"] as? [String: HKSample] {
+					if let systolicData = bpData["systolic"], let diastolicData = bpData["diastolic"] {
+						if #available(iOS 9.0, *) {
+							print([systolicData, diastolicData])
+							HealthManager.healthKitStore.delete([systolicData, diastolicData]) { (success, error) -> Void in
+								print("Delete state: \(success) \(error)")
+								if !success {
+									HelperFunctions.showAlert(self, title: "Error", message: "Failed to delete!\nPlease delete this record in Health app manually.", completion: nil)
+								}
+							}
+						} else {
+							print("Cannot delete as `delete` only support after iOS 9.0")
+						}
+					}
+				}
 			}
-			tableData.remove(at: indexPath.row)
-			tableView.deleteRows(at: [indexPath], with: .automatic)
+			if successfullyDelete {
+				tableData.remove(at: indexPath.row)
+				tableView.deleteRows(at: [indexPath], with: .automatic)
+			}
 
 			initChart()
 		}
