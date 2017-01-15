@@ -29,17 +29,16 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	fileprivate typealias `Self` = RecordingViewController
 
 	// MARK: - IBOutlet var
-	@IBOutlet var mainLabel: UILabel!
-	@IBOutlet var mainButton: UIButton!
-	@IBOutlet var upperLabel: UILabel!
+	@IBOutlet var outerProgressCircleView: UIView!
 
-	@IBOutlet var mainButtonOuterView: CircleView!
-	@IBOutlet var mainButtonOuterViewHeightConstraint: NSLayoutConstraint!
-	@IBOutlet var mainButtonOuterViewCenterYConstraint: NSLayoutConstraint!
+	@IBOutlet var mainLabel: UILabel!
+	@IBOutlet var upperLabel: UILabel!
 
 	@IBOutlet var chartView: LineChartView!
 
 	// MARK: - init var
+	var progressCircleView: ProgressCircleView!
+
 	var manager: CBCentralManager!
 	var peripheral: CBPeripheral!
 
@@ -74,7 +73,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 
-		self.title = "Record"
+		self.navigationItem.title = ""
 
 
 
@@ -98,10 +97,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		upperLabel.alpha = 0.0
 		upperLabel.textColor = getElementColor()
 
-		mainButtonOuterView.circleColor = getButtonBackgroundColor()
-		mainButtonOuterView.backgroundColor = UIColor.clear
-
-		mainButton.setTitleColor(getButtonElementColor(), for: .normal)
 
 		Async.main {
 			self.adjustFontSize()
@@ -113,6 +108,12 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 		currentState = 0
 
+
+
+		Async.main {
+			self.progressCircleView = ProgressCircleView.init(frame: self.outerProgressCircleView.bounds, circleColor: StoredColor.darkRed)
+			self.outerProgressCircleView.addSubview(self.progressCircleView)
+		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -128,9 +129,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 		enableButtons()
-		mainButton.setTitle("Start", for: .normal)
-		mainButton.addTarget(self, action: #selector(self.mainButtonAction), for: .touchUpInside)
-		mainButtonOuterView.addTapGesture(1, target: self, action: #selector(self.mainButtonAction))
 
 		mainLabel.text = "Unconnected"
 
@@ -138,6 +136,14 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
 
 		initChart()
+	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+
+		Async.main {
+			self.mainButtonAction()
+		}
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -152,7 +158,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 			self.adjustFontSize()
 
-			self.adjustAppropriateMainButtonOuterViewHeightConstraintConstantToSmallSize()
 			self.view.layoutIfNeeded()
 
 		}, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
@@ -254,8 +259,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		}
 
 		let ecgRawDataSet = LineChartDataSet(values: dataEntries, label: nil)
-		ecgRawDataSet.colors = [UIColor.lightGray]
-		//ecgRawDataSet.mode = .cubicBezier
+		ecgRawDataSet.colors = [StoredColor.middleBlue]
+		//ecgRawDataSet.mode = .cubicBezier			// commented as performance issue
 		ecgRawDataSet.drawCirclesEnabled = false
 
 		let lineChartData = LineChartData(dataSets: [ecgRawDataSet])
@@ -304,11 +309,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		}
 
 		mainLabel.font = UIFont(name: (mainLabel.font?.fontName)!, size: basicFontSizeBasedOnScreenHeight*0.09)
-		upperLabel.font = UIFont(name: (mainLabel.font?.fontName)!, size: basicFontSizeBasedOnScreenHeight*0.03)
-		mainButton.titleLabel!.font = UIFont(name: (mainButton.titleLabel!.font?.fontName)!, size: basicFontSizeBasedOnScreenHeight*0.025)
+		upperLabel.font = UIFont(name: (mainLabel.font?.fontName)!, size: basicFontSizeBasedOnScreenHeight*0.045)
+		upperLabel.textColor = StoredColor.middleBlue
 	}
 
-	func adjustAppropriateMainButtonOuterViewHeightConstraintConstantToSmallSize() {
+	/*func adjustAppropriateMainButtonOuterViewHeightConstraintConstantToSmallSize() {
 		print("adjustAppropriateMainButtonOuterViewHeightConstraintConstantToSmallSize()")
 			var constantToBeSet: CGFloat = 0.0
 			if UIDevice.current.userInterfaceIdiom == .phone {
@@ -324,27 +329,17 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				}
 			}
 			mainButtonOuterViewHeightConstraint.constant = constantToBeSet
-	}
+	}*/
 
 
 	func enableButtons() {
-		mainButton.alpha = 1.0
-		mainButton.isEnabled = true
-		mainButton.isUserInteractionEnabled = true
-		mainButtonOuterView.isUserInteractionEnabled = true
-
 		self.navigationController?.navigationBar.isUserInteractionEnabled = true
-		self.navigationController?.navigationBar.tintColor = self.view.tintColor
+		self.navigationController?.navigationBar.tintColor = self.view.window?.tintColor
 
 		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
 
 	func disableButtons() {
-		mainButton.alpha = 0.5
-		mainButton.isEnabled = false
-		mainButton.isUserInteractionEnabled = false
-		mainButtonOuterView.isUserInteractionEnabled = false
-
 		self.navigationController?.navigationBar.isUserInteractionEnabled = false
 		self.navigationController?.navigationBar.tintColor = UIColor.lightGray
 
@@ -358,18 +353,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			self.disableButtons()
 
 			self.view.layoutIfNeeded()
-
-			let constantToBeLower: [Float: CGFloat] = [
-				3.5: 45.0,
-				4.0: 60.0,
-				4.7: 70.0,
-				5.5: 80.0,
-				99.9: 80.0
-			]
-			self.mainButtonOuterViewCenterYConstraint.constant = self.mainLabel.frame.height / 2.0 + constantToBeLower[HelperFunctions.getInchFromWidth()]!
-			self.adjustAppropriateMainButtonOuterViewHeightConstraintConstantToSmallSize()
-
-			//self.mainButton.setTitle(NSLocalizedString("Main.Button.MainButton.Stop", comment: "Stop"), for: .normal)
 
 			self.view.setNeedsUpdateConstraints()
 			UIView.animate(withDuration: 1.0, animations: {
@@ -404,16 +387,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 				self.view.layoutIfNeeded()
-				self.mainButtonOuterViewCenterYConstraint.constant = 0
-				self.mainButtonOuterViewHeightConstraint.constant = 50
-				//self.mainButton.setTitle(NSLocalizedString("Main.Button.MainButton.Start", comment: "Start"), for: .normal)
 
 				self.view.setNeedsUpdateConstraints()
 				UIView.animate(withDuration: 1.0, animations: {
 					self.view.layoutIfNeeded()
 				}, completion: { (complete: Bool) in
-					//self.setBackgroundColorWithAnimation(self.getBackgroundColor())
-
 					self.stopRecording(isNormalCondition: isNormalCondition)
 				})
 
@@ -597,6 +575,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				HelperFunctions.delay(1.0) {
 					self.startRecording()
 					self.rawData = []
+
+					self.progressCircleView.startAnimation(duration: self.duration)
 
 					peripheral.setNotifyValue(true, for: characteristic)
 				}

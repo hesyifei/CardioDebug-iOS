@@ -861,20 +861,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Rc-6t-WPe" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                <rect key="frame" x="129" y="275" width="117" height="117"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pv9-ry-x7R">
-                                        <rect key="frame" x="41" y="42" width="36" height="33"/>
-                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="15"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
-                                </subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Rc-6t-WPe">
+                                <rect key="frame" x="37.5" y="183.5" width="300" height="300"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="pv9-ry-x7R" firstAttribute="centerX" secondItem="5Rc-6t-WPe" secondAttribute="centerX" id="FGa-mo-ZkZ"/>
                                     <constraint firstAttribute="width" secondItem="5Rc-6t-WPe" secondAttribute="height" multiplier="1:1" id="YEJ-ge-TAb"/>
-                                    <constraint firstItem="pv9-ry-x7R" firstAttribute="centerY" secondItem="5Rc-6t-WPe" secondAttribute="centerY" id="fda-fI-geO"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54I-fq-ebn">
@@ -883,27 +874,27 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3h-qW-0Sf">
-                                <rect key="frame" x="0.0" y="255" width="375" height="24"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnf-wx-tmg" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Measurement in progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3h-qW-0Sf">
+                                <rect key="frame" x="0.0" y="119.5" width="375" height="24"/>
+                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5Rc-6t-WPe" firstAttribute="centerY" secondItem="FMM-Mq-ZjU" secondAttribute="centerY" id="1f1-g2-qfr"/>
                             <constraint firstItem="54I-fq-ebn" firstAttribute="centerY" secondItem="FMM-Mq-ZjU" secondAttribute="centerY" id="5yV-t8-Qai"/>
+                            <constraint firstItem="5Rc-6t-WPe" firstAttribute="width" secondItem="FMM-Mq-ZjU" secondAttribute="width" multiplier="0.8" id="6Xy-Zh-8ci"/>
                             <constraint firstItem="54I-fq-ebn" firstAttribute="width" secondItem="FMM-Mq-ZjU" secondAttribute="width" id="79g-Vz-x3Q"/>
-                            <constraint firstItem="54I-fq-ebn" firstAttribute="top" secondItem="V3h-qW-0Sf" secondAttribute="bottom" constant="20" id="84I-WC-arq"/>
                             <constraint firstItem="rnf-wx-tmg" firstAttribute="leading" secondItem="FMM-Mq-ZjU" secondAttribute="leading" id="HrP-QA-foN"/>
                             <constraint firstItem="V3h-qW-0Sf" firstAttribute="centerX" secondItem="FMM-Mq-ZjU" secondAttribute="centerX" id="MNr-nh-Gbc"/>
+                            <constraint firstItem="5Rc-6t-WPe" firstAttribute="top" secondItem="V3h-qW-0Sf" secondAttribute="bottom" constant="40" id="bDn-nb-dSx"/>
                             <constraint firstAttribute="trailing" secondItem="rnf-wx-tmg" secondAttribute="trailing" id="ckY-7E-xFK"/>
-                            <constraint firstItem="5Rc-6t-WPe" firstAttribute="height" secondItem="FMM-Mq-ZjU" secondAttribute="height" multiplier="0.1" constant="50" id="dOS-So-POO"/>
                             <constraint firstItem="5Rc-6t-WPe" firstAttribute="centerX" secondItem="FMM-Mq-ZjU" secondAttribute="centerX" id="gRI-ux-Jlz"/>
                             <constraint firstAttribute="bottom" secondItem="rnf-wx-tmg" secondAttribute="bottom" id="ibQ-2f-DYO"/>
                             <constraint firstItem="rnf-wx-tmg" firstAttribute="height" secondItem="FMM-Mq-ZjU" secondAttribute="height" multiplier="0.3" id="lFW-uc-W61"/>
@@ -914,11 +905,8 @@
                     <navigationItem key="navigationItem" id="6mB-Ph-DzL"/>
                     <connections>
                         <outlet property="chartView" destination="rnf-wx-tmg" id="48j-mO-h7g"/>
-                        <outlet property="mainButton" destination="pv9-ry-x7R" id="e6q-gX-Wow"/>
-                        <outlet property="mainButtonOuterView" destination="5Rc-6t-WPe" id="NEk-PI-EY6"/>
-                        <outlet property="mainButtonOuterViewCenterYConstraint" destination="1f1-g2-qfr" id="Fum-Mo-Z4t"/>
-                        <outlet property="mainButtonOuterViewHeightConstraint" destination="dOS-So-POO" id="Zml-Fx-TuZ"/>
                         <outlet property="mainLabel" destination="54I-fq-ebn" id="9dc-2d-hYT"/>
+                        <outlet property="outerProgressCircleView" destination="5Rc-6t-WPe" id="g6b-fR-afz"/>
                         <outlet property="upperLabel" destination="V3h-qW-0Sf" id="2ia-GA-10g"/>
                         <segue destination="K9M-NG-D8M" kind="popoverPresentation" identifier="showResult" popoverAnchorView="FMM-Mq-ZjU" id="qaB-dG-jRn">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
