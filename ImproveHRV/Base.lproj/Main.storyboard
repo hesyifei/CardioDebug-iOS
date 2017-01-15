@@ -889,6 +889,10 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnf-wx-tmg" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="467" width="375" height="200"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -896,15 +900,20 @@
                             <constraint firstItem="54I-fq-ebn" firstAttribute="centerY" secondItem="FMM-Mq-ZjU" secondAttribute="centerY" id="5yV-t8-Qai"/>
                             <constraint firstItem="54I-fq-ebn" firstAttribute="width" secondItem="FMM-Mq-ZjU" secondAttribute="width" id="79g-Vz-x3Q"/>
                             <constraint firstItem="54I-fq-ebn" firstAttribute="top" secondItem="V3h-qW-0Sf" secondAttribute="bottom" constant="20" id="84I-WC-arq"/>
+                            <constraint firstItem="rnf-wx-tmg" firstAttribute="leading" secondItem="FMM-Mq-ZjU" secondAttribute="leading" id="HrP-QA-foN"/>
                             <constraint firstItem="V3h-qW-0Sf" firstAttribute="centerX" secondItem="FMM-Mq-ZjU" secondAttribute="centerX" id="MNr-nh-Gbc"/>
+                            <constraint firstAttribute="trailing" secondItem="rnf-wx-tmg" secondAttribute="trailing" id="ckY-7E-xFK"/>
                             <constraint firstItem="5Rc-6t-WPe" firstAttribute="height" secondItem="FMM-Mq-ZjU" secondAttribute="height" multiplier="0.1" constant="50" id="dOS-So-POO"/>
                             <constraint firstItem="5Rc-6t-WPe" firstAttribute="centerX" secondItem="FMM-Mq-ZjU" secondAttribute="centerX" id="gRI-ux-Jlz"/>
+                            <constraint firstAttribute="bottom" secondItem="rnf-wx-tmg" secondAttribute="bottom" id="ibQ-2f-DYO"/>
+                            <constraint firstItem="rnf-wx-tmg" firstAttribute="height" secondItem="FMM-Mq-ZjU" secondAttribute="height" multiplier="0.3" id="lFW-uc-W61"/>
                             <constraint firstItem="V3h-qW-0Sf" firstAttribute="width" secondItem="FMM-Mq-ZjU" secondAttribute="width" id="olw-Tj-ore"/>
                             <constraint firstItem="54I-fq-ebn" firstAttribute="centerX" secondItem="FMM-Mq-ZjU" secondAttribute="centerX" id="sa2-Zv-dZ1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="6mB-Ph-DzL"/>
                     <connections>
+                        <outlet property="chartView" destination="rnf-wx-tmg" id="48j-mO-h7g"/>
                         <outlet property="mainButton" destination="pv9-ry-x7R" id="e6q-gX-Wow"/>
                         <outlet property="mainButtonOuterView" destination="5Rc-6t-WPe" id="NEk-PI-EY6"/>
                         <outlet property="mainButtonOuterViewCenterYConstraint" destination="1f1-g2-qfr" id="Fum-Mo-Z4t"/>

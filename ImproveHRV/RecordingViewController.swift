@@ -37,6 +37,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	@IBOutlet var mainButtonOuterViewHeightConstraint: NSLayoutConstraint!
 	@IBOutlet var mainButtonOuterViewCenterYConstraint: NSLayoutConstraint!
 
+	@IBOutlet var chartView: LineChartView!
+
 	// MARK: - init var
 	var manager: CBCentralManager!
 	var peripheral: CBPeripheral!
@@ -134,6 +136,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+
+		initChart()
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -211,6 +215,62 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 	// MARK: - UI related func
+	func initChart() {
+		chartView.setViewPortOffsets(left: 0.0, top: 20.0, right: 0.0, bottom: 20.0)
+
+		chartView.isUserInteractionEnabled = false
+		chartView.noDataText = "No chart data available."
+		chartView.chartDescription?.text = ""
+		chartView.scaleXEnabled = false
+		chartView.scaleYEnabled = false
+		chartView.legend.enabled = false
+
+
+		let rightAxis = chartView.rightAxis
+		rightAxis.drawLabelsEnabled = false
+		rightAxis.drawAxisLineEnabled = false
+		rightAxis.drawGridLinesEnabled = false
+
+
+		let leftAxis = chartView.leftAxis
+		leftAxis.drawLabelsEnabled = false
+		leftAxis.drawAxisLineEnabled = false
+		leftAxis.drawGridLinesEnabled = false
+
+
+		let xAxis = chartView.xAxis
+		xAxis.drawAxisLineEnabled = false
+		xAxis.drawGridLinesEnabled = false
+		xAxis.drawLabelsEnabled = false		// 避免頭暈（太快了）
+		//xAxis.labelPosition = .bottom
+		//xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
+
+		let values: [Int] = []
+
+		var dataEntries: [ChartDataEntry] = []
+		for (index, value) in values.enumerated() {
+			let dataEntry = ChartDataEntry(x: Double(index), y: Double(value))
+			dataEntries.append(dataEntry)
+		}
+
+		let ecgRawDataSet = LineChartDataSet(values: dataEntries, label: nil)
+		ecgRawDataSet.colors = [UIColor.lightGray]
+		//ecgRawDataSet.mode = .cubicBezier
+		ecgRawDataSet.drawCirclesEnabled = false
+
+
+
+
+
+		let lineChartData = LineChartData(dataSets: [ecgRawDataSet])
+		lineChartData.setDrawValues(false)
+
+		chartView.data = lineChartData
+		chartView.data?.highlightEnabled = false
+	}
+
+
+
 	func mainButtonAction() {
 		if currentState < 3 {
 			currentState += 1
@@ -558,8 +618,21 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				for eachReceivedData in someReceivedData {
 					if !eachReceivedData.isEmpty {
 						if let eachReceivedDataInt = Int(eachReceivedData) {
-							print(eachReceivedDataInt)
+							//print(eachReceivedDataInt)
 							self.rawData.append(eachReceivedDataInt)
+
+							let dataSet = self.chartView.data?.getDataSetByIndex(0)
+							let index = (dataSet?.entryCount)!
+							let value = eachReceivedDataInt
+							print("\(index) \(value)")
+
+							let chartEntry = ChartDataEntry(x: Double(index), y: Double(value))
+							chartView.data?.addEntry(chartEntry, dataSetIndex: 0)
+							chartView.data?.notifyDataChanged()
+							chartView.notifyDataSetChanged()
+
+							chartView.setVisibleXRange(minXRange: 300, maxXRange: 300)
+							chartView.moveViewToX(Double((chartView.data?.entryCount)!))
 						}
 					}
 				}
