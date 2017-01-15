@@ -258,10 +258,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		//ecgRawDataSet.mode = .cubicBezier
 		ecgRawDataSet.drawCirclesEnabled = false
 
-
-
-
-
 		let lineChartData = LineChartData(dataSets: [ecgRawDataSet])
 		lineChartData.setDrawValues(false)
 
@@ -622,7 +618,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							self.rawData.append(eachReceivedDataInt)
 
 							let dataSet = self.chartView.data?.getDataSetByIndex(0)
-							let index = (dataSet?.entryCount)!
+							let index = (dataSet?.entryCount)!-1+1
 							let value = eachReceivedDataInt
 							print("\(index) \(value)")
 
@@ -631,7 +627,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							chartView.data?.notifyDataChanged()
 							chartView.notifyDataSetChanged()
 
-							chartView.setVisibleXRange(minXRange: 300, maxXRange: 300)
+							chartView.setVisibleXRange(minXRange: 600, maxXRange: 600)
 							chartView.moveViewToX(Double((chartView.data?.entryCount)!))
 						}
 					}
