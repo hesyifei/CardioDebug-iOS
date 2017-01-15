@@ -33,6 +33,8 @@
 		EDE490DE1DC76130000B5678 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490DD1DC76130000B5678 /* SettingsViewController.swift */; };
 		EDE490E51DC77AC6000B5678 /* ECGData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490E41DC77AC6000B5678 /* ECGData.swift */; };
 		EDE490E71DC78964000B5678 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE490E61DC78964000B5678 /* HistoryViewController.swift */; };
+		EDF329341E2B1D3E00DA15C4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF329331E2B1D3E00DA15C4 /* HealthKit.framework */; };
+		EDF329371E2B1E2200DA15C4 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF329361E2B1E2200DA15C4 /* HealthManager.swift */; };
 		EDF4A4F51E2923E700947B30 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF4A4F41E2923E700947B30 /* CustomTabBarController.swift */; };
 		EDFA80A41DFA505200F53585 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A31DFA505100F53585 /* TriangleView.swift */; };
 		EDFA80A61DFA86F300F53585 /* ActivityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA80A51DFA86F300F53585 /* ActivityData.swift */; };
@@ -108,6 +110,9 @@
 		EDE490DD1DC76130000B5678 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		EDE490E41DC77AC6000B5678 /* ECGData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECGData.swift; sourceTree = "<group>"; };
 		EDE490E61DC78964000B5678 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		EDF329331E2B1D3E00DA15C4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		EDF329351E2B1D3E00DA15C4 /* ImproveHRV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ImproveHRV.entitlements; sourceTree = "<group>"; };
+		EDF329361E2B1E2200DA15C4 /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		EDF4A4F41E2923E700947B30 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		EDFA80A31DFA505100F53585 /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		EDFA80A51DFA86F300F53585 /* ActivityData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityData.swift; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDF329341E2B1D3E00DA15C4 /* HealthKit.framework in Frameworks */,
 				EDCF4CC01DB9C86B006A8045 /* BITalinoBLE.framework in Frameworks */,
 				AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */,
 			);
@@ -159,6 +165,7 @@
 		D4A6A8948F3756FE53F8C888 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EDF329331E2B1D3E00DA15C4 /* HealthKit.framework */,
 				D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */,
 				4E89C2D8CE0860EE51A38D06 /* Pods_ImproveHRVTests.framework */,
 				C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */,
@@ -191,6 +198,7 @@
 		EDCF4C8D1DB9C858006A8045 /* ImproveHRV */ = {
 			isa = PBXGroup;
 			children = (
+				EDF329351E2B1D3E00DA15C4 /* ImproveHRV.entitlements */,
 				EDCF4CBF1DB9C86B006A8045 /* BITalinoBLE.framework */,
 				EDCF4C8E1DB9C858006A8045 /* AppDelegate.swift */,
 				EDFA80A81DFAE77500F53585 /* BasicConfig.swift */,
@@ -249,6 +257,7 @@
 				EDFA80A71DFA8AA400F53585 /* Realm Data */,
 				ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */,
 				EDD34D4E1DC4CF0400698598 /* Extensions.swift */,
+				EDF329361E2B1E2200DA15C4 /* HealthManager.swift */,
 			);
 			name = "Supporting Classes";
 			sourceTree = "<group>";
@@ -353,6 +362,11 @@
 						DevelopmentTeam = 77T9PEZRU7;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					EDCF4CA11DB9C858006A8045 = {
 						CreatedOnToolsVersion = 8.0;
@@ -585,6 +599,7 @@
 				EDE490E51DC77AC6000B5678 /* ECGData.swift in Sources */,
 				EDFA80A91DFAE77500F53585 /* BasicConfig.swift in Sources */,
 				EDB3AD601E27AF91004A3016 /* PaddingLabel.swift in Sources */,
+				EDF329371E2B1E2200DA15C4 /* HealthManager.swift in Sources */,
 				EDC031411E06CB0C002F2724 /* SimpleResultViewController.swift in Sources */,
 				EDF4A4F51E2923E700947B30 /* CustomTabBarController.swift in Sources */,
 				EDE490E71DC78964000B5678 /* HistoryViewController.swift in Sources */,
@@ -748,6 +763,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ImproveHRV/ImproveHRV.entitlements;
 				DEVELOPMENT_TEAM = 77T9PEZRU7;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -772,6 +788,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ImproveHRV/ImproveHRV.entitlements;
 				DEVELOPMENT_TEAM = 77T9PEZRU7;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

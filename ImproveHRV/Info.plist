@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>967</string>
+	<string>977</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -29,6 +29,10 @@
 	</dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>The Heart Rate Monitor is connected through Bluetooth Low Energy.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>We would like to read these data as to gather more information to give you more precise and useful suggestions and recommendations.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>We would like to store these data into Apple Health as to integrate our app with other health apps on your phone.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

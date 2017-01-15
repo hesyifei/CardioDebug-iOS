@@ -165,6 +165,15 @@ class ViewController: UIViewController {
 			upperButton.isEnabled = false
 			middleButton.isEnabled = false
 		}
+
+
+		HealthManager.authorizeHealthKit { (success, error) -> Void in
+			if success {
+				print("success authorizeHealthKit")
+			} else {
+				print("failed: \(error?.localizedDescription)")
+			}
+		}
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
