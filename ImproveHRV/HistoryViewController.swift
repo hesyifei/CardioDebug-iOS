@@ -640,6 +640,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						}
 					}
 				}
+			} else {
+				successfullyDelete = false
 			}
 			if successfullyDelete {
 				tableData.remove(at: indexPath.row)
