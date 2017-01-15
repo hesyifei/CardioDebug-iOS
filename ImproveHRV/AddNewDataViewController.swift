@@ -25,8 +25,8 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 
 		self.title = "Add"
 
-		tableData = ["Blood Pressure", "Height", "Weight"]
-		tableDataToBePassed = ["Systoloc|Diastolic", "m", "kg"]
+		tableData = ["Blood Pressure", "Height & Weight"]
+		tableDataToBePassed = ["Systoloc|Diastolic", "Height (m)|Weight (kg)"]
 
 		let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.closeButtonAction))
 		self.navigationItem.setLeftBarButton(closeButton, animated: true)
