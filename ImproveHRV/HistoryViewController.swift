@@ -616,10 +616,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		if editingStyle == .delete {
 			var successfullyDelete = true
 			if let thisECGData = tableData[row] as? ECGData {
-				// TODO: crash when remove :(
 				try! realm.write {
 					realm.delete(thisECGData)
 				}
+				ecgData.remove(object: thisECGData)
 			} else if let thisActivityData = tableData[row] as? ActivityData {
 				try! realm.write {
 					realm.delete(thisActivityData)
@@ -648,7 +648,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 				tableView.deleteRows(at: [indexPath], with: .automatic)
 			}
 
-			initChart()
+			Async.main {
+				self.initChart()
+			}
 		}
 	}
 }
