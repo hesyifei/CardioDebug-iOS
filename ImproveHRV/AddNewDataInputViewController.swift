@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import Async
+import RealmSwift
 
 class AddNewDataInputViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 	// MARK: - static var
@@ -45,7 +46,18 @@ class AddNewDataInputViewController: UIViewController, UITableViewDelegate, UITa
 
 			if let systolicText = systolicCell.textField.text, let diastolicText = diastolicCell.textField.text {
 				if let systolicValue = Double(systolicText), let diastolicValue = Double(diastolicText) {
-					HealthManager.saveBloodPressure(systolic: systolicValue, diastolic: diastolicValue) { (success, error) -> Void in
+					let nowDate = Date()
+
+					let realm = try! Realm()
+					let bloodPressureData = BloodPressureData()
+					bloodPressureData.date = nowDate
+					bloodPressureData.systoloc = systolicValue
+					bloodPressureData.diastolic = diastolicValue
+					try! realm.write {
+						realm.add(bloodPressureData)
+					}
+
+					HealthManager.saveBloodPressure(date: nowDate, systolic: systolicValue, diastolic: diastolicValue) { (success, error) -> Void in
 						print("save state: \(success), \(error)")
 						if let _ = error {
 							HelperFunctions.showAlert(self, title: "Error", message: "Please add the blood pressure manually in Health app!", completion: nil)

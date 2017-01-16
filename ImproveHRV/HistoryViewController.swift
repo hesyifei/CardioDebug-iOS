@@ -627,6 +627,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			} else if let otherData = tableData[row] as? [String: Any] {
 				if let bpData = otherData["bp"] as? [String: HKSample] {
 					if let systolicData = bpData["systolic"], let diastolicData = bpData["diastolic"] {
+						let allBPRealm = Array(realm.objects(BloodPressureData.self).filter("date = %@", systolicData.startDate))
+						if allBPRealm.count == 1 {
+							try! realm.write {
+								print("deleting realm objet \(allBPRealm[0])")
+								realm.delete(allBPRealm[0])
+							}
+						}
+
 						if #available(iOS 9.0, *) {
 							print([systolicData, diastolicData])
 							HealthManager.healthKitStore.delete([systolicData, diastolicData]) { (success, error) -> Void in
@@ -640,6 +648,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						}
 					}
 				}
+				// TODO: what if stored only in realm?
 			} else {
 				successfullyDelete = false
 			}
