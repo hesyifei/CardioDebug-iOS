@@ -123,3 +123,16 @@ extension String {
 		return image
 	}
 }
+
+
+extension Array where Element: Equatable {
+
+	// http://stackoverflow.com/a/30724543/2603230
+	// Remove first collection element that is equal to the given `object`:
+	mutating func remove(object: Element) {
+		if let index = index(of: object) {
+			remove(at: index)
+		}
+	}
+}
+
