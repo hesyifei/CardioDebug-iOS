@@ -69,7 +69,7 @@ class HealthManager {
 	}
 
 	// http://stackoverflow.com/q/25642949/2603230
-	static func saveBloodPressure(systolic systolicValue: Double, diastolic diastolicValue: Double, completion completionBlock: @escaping (Bool, Error?) -> Void) {
+	static func saveBloodPressure(date: Date = Date(), systolic systolicValue: Double, diastolic diastolicValue: Double, completion completionBlock: @escaping (Bool, Error?) -> Void) {
 		let unit = HKUnit.millimeterOfMercury()
 
 		let systolicQuantity = HKQuantity(unit: unit, doubleValue: systolicValue)
@@ -78,13 +78,12 @@ class HealthManager {
 		let systolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureSystolic)!
 		let diastolicType = HKQuantityType.quantityType(forIdentifier: .bloodPressureDiastolic)!
 
-		let nowDate = Date()
-		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: nowDate, end: nowDate)
-		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: nowDate, end: nowDate)
+		let systolicSample = HKQuantitySample(type: systolicType, quantity: systolicQuantity, start: date, end: date)
+		let diastolicSample = HKQuantitySample(type: diastolicType, quantity: diastolicQuantity, start: date, end: date)
 
 		let objects: Set<HKSample> = [systolicSample, diastolicSample]
 		let type = HKObjectType.correlationType(forIdentifier: .bloodPressure)!
-		let correlation = HKCorrelation(type: type, start: nowDate, end: nowDate, objects: objects)
+		let correlation = HKCorrelation(type: type, start: date, end: date, objects: objects)
 
 		self.healthKitStore.save(correlation) { (success, error) -> Void in
 			if !success {
