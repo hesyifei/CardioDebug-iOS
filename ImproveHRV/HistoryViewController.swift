@@ -197,7 +197,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 	func initChart() {
 
-		chartView.noDataText = "No chart data available."
+		chartView.noDataText = "No data available."
 		chartView.chartDescription?.text = ""
 		chartView.pinchZoomEnabled = false
 		//chartView.animate(xAxisDuration: 1.0)
@@ -341,7 +341,11 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		//AVNNLowerLimitDataSet.fillColor = UIColor.white
 		//AVNNLowerLimitDataSet.drawFilledEnabled = true
 
-		let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+
+		var lineChartData = LineChartData(dataSet: nil)
+		if !ecgData.isEmpty {
+			lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+		}
 		chartView.data = lineChartData
 		// only show first two legends
 		let legendEntries = chartView.legend.entries
@@ -616,10 +620,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		if editingStyle == .delete {
 			var successfullyDelete = true
 			if let thisECGData = tableData[row] as? ECGData {
+				ecgData.remove(object: thisECGData)
 				try! realm.write {
 					realm.delete(thisECGData)
 				}
-				ecgData.remove(object: thisECGData)
 			} else if let thisActivityData = tableData[row] as? ActivityData {
 				try! realm.write {
 					realm.delete(thisActivityData)
