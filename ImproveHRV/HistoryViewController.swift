@@ -631,6 +631,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			if let thisECGData = tableData[row] as? ECGData {
 				ecgData.remove(object: thisECGData)
 				try! realm.write {
+					thisECGData.cleanAllData()
 					realm.delete(thisECGData)
 				}
 			} else if let thisActivityData = tableData[row] as? ActivityData {
@@ -643,7 +644,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						let allBPRealm = Array(realm.objects(BloodPressureData.self).filter("date = %@", systolicData.startDate))
 						if allBPRealm.count == 1 {
 							try! realm.write {
-								print("deleting realm objet \(allBPRealm[0])")
+								print("deleting realm object \(allBPRealm[0])")
 								realm.delete(allBPRealm[0])
 							}
 						}

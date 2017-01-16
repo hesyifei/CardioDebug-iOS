@@ -36,17 +36,26 @@ class ECGData: Object {
 	// http://stackoverflow.com/a/31730894/2603230
 	dynamic var rawData: [Int] {
 		get {
-			return _backingRawData.map { $0.value }
+			return _ecgRawData.map { $0.value }
 		}
 		set {
-			_backingRawData.removeAll()
-			_backingRawData.append(objectsIn: newValue.map({ IntObject(value: [$0]) }))
+			_ecgRawData.removeAll()
+			_ecgRawData.append(objectsIn: newValue.map({ IntObject(value: [$0]) }))
 		}
 	}
-	let _backingRawData = List<IntObject>()
+	let _ecgRawData = List<IntObject>()
 
 	override static func ignoredProperties() -> [String] {
 		return ["rawData", "result"]
+	}
+
+	func cleanAllData() {
+		self.realm?.delete(_ecgRawData)
+		rawData = []
+
+		self.realm?.delete(_resultKeys)
+		self.realm?.delete(_resultValues)
+		result = [:]
 	}
 }
 
