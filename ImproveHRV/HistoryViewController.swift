@@ -347,9 +347,11 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
 		}
 		chartView.data = lineChartData
+		chartView.notifyDataSetChanged()
 		// only show first two legends
 		let legendEntries = chartView.legend.entries
 		chartView.legend.entries = Array(legendEntries.prefix(2))
+		chartView.legend.resetCustom()
 	}
 
 
