@@ -254,17 +254,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 				AVNNLowerLimitDataEntries.append(AVNNLowerLimitDataEntry)
 
 				if let SDNN = value.result["SDNN"] {
-					print("SDNN: \(SDNN) time: \(time)")
+					//print("SDNN: \(SDNN) time: \(time)")
 					let userSDNNDataEntry = ChartDataEntry(x: time, y: SDNN)
 					userSDNNDataEntries.append(userSDNNDataEntry)
 				}
 				if let LFHF = value.result["LF/HF"] {
-					print("LFHF: \(LFHF) time: \(time)")
+					//print("LFHF: \(LFHF) time: \(time)")
 					let userLFHFDataEntry = ChartDataEntry(x: time, y: LFHF)
 					userLFHFDataEntries.append(userLFHFDataEntry)
 				}
 				if let AVNN = value.result["AVNN"] {
-					print("AVNN: \(AVNN) time: \(time)")
+					//print("AVNN: \(AVNN) time: \(time)")
 					let userAVNNDataEntry = ChartDataEntry(x: time, y: AVNN)
 					userAVNNDataEntries.append(userAVNNDataEntry)
 				}

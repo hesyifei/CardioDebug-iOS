@@ -27,6 +27,7 @@ class HealthManager {
 			HKObjectType.quantityType(forIdentifier: .heartRate)!,
 			HKQuantityType.quantityType(forIdentifier: .height)!,
 			HKQuantityType.quantityType(forIdentifier: .bodyMass)!,
+			HKQuantityType.quantityType(forIdentifier: .bodyMassIndex)!,
 			HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic)!,
 			HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)!,
 			HKQuantityType.workoutType(),
