@@ -68,6 +68,48 @@ class HealthManager {
 		self.healthKitStore.execute(query)
 	}
 
+	static func readSampleStoredAt(time: Date, of sampleType: HKSampleType, needToBeFromCurrentSouce: Bool = false, completion completionBlock: @escaping (HKSample?, Error?) -> Void) {
+		let predicate = HKQuery.predicateForSamples(withStart: time.addingTimeInterval(-1), end: time.addingTimeInterval(1), options: [])
+		let query = HKSampleQuery(sampleType: sampleType, predicate: predicate, limit: 1, sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]) { (sampleQuery, results, error) -> Void in
+			print("readSampleStoredAt got query results: \(sampleQuery), \(results), \(error)")
+			if let error = error {
+				completionBlock(nil, error)
+				return
+			}
+			if let result = results?.first {
+				//print("result.source: \(result.source), HKSource.default(): \(HKSource.default())")
+				var isSuccess = true
+				if needToBeFromCurrentSouce {
+					if result.source != HKSource.default() {
+						isSuccess = false
+					}
+				}
+				if isSuccess {
+					completionBlock(result, nil)
+					return
+				}
+			}
+			completionBlock(nil, NSError(domain: (Bundle.main.bundleIdentifier)!, code: 2, userInfo: [NSLocalizedDescriptionKey: "No result with this predicate return!"]))
+		}
+		self.healthKitStore.execute(query)
+	}
+
+	// http://stackoverflow.com/q/27268665/2603230
+	static func saveHeartRate(date: Date = Date(), heartRate heartRateValue: Double, completion completionBlock: @escaping (Bool, Error?) -> Void) {
+		let unit = HKUnit.count().unitDivided(by: HKUnit.minute())
+		let quantity = HKQuantity(unit: unit, doubleValue: heartRateValue)
+		let type = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+
+		let heartRateSample = HKQuantitySample(type: type, quantity: quantity, start: date, end: date)
+
+		self.healthKitStore.save(heartRateSample) { (success, error) -> Void in
+			if !success {
+				print("An error occured saving the HR sample \(heartRateSample). In your app, try to handle this gracefully. The error was: \(error).")
+			}
+			completionBlock(success, error)
+		}
+	}
+
 	// http://stackoverflow.com/q/25642949/2603230
 	static func saveBloodPressure(date: Date = Date(), systolic systolicValue: Double, diastolic diastolicValue: Double, completion completionBlock: @escaping (Bool, Error?) -> Void) {
 		let unit = HKUnit.millimeterOfMercury()

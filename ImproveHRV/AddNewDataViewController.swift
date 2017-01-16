@@ -16,7 +16,8 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 	@IBOutlet var tableView: UITableView!
 
 	var tableData = [String]()
-	var tableDataToBePassed = [String]()
+	var cellTitleToBePassed = [String]()
+	var cellPlaceholderToBePassed = [String]()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -26,7 +27,8 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 		self.title = "Add"
 
 		tableData = ["Blood Pressure", "Height & Weight"]
-		tableDataToBePassed = ["Systoloc|Diastolic", "Height (m)|Weight (kg)"]
+		cellTitleToBePassed = ["Systoloc|Diastolic|Heart Rate (bpm)", "Height (m)|Weight (kg)"]
+		cellPlaceholderToBePassed = ["||(optional)", "|"]
 
 		let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.closeButtonAction))
 		self.navigationItem.setLeftBarButton(closeButton, animated: true)
@@ -37,9 +39,9 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 			if let destination = segue.destination as? AddNewDataInputViewController {
 				if let indexPath: IndexPath = self.tableView.indexPathForSelectedRow {
 					let viewTitle = tableData[indexPath.row]
-					let viewData = tableDataToBePassed[indexPath.row].components(separatedBy: "|")
 					destination.viewTitle = viewTitle
-					destination.tableData = viewData
+					destination.cellTitle = cellTitleToBePassed[indexPath.row].components(separatedBy: "|")
+					destination.cellPlaceholder = cellPlaceholderToBePassed[indexPath.row].components(separatedBy: "|")
 				}
 			}
 		}

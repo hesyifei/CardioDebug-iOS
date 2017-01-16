@@ -163,7 +163,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					bpDiastolicResults = bloodPressureDiastolicResults
 				}
 				for (index, bpSystolicResult) in bpSystolicResults.enumerated() {
-					allDataWithTimeDict[bpSystolicResult.startDate] = ["bp": ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]]
+					var thisDict: [String: Any] = ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]
+					let allBPRealm = Array(self.realm.objects(BloodPressureData.self).filter("date = %@", bpSystolicResult.startDate))
+					if allBPRealm.count == 1 {
+						thisDict["heartRate"] = allBPRealm[0].heartRate
+					}
+					allDataWithTimeDict[bpSystolicResult.startDate] = ["bp": thisDict]
 				}
 				self.loadDataToTableView(allDataWithTimeDict)
 			}
@@ -563,7 +568,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 			upperLeftColor = StoredColor.darkGreen
 		} else if let otherData = tableData[row] as? [String: Any] {
-			if let bpData = otherData["bp"] as? [String: HKSample] {
+			if let bpData = otherData["bp"] as? [String: Any] {
 				if let systolicData = bpData["systolic"] as? HKQuantitySample, let diastolicData = bpData["diastolic"] as? HKQuantitySample {
 					thisDate = systolicData.startDate
 					let unit = HKUnit.millimeterOfMercury()
@@ -573,7 +578,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 					upperLeftColor = StoredColor.darkRed
 
-					upperRightText = ""
+					if let heartRateData = bpData["heartRate"] as? Double {
+						upperRightText = "\(String(format:"%.0f", heartRateData)) bpm"
+					}
 
 					if let iconImage = UIImage(named: "CellIcon-BP") {
 						leftmostImageView.image = iconImage
@@ -631,8 +638,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					realm.delete(thisActivityData)
 				}
 			} else if let otherData = tableData[row] as? [String: Any] {
-				if let bpData = otherData["bp"] as? [String: HKSample] {
-					if let systolicData = bpData["systolic"], let diastolicData = bpData["diastolic"] {
+				if let bpData = otherData["bp"] as? [String: Any] {
+					if let systolicData = bpData["systolic"] as? HKQuantitySample, let diastolicData = bpData["diastolic"] as? HKQuantitySample {
 						let allBPRealm = Array(realm.objects(BloodPressureData.self).filter("date = %@", systolicData.startDate))
 						if allBPRealm.count == 1 {
 							try! realm.write {
@@ -644,9 +651,24 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						if #available(iOS 9.0, *) {
 							print([systolicData, diastolicData])
 							HealthManager.healthKitStore.delete([systolicData, diastolicData]) { (success, error) -> Void in
-								print("Delete state: \(success) \(error)")
+								print("Delete BP state: \(success) \(error)")
 								if !success {
 									HelperFunctions.showAlert(self, title: "Error", message: "Failed to delete!\nPlease delete this record in Health app manually.", completion: nil)
+								}
+								if (bpData["heartRate"] as? Double) != nil {
+									HealthManager.readSampleStoredAt(time: systolicData.startDate, of: HKSampleType.quantityType(forIdentifier: .heartRate)!, needToBeFromCurrentSouce: true) { (returningSample, error) -> Void in
+										if let error = error {
+											print("Finding heart rate error: \(error)")
+											HelperFunctions.showAlert(self, title: "Error", message: "Failed to found this heart record in Health app!\nPlease delete this record in Health app manually.", completion: nil)
+										} else if let returningSample = returningSample {
+											HealthManager.healthKitStore.delete(returningSample)  { (success, error) -> Void in
+												print("Delete HR state: \(success) \(error)")
+												if !success {
+													HelperFunctions.showAlert(self, title: "Error", message: "Failed to delete heart rate!\nPlease delete this record in Health app manually.", completion: nil)
+												}
+											}
+										}
+									}
 								}
 							}
 						} else {

@@ -13,4 +13,5 @@ class BloodPressureData: Object {
 	dynamic var date = Date(timeIntervalSince1970: 1)
 	dynamic var systoloc: Double = 0.0
 	dynamic var diastolic: Double = 0.0
+	dynamic var heartRate: Double = 0.0
 }
