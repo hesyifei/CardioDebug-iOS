@@ -644,6 +644,9 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		}
 	}
 
+	#if DEBUG
+	var debugRawData: [Int]?
+	#endif
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
 		print("didDiscoverCharacteristicsFor \(service.uuid)")
 		for characteristic in service.characteristics! {
@@ -653,6 +656,15 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				HelperFunctions.delay(1.0) {
 					self.startRecording()
 					self.rawData = []
+					#if DEBUG
+						if DebugConfig.useDebugECGRawData == true {
+							if let debugRawData = DebugConfig.getDebugECGRawData() {
+								self.debugRawData = debugRawData
+							} else {
+								fatalError("ERROR in getting debugRawData!")
+							}
+						}
+					#endif
 
 					self.progressCircleView.startAnimation(duration: self.duration)
 
@@ -677,7 +689,16 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 							let dataSet = self.chartView.data?.getDataSetByIndex(0)
 							let index = (dataSet?.entryCount)!-1+1
-							let value = eachReceivedDataInt
+							var value = eachReceivedDataInt
+							#if DEBUG
+								if DebugConfig.useDebugECGRawData == true {
+									if let debugRawData = self.debugRawData {
+										if index <= debugRawData.count-1 {
+											value = debugRawData[index]
+										}
+									}
+								}
+							#endif
 							print("\(index) \(value)")
 
 							let chartEntry = ChartDataEntry(x: Double(index), y: Double(value))
