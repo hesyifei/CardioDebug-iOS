@@ -10,6 +10,7 @@ target 'ImproveHRV' do
   pod 'AsyncSwift'
   pod 'Alamofire', '~> 4.0'
   pod 'Charts'
+  pod "COSTouchVisualizer", :configurations => ['Debug']
   pod 'Eureka', '~> 2.0.0-beta.1'
   pod 'RealmSwift'
   pod 'MBProgressHUD', '~> 1.0.0'
