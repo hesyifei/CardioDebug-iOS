@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreData
+#if DEBUG
+	import TouchVisualizer
+#endif
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UITabBar.appearance().tintColor = StoredColor.middleBlue
 
 		self.window?.tintColor = StoredColor.middleBlue
+
+		#if DEBUG
+			if DebugConfig.showTouchIndicator {
+				Visualizer.start()
+			}
+		#endif
 
 		return true
 	}

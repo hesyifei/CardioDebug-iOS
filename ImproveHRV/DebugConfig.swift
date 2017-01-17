@@ -10,6 +10,8 @@ import Foundation
 
 #if DEBUG
 	class DebugConfig {
+		static let showTouchIndicator = true
+
 		static let skipRecordingAndGetResultDirectly = true
 
 		static let useDebugECGRawData = true
