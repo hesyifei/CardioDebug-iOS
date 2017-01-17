@@ -582,6 +582,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 					if let heartRateData = bpData["heartRate"] as? Double {
 						upperRightText = "\(String(format:"%.0f", heartRateData)) bpm"
+					} else {
+						upperRightText = ""
 					}
 
 					if let iconImage = UIImage(named: "CellIcon-BP") {
