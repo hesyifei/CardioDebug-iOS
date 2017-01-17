@@ -128,6 +128,10 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
+		// always prevent user from swiping back
+		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+
+
 		if bitalino.isConnected {
 			if bitalino.isRecording {
 				bitalino.stopRecording()
@@ -143,6 +147,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.willEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 
 		initChart()
 	}
@@ -151,14 +156,20 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		super.viewDidAppear(animated)
 
 		Async.main {
-			self.mainButtonAction()
+			self.mainAction()
 		}
+	}
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		stopRecording(isNormalCondition: false)
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 	}
 
 	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -220,7 +231,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 						print("ResultViewController passedBackData \(bool)")
 						if bool == true {
 							Async.main(after: 0.5) {
-								self.mainButtonAction()
+								self.mainAction()
 							}
 						}
 					}
@@ -241,10 +252,13 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		print("didEnterBackground()")
 		stopTimer()
 		setupViewAndStopRecording(isNormalCondition: false)
-		if isConnectedAndRecording == true {
-			bitalino.stopRecording()
-			print("isConnectedAndRecording true")
-			//bitalino.disconnect()
+	}
+
+	func willEnterForeground() {
+		print("willEnterForeground()")
+		// must show because all willEnterForeground must based on didEnterBackground
+		if let parent = self.parent {
+			showDisconnectAlert(parent)
 		}
 	}
 
@@ -254,7 +268,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		chartView.setViewPortOffsets(left: 0.0, top: 20.0, right: 0.0, bottom: 20.0)
 
 		chartView.isUserInteractionEnabled = false
-		chartView.noDataText = "No chart data available."
+		chartView.noDataText = ""
 		chartView.chartDescription?.text = ""
 		chartView.scaleXEnabled = false
 		chartView.scaleYEnabled = false
@@ -288,14 +302,14 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 		let lineChartData = LineChartData(dataSets: [ecgRawDataSet])
 		lineChartData.setDrawValues(false)
-
 		chartView.data = lineChartData
+		chartView.notifyDataSetChanged()
 		chartView.data?.highlightEnabled = false
 	}
 
 
 
-	func mainButtonAction() {
+	func mainAction() {
 		if currentState < 3 {
 			currentState += 1
 			#if DEBUG
@@ -364,23 +378,17 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	func enableButtons() {
 		self.navigationController?.navigationBar.isUserInteractionEnabled = true
 		self.navigationController?.navigationBar.tintColor = self.view.window?.tintColor
-
-		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
 
 	func disableButtons() {
 		self.navigationController?.navigationBar.isUserInteractionEnabled = false
 		self.navigationController?.navigationBar.tintColor = UIColor.lightGray
-
-		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
 	}
 
 	func setupViewAndStartConnect() {
 		print("setupViewAndStartConnect()")
 
 		Async.main {
-			self.disableButtons()
-
 			self.view.layoutIfNeeded()
 
 			self.view.setNeedsUpdateConstraints()
@@ -502,24 +510,39 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	}
 
 	func stopRecording(isNormalCondition: Bool) {
-		isConnectedAndRecording = false
-
-		if isNormalCondition {
-			if deviceType == .bitalino {
+		if deviceType == .bitalino {
+			if bitalino.isRecording {
 				bitalino.stopRecording()
-			} else if deviceType == .ble {
+			}
+		} else if deviceType == .ble {
+			self.manager.stopScan()
+			if isConnectedAndRecording == true {
 				manager.cancelPeripheralConnection(peripheral)
 			}
+		}
+
+		if isNormalCondition {
+			isConnectedAndRecording = false
+
 			//self.mainLabel.text = "Finished"
 			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
 			self.initChart()		// TODO: crash here
 		} else {
-			HelperFunctions.showAlert(self, title: "Warning", message: "The device disconnected unexpectedly. Please try again  to record later.", completion: nil)
+			if isConnectedAndRecording == true {
+				print("as isConnectedAndRecording true, alert about stopRecording(false) will be shown")
+				showDisconnectAlert(self)
+			}
+			isConnectedAndRecording = false
 			_ = self.navigationController?.popViewController(animated: true)
 			print("not NormalCondition")
 		}
 
 		self.enableButtons()
+	}
+
+	func showDisconnectAlert(_ vc: UIViewController) {
+		print("as isConnectedAndRecording true, alert about stopRecording(false) will be shown")
+		HelperFunctions.showAlert(vc, title: "Warning", message: "The device disconnected unexpectedly. Please try again to record later.", completion: nil)
 	}
 
 	func timerAction() {
@@ -565,10 +588,22 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 				self.manager.stopScan()
 
-				self.peripheral = peripheral
-				self.peripheral.delegate = self
+				let alert = UIAlertController(title: "Device found", message: "Found BLE device named \(name)", preferredStyle: .alert)
+				alert.addAction(UIAlertAction(title: "Connect & record", style: .default, handler: { (action: UIAlertAction) in
+					self.disableButtons()
 
-				self.manager.connect(peripheral, options: nil)
+					self.peripheral = peripheral
+					self.peripheral.delegate = self
+
+					self.manager.connect(peripheral, options: nil)
+				}))
+				alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction) in
+					_ = self.navigationController?.popViewController(animated: true)
+				}))
+
+				Async.main {
+					self.present(alert, animated: true, completion: nil)
+				}
 			}
 		}
 	}
