@@ -347,11 +347,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		//AVNNLowerLimitDataSet.drawFilledEnabled = true
 
 
-		var lineChartData = LineChartData(dataSet: nil)
 		if !ecgData.isEmpty {
-			lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+			let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+			chartView.data = lineChartData
+		} else {
+			chartView.data = nil
 		}
-		chartView.data = lineChartData
 		chartView.notifyDataSetChanged()
 		// only show first two legends
 		let legendEntries = chartView.legend.entries
