@@ -122,6 +122,9 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			self.outerProgressCircleView.layoutIfNeeded()
 
 			self.progressCircleView.setupCircle()
+
+
+			self.initChart()
 		}
 	}
 
@@ -148,8 +151,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.willEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-
-		initChart()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -162,7 +163,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		stopRecording(isNormalCondition: false)
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
@@ -229,11 +229,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 					destination.passedBackData = { bool in
 						print("ResultViewController passedBackData \(bool)")
-						if bool == true {
+						/*if bool == true {
 							Async.main(after: 0.5) {
 								self.mainAction()
 							}
-						}
+						}*/
 					}
 
 				}
@@ -294,7 +294,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		//xAxis.labelPosition = .bottom
 		//xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
 
-		// TODO: crash here?
 		let ecgRawDataSet = LineChartDataSet(values: [ChartDataEntry](), label: nil)
 		ecgRawDataSet.colors = [StoredColor.middleBlue]
 		//ecgRawDataSet.mode = .cubicBezier			// commented as performance issue
@@ -314,7 +313,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			currentState += 1
 			#if DEBUG
 				if DebugConfig.skipRecordingAndGetResultDirectly == true {
+					// TODO: change here to using the way 古詩一指彈 use (which is send to NotificationCenter)
 					self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+					Async.main(after: 1.0) {
+						self.popViewController(animated: false)
+					}
 					return
 				}
 			#endif
@@ -322,7 +325,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		} else {
 			currentState = 0
 			self.enableButtons()
-			_ = self.navigationController?.popViewController(animated: true)
+			self.popViewController()
 		}
 	}
 
@@ -455,7 +458,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				}
 			}
 			if poweredOn {
-				mainLabel.text = "Connecting..."
+				mainLabel.text = "Searching..."
 				manager.scanForPeripherals(withServices: nil, options: nil)
 			} else {
 				mainLabel.text = "Please enable BT"
@@ -523,17 +526,18 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 		if isNormalCondition {
 			isConnectedAndRecording = false
-
-			//self.mainLabel.text = "Finished"
+			// TODO: change here to using the way 古詩一指彈 use (which is send to NotificationCenter)
 			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
-			self.initChart()		// TODO: crash here
+			Async.main(after: 1.0) {
+				self.popViewController(animated: false)
+			}
 		} else {
 			if isConnectedAndRecording == true {
 				print("as isConnectedAndRecording true, alert about stopRecording(false) will be shown")
 				showDisconnectAlert(self)
 			}
 			isConnectedAndRecording = false
-			_ = self.navigationController?.popViewController(animated: true)
+			self.popViewController()
 			print("not NormalCondition")
 		}
 
@@ -591,6 +595,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				let alert = UIAlertController(title: "Device found", message: "Found BLE device named \(name)", preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "Connect & record", style: .default, handler: { (action: UIAlertAction) in
 					self.disableButtons()
+					self.mainLabel.text = "Connecting..."
 
 					self.peripheral = peripheral
 					self.peripheral.delegate = self
@@ -598,7 +603,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					self.manager.connect(peripheral, options: nil)
 				}))
 				alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction) in
-					_ = self.navigationController?.popViewController(animated: true)
+					self.popViewController()
 				}))
 
 				Async.main {
@@ -733,6 +738,9 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 	// MARK: - helper func
+	func popViewController(animated: Bool = true) {
+		_ = self.navigationController?.popViewController(animated: animated)
+	}
 	func setBackgroundColorWithAnimation(_ color: UIColor, duration: TimeInterval = 0.2) {
 		if self.view.backgroundColor != color {
 			UIView.animate(withDuration: duration, animations: { () -> Void in
