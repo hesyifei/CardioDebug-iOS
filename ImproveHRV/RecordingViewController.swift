@@ -514,6 +514,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
 			self.initChart()		// TODO: crash here
 		} else {
+			HelperFunctions.showAlert(self, title: "Warning", message: "The device disconnected unexpectedly. Please try again  to record later.", completion: nil)
 			_ = self.navigationController?.popViewController(animated: true)
 			print("not NormalCondition")
 		}
