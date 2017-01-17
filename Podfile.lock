@@ -4,7 +4,6 @@ PODS:
   - Charts (3.0.1):
     - Charts/Core (= 3.0.1)
   - Charts/Core (3.0.1)
-  - COSTouchVisualizer (1.0.6)
   - Eureka (2.0.0-beta.1)
   - MBProgressHUD (1.0.0)
   - Realm (2.2.0):
@@ -12,26 +11,27 @@ PODS:
   - Realm/Headers (2.2.0)
   - RealmSwift (2.2.0):
     - Realm (= 2.2.0)
+  - TouchVisualizer (2.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - AsyncSwift
   - Charts
-  - COSTouchVisualizer
   - Eureka (~> 2.0.0-beta.1)
   - MBProgressHUD (~> 1.0.0)
   - RealmSwift
+  - TouchVisualizer
 
 SPEC CHECKSUMS:
   Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
   AsyncSwift: 632138e42ead868b53c745fcde9bf733ce1527ad
   Charts: 0e84f4418e87dad6a9edde221fba37ebb51d3ba7
-  COSTouchVisualizer: a398089327a6c02897823614d7447ccc97198997
   Eureka: d014adf16406745e1a78d5790ea37ed130a0a8e5
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
   RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
+  TouchVisualizer: a67d7b7c2786b6a2e13103fd76ac08093542f0c0
 
-PODFILE CHECKSUM: 6609e092e5816e61b844ba9335cff41e02d97511
+PODFILE CHECKSUM: 8cddd6f81f98772dc1dc8d66ff9bd0776dfb1a96
 
 COCOAPODS: 1.1.1
