@@ -470,7 +470,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .leading, relatedBy: .equal, toItem: rightView, attribute: .leading, multiplier: 1.0, constant: 0.0))
 			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .top, relatedBy: .equal, toItem: rightView, attribute: .top, multiplier: 1.0, constant: 0.0))
 			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .height, relatedBy: .equal, toItem: rightView, attribute: .height, multiplier: 0.6, constant: 0.0))
-			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .width, relatedBy: .equal, toItem: rightView, attribute: .width, multiplier: 0.7, constant: 0.0))
+			contentView.addConstraint(NSLayoutConstraint(item: upperLeftLabel, attribute: .width, relatedBy: .equal, toItem: rightView, attribute: .width, multiplier: 0.65, constant: 0.0))
 
 
 			/** lowerLeftLabel 開始 **/
