@@ -12,6 +12,7 @@ import Foundation
 	class DebugConfig {
 		static let skipRecordingAndGetResultDirectly = true
 
+		static let useDebugECGRawData = true
 		static func getDebugECGRawData() -> [Int]? {
 			var returnArray: [Int]?
 			do {

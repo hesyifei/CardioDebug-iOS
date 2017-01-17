@@ -206,7 +206,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				if let destination = destinationNavigationController.topViewController as? ResultViewController {
 
 					#if DEBUG
-						if DebugConfig.skipRecordingAndGetResultDirectly == true {
+						if DebugConfig.skipRecordingAndGetResultDirectly == true || DebugConfig.useDebugECGRawData == true {
 							if let debugRawData = DebugConfig.getDebugECGRawData() {
 								rawData = debugRawData
 							} else {
