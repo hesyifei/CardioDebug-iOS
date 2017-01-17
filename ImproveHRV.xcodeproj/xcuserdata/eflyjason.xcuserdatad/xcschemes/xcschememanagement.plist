@@ -4,10 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ImproveHRV.xcscheme</key>
+		<key>Debug Run.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>Release Run.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
