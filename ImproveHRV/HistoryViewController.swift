@@ -238,32 +238,33 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		var AVNNUpperLimitDataEntries: [ChartDataEntry] = []
 		var AVNNLowerLimitDataEntries: [ChartDataEntry] = []
 
+		var atLeastOneChartDataAvailable = false
 		if let _ = ecgData {
 			let values = ecgData.reversed()
 			for (_, value) in values.enumerated() {
-				let time = Double(value.startDate.timeIntervalSinceReferenceDate)
+				if let SDNN = value.result["SDNN"], let LFHF = value.result["LF/HF"], let AVNN = value.result["AVNN"] {
+					atLeastOneChartDataAvailable = true
 
-				let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 5)
-				LFHFUpperLimitDataEntries.append(LFHFUpperLimitDataEntry)
-				let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 2)
-				LFHFLowerLimitDataEntries.append(LFHFLowerLimitDataEntry)
+					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 
-				let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 859)
-				AVNNUpperLimitDataEntries.append(AVNNUpperLimitDataEntry)
-				let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 818)
-				AVNNLowerLimitDataEntries.append(AVNNLowerLimitDataEntry)
+					let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 5)
+					LFHFUpperLimitDataEntries.append(LFHFUpperLimitDataEntry)
+					let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 2)
+					LFHFLowerLimitDataEntries.append(LFHFLowerLimitDataEntry)
 
-				if let SDNN = value.result["SDNN"] {
+					let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 859)
+					AVNNUpperLimitDataEntries.append(AVNNUpperLimitDataEntry)
+					let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 818)
+					AVNNLowerLimitDataEntries.append(AVNNLowerLimitDataEntry)
+
 					//print("SDNN: \(SDNN) time: \(time)")
 					let userSDNNDataEntry = ChartDataEntry(x: time, y: SDNN)
 					userSDNNDataEntries.append(userSDNNDataEntry)
-				}
-				if let LFHF = value.result["LF/HF"] {
+
 					//print("LFHF: \(LFHF) time: \(time)")
 					let userLFHFDataEntry = ChartDataEntry(x: time, y: LFHF)
 					userLFHFDataEntries.append(userLFHFDataEntry)
-				}
-				if let AVNN = value.result["AVNN"] {
+
 					//print("AVNN: \(AVNN) time: \(time)")
 					let userAVNNDataEntry = ChartDataEntry(x: time, y: AVNN)
 					userAVNNDataEntries.append(userAVNNDataEntry)
@@ -347,7 +348,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		//AVNNLowerLimitDataSet.drawFilledEnabled = true
 
 
-		if !ecgData.isEmpty {
+		if !ecgData.isEmpty && atLeastOneChartDataAvailable {
 			let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
 			chartView.data = lineChartData
 		} else {
