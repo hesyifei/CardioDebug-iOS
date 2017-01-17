@@ -109,6 +109,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		currentState = 0
 
 
+		outerProgressCircleView.backgroundColor = UIColor.clear
+
 
 		Async.main {
 			self.progressCircleView = ProgressCircleView(circleColor: StoredColor.darkRed)
@@ -267,6 +269,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	func initChart() {
 		chartView.setViewPortOffsets(left: 0.0, top: 20.0, right: 0.0, bottom: 20.0)
 
+		chartView.backgroundColor = UIColor.clear
 		chartView.isUserInteractionEnabled = false
 		chartView.noDataText = ""
 		chartView.chartDescription?.text = ""
