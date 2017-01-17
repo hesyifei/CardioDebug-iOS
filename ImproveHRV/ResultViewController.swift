@@ -286,7 +286,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		case 1:
 			self.updateHRVTableData(isTimeDomain: false)
 		default:
-			break;
+			break
 		}
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 	}
