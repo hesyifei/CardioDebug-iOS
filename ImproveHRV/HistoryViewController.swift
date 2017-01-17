@@ -163,12 +163,22 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					bpDiastolicResults = bloodPressureDiastolicResults
 				}
 				for (index, bpSystolicResult) in bpSystolicResults.enumerated() {
-					var thisDict: [String: Any] = ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]
-					let allBPRealm = Array(self.realm.objects(BloodPressureData.self).filter("date = %@", bpSystolicResult.startDate))
-					if allBPRealm.count == 1 {
-						thisDict["heartRate"] = allBPRealm[0].heartRate
+					var shouldAdd = true
+					#if DEBUG
+						if DebugConfig.showBPFromThisAppOnly {
+							if bpSystolicResult.source != HKSource.default() {
+								shouldAdd = false
+							}
+						}
+					#endif
+					if shouldAdd {
+						var thisDict: [String: Any] = ["systolic": bpSystolicResult, "diastolic": bpDiastolicResults[index]]
+						let allBPRealm = Array(self.realm.objects(BloodPressureData.self).filter("date = %@", bpSystolicResult.startDate))
+						if allBPRealm.count == 1 {
+							thisDict["heartRate"] = allBPRealm[0].heartRate
+						}
+						allDataWithTimeDict[bpSystolicResult.startDate] = ["bp": thisDict]
 					}
-					allDataWithTimeDict[bpSystolicResult.startDate] = ["bp": thisDict]
 				}
 				self.loadDataToTableView(allDataWithTimeDict)
 			}

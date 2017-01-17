@@ -29,5 +29,7 @@ import Foundation
 		}
 
 		static let debugRecordDuration: TimeInterval? = nil
+
+		static let showBPFromThisAppOnly = true
 	}
 #endif
