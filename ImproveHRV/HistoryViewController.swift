@@ -510,12 +510,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 
-			/*
-			leftmostImageView.backgroundColor = UIColor.brown
-			upperLeftLabel.backgroundColor = UIColor.purple
-			lowerLeftLabel.backgroundColor = UIColor.orange
-			upperRightLabel.backgroundColor = UIColor.yellow
-			*/
+			#if DEBUG
+				if DebugConfig.showHistoryVCCellElementsBackground {
+					leftmostImageView.backgroundColor = UIColor.brown
+					upperLeftLabel.backgroundColor = UIColor.purple
+					lowerLeftLabel.backgroundColor = UIColor.orange
+					upperRightLabel.backgroundColor = UIColor.yellow
+				}
+			#endif
 
 		}
 

@@ -33,5 +33,7 @@ import Foundation
 		static let debugRecordDuration: TimeInterval? = nil
 
 		static let showBPFromThisAppOnly = true
+
+		static let showHistoryVCCellElementsBackground = false
 	}
 #endif
