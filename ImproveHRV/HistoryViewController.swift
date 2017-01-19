@@ -257,14 +257,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 
-					let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 5)
+					let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 11.6)
 					LFHFUpperLimitDataEntries.append(LFHFUpperLimitDataEntry)
-					let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 2)
+					let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 1.1)
 					LFHFLowerLimitDataEntries.append(LFHFLowerLimitDataEntry)
 
-					let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 859)
+					let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 1160)
 					AVNNUpperLimitDataEntries.append(AVNNUpperLimitDataEntry)
-					let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 818)
+					let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 785)
 					AVNNLowerLimitDataEntries.append(AVNNLowerLimitDataEntry)
 
 					//print("SDNN: \(SDNN) time: \(time)")
