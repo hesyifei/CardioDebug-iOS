@@ -10,6 +10,8 @@ import UIKit
 import Foundation
 
 class BasicConfig {
+	// for source code, see http://bitbucket.org/eflyjason/improvehrv-other
+
 	//static let remedyListURL = "http://areflys-mac.local/other/improve-hrv/remedy.php"
 	static let remedyListURL = "http://app.arefly.com/cardio-debug/remedy.php"
 
