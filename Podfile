@@ -27,3 +27,17 @@ target 'ImproveHRV' do
   end
 
 end
+
+post_install do | installer |
+    require 'fileutils'
+    copy_acknowledgements('ImproveHRV')
+end
+
+def copy_acknowledgements(target_name)
+    # pod acknowledgements section
+    require 'fileutils'
+    file = %Q'Pods-#{target_name}-acknowledgements.plist'
+    from = %Q'Pods/Target Support Files/Pods-#{target_name}/'
+    to = %Q'ImproveHRV/'
+    FileUtils.cp_r(from + file, to + %Q'Pods-acknowledgements.plist', :remove_destination => true)
+end
