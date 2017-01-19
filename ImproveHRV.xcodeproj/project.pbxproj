@@ -15,6 +15,7 @@
 		ED2ECE0E1E2DD5060089218F /* DebugConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2ECE0D1E2DD5060089218F /* DebugConfig.swift */; };
 		ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6201DBC5A1100301D30 /* ResultViewController.swift */; };
 		ED86F6231DBC64DA00301D30 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */; };
+		ED89966D1E30BE5200E29966 /* Pods-acknowledgements.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED89966C1E30BE5200E29966 /* Pods-acknowledgements.plist */; };
 		ED952E821DCB8F6800D9B3ED /* RemedyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED952E811DCB8F6800D9B3ED /* RemedyListViewController.swift */; };
 		EDAC0EC41E29B1AE004B03A7 /* AddNewDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC0EC31E29B1AE004B03A7 /* AddNewDataViewController.swift */; };
 		EDAC0EC61E2A0F4A004B03A7 /* NonSelectableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAC0EC51E2A0F4A004B03A7 /* NonSelectableTextView.swift */; };
@@ -91,6 +92,7 @@
 		ED2ECE0F1E2DD5B50089218F /* DebugECGRawData.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DebugECGRawData.txt; sourceTree = "<group>"; };
 		ED86F6201DBC5A1100301D30 /* ResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultViewController.swift; sourceTree = "<group>"; };
 		ED86F6221DBC64DA00301D30 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
+		ED89966C1E30BE5200E29966 /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
 		ED952E811DCB8F6800D9B3ED /* RemedyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemedyListViewController.swift; sourceTree = "<group>"; };
 		EDAC0EC31E29B1AE004B03A7 /* AddNewDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewDataViewController.swift; sourceTree = "<group>"; };
 		EDAC0EC51E2A0F4A004B03A7 /* NonSelectableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonSelectableTextView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				EDCF4C9D1DB9C858006A8045 /* Info.plist */,
+				ED89966C1E30BE5200E29966 /* Pods-acknowledgements.plist */,
 				EDCF4CC31DB9C885006A8045 /* ImproveHRV-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
@@ -433,6 +436,7 @@
 				EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */,
 				EDCF4C991DB9C858006A8045 /* Assets.xcassets in Resources */,
 				EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */,
+				ED89966D1E30BE5200E29966 /* Pods-acknowledgements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,9 @@
 
 import UIKit
 import Foundation
+import Async
 import Eureka
+import VTAcknowledgementsViewController
 
 class SettingsViewController: FormViewController {
 
@@ -80,6 +82,18 @@ class SettingsViewController: FormViewController {
 					if row.value != "" {
 						self.defaults.set(row.value!, forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME)
 					}
+			}
+			+++ Section("About")
+			<<< ButtonRow("Acknowledgements") {
+				$0.title = $0.tag
+				}.cellUpdate { cell, row in
+					cell.textLabel?.textAlignment = .left
+				}.onCellSelection { cell, row in
+					if let acknowledgementsVC = VTAcknowledgementsViewController.acknowledgementsViewController() {
+						Async.main {
+							self.navigationController?.pushViewController(acknowledgementsVC, animated: true)
+						}
+					}
 		}
 	}
 
@@ -87,6 +101,10 @@ class SettingsViewController: FormViewController {
 		super.viewWillAppear(animated)
 
 		let _ = updateBMI()
+	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
