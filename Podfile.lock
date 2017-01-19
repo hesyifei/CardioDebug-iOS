@@ -12,6 +12,7 @@ PODS:
   - RealmSwift (2.2.0):
     - Realm (= 2.2.0)
   - TouchVisualizer (2.1.0)
+  - VTAcknowledgementsViewController (1.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
@@ -21,6 +22,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
   - RealmSwift
   - TouchVisualizer
+  - VTAcknowledgementsViewController
 
 SPEC CHECKSUMS:
   Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
@@ -31,7 +33,8 @@ SPEC CHECKSUMS:
   Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
   RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
   TouchVisualizer: a67d7b7c2786b6a2e13103fd76ac08093542f0c0
+  VTAcknowledgementsViewController: 62d2b3979b6d86677246967cf880d14b13ee7ac4
 
-PODFILE CHECKSUM: 8cddd6f81f98772dc1dc8d66ff9bd0776dfb1a96
+PODFILE CHECKSUM: 3a224594d6fcb074247110ee6e1e7ef196b9bdf6
 
 COCOAPODS: 1.1.1

@@ -14,6 +14,7 @@ target 'ImproveHRV' do
   pod 'Eureka', '~> 2.0.0-beta.1'
   pod 'RealmSwift'
   pod 'MBProgressHUD', '~> 1.0.0'
+  pod 'VTAcknowledgementsViewController'
 
   target 'ImproveHRVTests' do
     inherit! :search_paths
