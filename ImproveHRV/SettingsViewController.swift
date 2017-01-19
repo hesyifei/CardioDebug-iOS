@@ -90,6 +90,16 @@ class SettingsViewController: FormViewController {
 					cell.textLabel?.textAlignment = .left
 				}.onCellSelection { cell, row in
 					if let acknowledgementsVC = VTAcknowledgementsViewController.acknowledgementsViewController() {
+						acknowledgementsVC.headerText = "We love open source software."
+						acknowledgementsVC.footerText = nil
+
+						let physioNetAcknowledgement = VTAcknowledgement(title: "PhysioToolkit", text: "Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG, Mietus JE, Moody GB, Peng C-K, Stanley HE. PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. Circulation 101(23):e215-e220 [Circulation Electronic Pages; http://circ.ahajournals.org/content/101/23/e215.full]; 2000 (June 13).", license: nil)
+						acknowledgementsVC.acknowledgements?.insert(physioNetAcknowledgement, at: 0)
+						let cardio24Acknowledgement = VTAcknowledgement(title: "cardio24", text: "An Integrated Platform For Cardiac Health Diagnostics\n\nTeam: Instructors: Kuldeep Singh Rajput, Rohan Puri, Maulik Majmudar, M.D., Dr.Ramesh Raskar\nStudents: Harsha Vardhan Pokkalla, Aranya Goswami\n\nSoftware required: MATLAB/Octave\n\nhttps://github.com/redxlab/cardio24", license: nil)
+						acknowledgementsVC.acknowledgements?.insert(cardio24Acknowledgement, at: 1)
+						let hrvToolkitAcknowledgement = VTAcknowledgement(title: "HRV Toolkit", text: "Background: Joseph E. Mietus, B.S. and Ary L. Goldberger, M.D.\nSoftware and related material: Joseph E. Mietus, B.S.\n\nMargret and H.A. Rey Institute for Nonlinear Dynamics in Physiology and Medicine\nDivision of Interdisciplinary Medicine and Biotechnology and Division of Cardiology\nBeth Israel Deaconess Medical Center/Harvard Medical School, Boston, MA\n\nhttps://www.physionet.org/tutorials/hrv-toolkit/", license: nil)
+						acknowledgementsVC.acknowledgements?.insert(hrvToolkitAcknowledgement, at: 2)
+
 						Async.main {
 							self.navigationController?.pushViewController(acknowledgementsVC, animated: true)
 						}
