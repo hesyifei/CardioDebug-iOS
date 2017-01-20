@@ -479,9 +479,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			self.sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
 
 				Async.main {
-					print(response.request)  // original URL request
-					print(response.response) // HTTP URL response
-					print(response.data)     // server data
+					//print(response.request)  // original URL request
+					//print(response.response) // HTTP URL response
+					//print(response.data)     // server data
 					print(response.result)   // result of response serialization
 
 					self.result = [:]
@@ -490,7 +490,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						print("JSON: \(JSON)")
 						if let jsonDict = JSON as? [String: AnyObject] {
 							if let hrvDict = jsonDict["hrv"] as? [String: [String: AnyObject]] {
-								for (hrvKey, hrvValue) in hrvDict {
+								for (_, hrvValue) in hrvDict {
 									// hrvKey is useless for now. maybe useful in the future?
 									for (key, value) in hrvValue {
 										if let value = value.doubleValue {
