@@ -332,6 +332,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			"VLF PWR": "Very Low Frequency Power",
 			"LF PWR": "Low Frequency Power",
 			"HF PWR": "High Frequency Power",
+			"nHF": "Normalized HF (PNS)",
+			"nLF": "Normalized LF (SNS)",
 			]
 		let unitDict = [
 			"AVNN": msUnit,
@@ -348,10 +350,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			"LF PWR": ms2Unit,
 			"HF PWR": ms2Unit,
 			"LF/HF": "",
+			"nHF": "",
+			"nLF": "",
 			]
 
 		let timeDomainOrder = ["AVNN", "SDSD", "SDNN", "SDANN", "SDNNIDX", "rMSSD", "pNN20", "pNN50"]
-		let frequencyDomainOrder = ["TOT PWR", "ULF PWR", "VLF PWR", "LF PWR", "HF PWR", "LF/HF"]
+		let frequencyDomainOrder = ["LF/HF", "nLF", "nHF", "TOT PWR", "ULF PWR", "VLF PWR", "LF PWR", "HF PWR"]
 		var allKey = frequencyDomainOrder
 		if isTimeDomain {
 			allKey = timeDomainOrder
