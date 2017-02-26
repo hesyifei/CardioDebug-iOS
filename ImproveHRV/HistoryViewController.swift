@@ -647,6 +647,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			if let thisECGData = tableData[row] as? ECGData {
 				ecgData.remove(object: thisECGData)
 				try! realm.write {
+					// TODO: consider add Async background and loading indicator (really slow by now)
 					thisECGData.cleanAllData()
 					realm.delete(thisECGData)
 				}

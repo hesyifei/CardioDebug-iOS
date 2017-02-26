@@ -154,6 +154,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 								realm.add(ecgData)
 							}
 							if !successDownloadHRVData {
+								// TODO: this error not showing when no internet and SSVC (SelectSymptoms) not closed
 								self.isCalculationError = true
 								self.calculationErrorMessage = "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view."
 							}
