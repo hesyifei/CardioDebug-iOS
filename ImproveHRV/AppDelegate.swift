@@ -41,9 +41,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			// Set the block which will be called automatically when opening a Realm with
 			// a schema version lower than the one set above
 			migrationBlock: { migration, oldSchemaVersion in
-				// We haven’t migrated anything yet, so oldSchemaVersion == 0
+				// If we haven’t migrated anything yet, oldSchemaVersion == 0
 				if (oldSchemaVersion < 1) {
-					migration.renameProperty(onType: ECGData.className(), from: "_backingRawData", to: "_ecgRawData")
+					var needMigration = false
+					let oldObjectSchema = migration.oldSchema.objectSchema
+					if let objectSchemaIndex = oldObjectSchema.index(where: { $0.className == "ECGData" }) {
+						if let _ = oldObjectSchema[objectSchemaIndex].properties.index(where: { $0.name == "_backingRawData" }) {
+							// only do migration if old name "_backingRawData" exist (do so as first schemaVersion is not managed well, so no need this in future new schemaVersion)
+							needMigration = true
+							print("NEED MIGRATION!")
+						}
+					}
+					if needMigration {
+						migration.renameProperty(onType: ECGData.className(), from: "_backingRawData", to: "_ecgRawData")
+					}
 				}
 		})
 		// Tell Realm to use this new configuration object for the default Realm
