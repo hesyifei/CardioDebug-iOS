@@ -535,23 +535,27 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let values = self.fftResult
 
-		var dataEntries: [ChartDataEntry] = []
-		for (index, value) in values.enumerated() {
-			let dataEntry = ChartDataEntry(x: Double(index), y: value)
-			dataEntries.append(dataEntry)
+		rightChartView.data = nil
+		// doing this can make sure "noDataText" is displayed when values is really empty
+		if !values.isEmpty {
+			var dataEntries: [ChartDataEntry] = []
+			for (index, value) in values.enumerated() {
+				let dataEntry = ChartDataEntry(x: Double(index), y: value)
+				dataEntries.append(dataEntry)
+			}
+
+			let fftDataSet = LineChartDataSet(values: dataEntries, label: nil)
+			fftDataSet.colors = [StoredColor.darkRed]
+			fftDataSet.mode = .linear
+			fftDataSet.drawCirclesEnabled = false
+
+			let lineChartData = LineChartData(dataSets: [fftDataSet])
+			lineChartData.setDrawValues(false)
+
+			rightChartView.data = lineChartData
 		}
-
-		let fftDataSet = LineChartDataSet(values: dataEntries, label: nil)
-		fftDataSet.colors = [StoredColor.darkRed]
-		fftDataSet.mode = .linear
-		fftDataSet.drawCirclesEnabled = false
-
-
-		let lineChartData = LineChartData(dataSets: [fftDataSet])
-		lineChartData.setDrawValues(false)
-
-		rightChartView.data = lineChartData
 		rightChartView.data?.highlightEnabled = false
+
 		Async.main {
 			self.rightChartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
 			self.rightChartView.moveViewToX(0)
