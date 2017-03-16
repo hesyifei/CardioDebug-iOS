@@ -36,6 +36,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var passedData: PassECGResult!
 	var tableData = [String]()
 	var result = [String: Double]()
+	var fftResult = [Double]()
 
 	var isPassedDataValid = false
 
@@ -136,6 +137,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 
 			result = [:]
+			fftResult = []
 
 			if self.passedData.isNew == true || force == true {
 				self.calculateECGData(self.passedData.rawData) { (successDownloadHRVData: Bool) in
@@ -150,6 +152,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							ecgData.duration = Double(self.passedData.rawData.count)/100.0
 							ecgData.rawData = self.passedData.rawData
 							ecgData.result = self.result
+							ecgData.fftData = self.fftResult
 							try! realm.write {
 								realm.add(ecgData)
 							}
@@ -162,14 +165,16 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 								if successDownloadHRVData {
 									print("Loaded online HRV. Saving it to local data.")
-									if thisData.result != self.result {
+									if (thisData.result != self.result) || (thisData.fftData != self.fftResult) {
 										try! realm.write {
 											thisData.result = self.result
+											thisData.fftData = self.fftResult
 										}
 									}
 								} else {
 									print("Cannot load online HRV. Reloading local data.")
 									self.result = thisData.result
+									self.fftResult = thisData.fftData
 									if self.result.isEmpty {
 										self.isCalculationError = true
 										self.calculationErrorMessage = self.HRVUnableToAnalyseMessage
@@ -207,6 +212,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				let realm = try! Realm()
 				if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 					self.result = thisData.result
+					self.fftResult = thisData.fftData
 
 					self.updateHRVTableData(isTimeDomain: true)
 
@@ -486,6 +492,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					print(response.result)   // result of response serialization
 
 					self.result = [:]
+					self.fftResult = []
 					var success = false
 					if let JSON = response.result.value {
 						print("JSON: \(JSON)")
@@ -500,6 +507,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 										}
 									}
 								}
+							}
+							if let fftArray = jsonDict["fft"] as? [Double] {
+								//print("fftArray: \(fftArray)")
+								self.fftResult = fftArray
 							}
 							if let problemsArray = jsonDict["problems"] as? [AnyObject] {
 								if !problemsArray.isEmpty {

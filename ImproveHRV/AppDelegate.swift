@@ -34,14 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		#endif
 
 		let config = Realm.Configuration(
-			// Set the new schema version. This must be greater than the previously used
-			// version (if you've never set a schema version before, the version is 0).
-			schemaVersion: 1,
+			// Set the new schema version. This must be greater than the previously used version (if you've never set a schema version before, the version is 0).
+			schemaVersion: 2,
 
-			// Set the block which will be called automatically when opening a Realm with
-			// a schema version lower than the one set above
+			// Set the block which will be called automatically when opening a Realm with a schema version lower than the one set above
 			migrationBlock: { migration, oldSchemaVersion in
 				// If we haven’t migrated anything yet, oldSchemaVersion == 0
+				// 0->1: rename _backingRawData to _backingRawData
 				if (oldSchemaVersion < 1) {
 					var needMigration = false
 					let oldObjectSchema = migration.oldSchema.objectSchema
@@ -54,6 +53,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 					}
 					if needMigration {
 						migration.renameProperty(onType: ECGData.className(), from: "_backingRawData", to: "_ecgRawData")
+					}
+				}
+
+				// 1->2: add _fftRawData
+				if (oldSchemaVersion < 2) {
+					migration.enumerateObjects(ofType: ECGData.className()) { oldObject, newObject in
+						newObject!["_fftRawData"] = []
 					}
 				}
 		})

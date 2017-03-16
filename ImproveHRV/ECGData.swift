@@ -45,13 +45,27 @@ class ECGData: Object {
 	}
 	let _ecgRawData = List<IntObject>()
 
+	dynamic var fftData: [Double] {
+		get {
+			return _fftRawData.map { $0.value }
+		}
+		set {
+			_fftRawData.removeAll()
+			_fftRawData.append(objectsIn: newValue.map({ DoubleObject(value: [$0]) }))
+		}
+	}
+	let _fftRawData = List<DoubleObject>()
+
 	override static func ignoredProperties() -> [String] {
-		return ["rawData", "result"]
+		return ["rawData", "fftData", "result"]
 	}
 
 	func cleanAllData() {
 		self.realm?.delete(_ecgRawData)
 		rawData = []
+
+		self.realm?.delete(_fftRawData)
+		fftData = []
 
 		self.realm?.delete(_resultKeys)
 		self.realm?.delete(_resultValues)
