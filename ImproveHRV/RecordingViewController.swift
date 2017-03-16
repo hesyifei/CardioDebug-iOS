@@ -81,12 +81,13 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		rawData = []
 
 		deviceType = .ble
+		//deviceType = .bitalino
 
 
 
 		manager = CBCentralManager(delegate: self, queue: nil)
 
-		bitalino = BITalinoBLE.init(uuid: BITALINO_DEVICE_UUID)
+		bitalino = BITalinoBLE(uuid: BITALINO_DEVICE_UUID)
 		bitalino.delegate = self
 
 
