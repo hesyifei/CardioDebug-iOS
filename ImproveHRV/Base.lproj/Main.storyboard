@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8tx-PJ-9Ej">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8tx-PJ-9Ej">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -34,10 +34,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inputCell" id="O4k-1i-tfK" customClass="TextFieldInputTableCell" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O4k-1i-tfK" id="ofV-23-Ztj">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIm-p7-xKp">
@@ -103,14 +103,14 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="0oI-5z-xMy" style="IBUITableViewCellStyleDefault" id="AxY-4N-OFL">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AxY-4N-OFL" id="f1N-MB-JjA">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0oI-5z-xMy">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -189,7 +189,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-Lm-mLq" customClass="LineChartView" customModule="Charts">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4Y-ve-gFO" userLabel="Right Chart View" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="398" width="375" height="220"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-Lm-mLq" userLabel="Left Chart View" customClass="LineChartView" customModule="Charts">
                                 <rect key="frame" x="0.0" y="398" width="375" height="220"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -237,7 +241,7 @@
                                 <rect key="frame" x="0.0" y="370" width="375" height="29"/>
                                 <segments>
                                     <segment title="ECG Raw Data"/>
-                                    <segment title="RR Interval"/>
+                                    <segment title="Power Spectral Density"/>
                                 </segments>
                             </segmentedControl>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BYj-Ii-8jV">
@@ -255,9 +259,13 @@
                             <constraint firstItem="jrJ-Vp-lFy" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="5cj-t4-r2o"/>
                             <constraint firstItem="blu-8Q-l1f" firstAttribute="top" secondItem="Ack-wT-SzJ" secondAttribute="bottom" id="B8u-OY-R6N"/>
                             <constraint firstItem="jrJ-Vp-lFy" firstAttribute="top" secondItem="fYV-pO-r9I" secondAttribute="bottom" id="Hcv-7D-zYF"/>
+                            <constraint firstAttribute="trailing" secondItem="E4Y-ve-gFO" secondAttribute="trailing" id="Nq5-pF-Xsz"/>
                             <constraint firstAttribute="trailing" secondItem="blu-8Q-l1f" secondAttribute="trailing" id="RWS-ek-VaR"/>
+                            <constraint firstItem="X84-II-XDZ" firstAttribute="top" secondItem="E4Y-ve-gFO" secondAttribute="bottom" id="Uqo-zh-tZV"/>
                             <constraint firstAttribute="trailing" secondItem="jrJ-Vp-lFy" secondAttribute="trailing" id="YkD-xh-TyZ"/>
                             <constraint firstItem="Ack-wT-SzJ" firstAttribute="top" secondItem="jrJ-Vp-lFy" secondAttribute="bottom" id="YvY-Yh-QeA"/>
+                            <constraint firstItem="E4Y-ve-gFO" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="dpa-AF-7fy"/>
+                            <constraint firstItem="E4Y-ve-gFO" firstAttribute="top" secondItem="blu-8Q-l1f" secondAttribute="bottom" id="fQK-BP-0mi"/>
                             <constraint firstItem="Oqo-Lm-mLq" firstAttribute="top" secondItem="blu-8Q-l1f" secondAttribute="bottom" id="iky-Ww-2jY"/>
                             <constraint firstItem="X84-II-XDZ" firstAttribute="top" secondItem="Oqo-Lm-mLq" secondAttribute="bottom" id="kQA-xv-eP1"/>
                             <constraint firstItem="Ack-wT-SzJ" firstAttribute="leading" secondItem="gqL-KU-gR8" secondAttribute="leading" id="loE-Dv-p4f"/>
@@ -269,8 +277,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="H8F-5t-yBX"/>
                     <connections>
-                        <outlet property="chartView" destination="Oqo-Lm-mLq" id="AI6-OR-9bz"/>
                         <outlet property="debugTextView" destination="BYj-Ii-8jV" id="OVR-7r-VtH"/>
+                        <outlet property="leftChartView" destination="Oqo-Lm-mLq" id="x5g-OD-p4w"/>
                         <outlet property="lowerSegmentedControl" destination="blu-8Q-l1f" id="9u7-oh-Sqw"/>
                         <outlet property="tableView" destination="Ack-wT-SzJ" id="giD-wD-3wp"/>
                         <outlet property="upperSegmentedControl" destination="jrJ-Vp-lFy" id="de0-5J-Xfu"/>
@@ -712,11 +720,11 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fPh-ar-XqJ" id="XTJ-2a-33z">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fwh-2h-3xq">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>

@@ -23,7 +23,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
 
 	@IBOutlet var tableView: UITableView!
-	@IBOutlet var chartView: LineChartView!
+	@IBOutlet var leftChartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 	@IBOutlet var upperSegmentedControl: UISegmentedControl!
 	@IBOutlet var lowerSegmentedControl: UISegmentedControl!
@@ -133,7 +133,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			let loadingHUD = MBProgressHUD.showAdded(to: addHUDTo, animated: true)
 
 			Async.main {
-				self.initChart()
+				self.initLeftChart()
 			}
 
 			result = [:]
@@ -403,30 +403,30 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 
-	func initChart() {
-		chartView.setViewPortOffsets(left: 0.0, top: 20.0, right: 0.0, bottom: 20.0)
+	func initLeftChart() {
+		leftChartView.setViewPortOffsets(left: 0.0, top: 20.0, right: 0.0, bottom: 20.0)
 
-		chartView.noDataText = "No chart data available."
-		chartView.chartDescription?.text = ""
-		chartView.scaleXEnabled = true
-		chartView.scaleYEnabled = false
-		chartView.legend.enabled = false
-		chartView.animate(xAxisDuration: 1.0)
+		leftChartView.noDataText = "No chart data available."
+		leftChartView.chartDescription?.text = ""
+		leftChartView.scaleXEnabled = true
+		leftChartView.scaleYEnabled = false
+		leftChartView.legend.enabled = false
+		leftChartView.animate(xAxisDuration: 1.0)
 
 
-		let rightAxis = chartView.rightAxis
+		let rightAxis = leftChartView.rightAxis
 		rightAxis.drawLabelsEnabled = false
 		rightAxis.drawAxisLineEnabled = false
 		rightAxis.drawGridLinesEnabled = false
 
 
-		let leftAxis = chartView.leftAxis
+		let leftAxis = leftChartView.leftAxis
 		leftAxis.drawLabelsEnabled = false
 		leftAxis.drawAxisLineEnabled = false
 		leftAxis.drawGridLinesEnabled = false
 
 
-		let xAxis = chartView.xAxis
+		let xAxis = leftChartView.xAxis
 		xAxis.drawAxisLineEnabled = false
 		xAxis.drawGridLinesEnabled = true
 		xAxis.gridColor = UIColor(netHex: 0xF6CECE)
@@ -467,14 +467,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		let lineChartData = LineChartData(dataSets: [ecgRawDataSet])
 		lineChartData.setDrawValues(false)
 
-		chartView.data = lineChartData
-		chartView.data?.highlightEnabled = false
-		chartView.setVisibleXRangeMinimum(100.0)
-		chartView.setVisibleXRangeMaximum(600.0)
+		leftChartView.data = lineChartData
+		leftChartView.data?.highlightEnabled = false
+		leftChartView.setVisibleXRangeMinimum(100.0)
+		leftChartView.setVisibleXRangeMaximum(600.0)
 		Async.main {
-			self.chartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
-			self.chartView.zoom(scaleX: CGFloat(600/200), scaleY: 1, x: 0, y: 0)
-			self.chartView.moveViewToX(0)
+			self.leftChartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
+			self.leftChartView.zoom(scaleX: CGFloat(600/200), scaleY: 1, x: 0, y: 0)
+			self.leftChartView.moveViewToX(0)
 		}
 	}
 
