@@ -24,6 +24,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	@IBOutlet var tableView: UITableView!
 	@IBOutlet var leftChartView: LineChartView!
+	@IBOutlet var rightChartView: LineChartView!
 	@IBOutlet var debugTextView: UITextView!
 	@IBOutlet var upperSegmentedControl: UISegmentedControl!
 	@IBOutlet var lowerSegmentedControl: UISegmentedControl!
@@ -32,6 +33,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	let application = UIApplication.shared
 
 	var refreshControl: UIRefreshControl!
+	var isRightChartInited: Bool!
 
 	var passedData: PassECGResult!
 	var tableData = [String]()
@@ -63,6 +65,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		tableView.delegate = self
 		tableView.dataSource = self
+
+		isRightChartInited = false
 
 		refreshControl = UIRefreshControl()
 		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -133,6 +137,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			let loadingHUD = MBProgressHUD.showAdded(to: addHUDTo, animated: true)
 
 			Async.main {
+				self.lowerSegmentedControl.selectedSegmentIndex = 0
+				self.leftChartView.isHidden = false
+				self.rightChartView.isHidden = true
 				self.initLeftChart()
 			}
 
@@ -184,6 +191,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						}
 
 						self.updateHRVTableData(isTimeDomain: true)
+						self.isRightChartInited = false
 
 						}.main {
 							loadingHUD.hide(animated: true)
@@ -296,6 +304,24 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			break
 		}
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+	}
+
+	@IBAction func chartSegmentedControlChanged(sender: UISegmentedControl) {
+		print("chartSegmentedControlChanged: \(sender.selectedSegmentIndex)")
+		switch sender.selectedSegmentIndex {
+		case 0:
+			self.leftChartView.isHidden = false
+			self.rightChartView.isHidden = true
+		case 1:
+			if !isRightChartInited {
+				self.initRightChart()
+				isRightChartInited = true
+			}
+			self.leftChartView.isHidden = true
+			self.rightChartView.isHidden = false
+		default:
+			break
+		}
 	}
 
 	func doneButtonAction() {
@@ -475,6 +501,60 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			self.leftChartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
 			self.leftChartView.zoom(scaleX: CGFloat(600/200), scaleY: 1, x: 0, y: 0)
 			self.leftChartView.moveViewToX(0)
+		}
+	}
+
+	func initRightChart() {
+		rightChartView.setViewPortOffsets(left: 20.0, top: 10.0, right: 20.0, bottom: 10.0)
+
+		rightChartView.noDataText = "No FFT data available. Try reloading."
+		rightChartView.chartDescription?.text = ""
+		rightChartView.scaleXEnabled = false
+		rightChartView.scaleYEnabled = false
+		rightChartView.legend.enabled = false
+		//rightChartView.animate(xAxisDuration: 1.0)
+
+
+		let rightAxis = rightChartView.rightAxis
+		rightAxis.drawLabelsEnabled = false
+		rightAxis.drawAxisLineEnabled = false
+		rightAxis.drawGridLinesEnabled = false
+
+
+		let leftAxis = rightChartView.leftAxis
+		leftAxis.drawLabelsEnabled = false
+		leftAxis.drawAxisLineEnabled = false
+		leftAxis.drawGridLinesEnabled = false
+
+
+		let xAxis = rightChartView.xAxis
+		xAxis.drawLabelsEnabled = false
+		xAxis.drawAxisLineEnabled = false
+		xAxis.drawGridLinesEnabled = false
+
+
+		let values = self.fftResult
+
+		var dataEntries: [ChartDataEntry] = []
+		for (index, value) in values.enumerated() {
+			let dataEntry = ChartDataEntry(x: Double(index), y: value)
+			dataEntries.append(dataEntry)
+		}
+
+		let fftDataSet = LineChartDataSet(values: dataEntries, label: nil)
+		fftDataSet.colors = [StoredColor.darkRed]
+		fftDataSet.mode = .linear
+		fftDataSet.drawCirclesEnabled = false
+
+
+		let lineChartData = LineChartData(dataSets: [fftDataSet])
+		lineChartData.setDrawValues(false)
+
+		rightChartView.data = lineChartData
+		rightChartView.data?.highlightEnabled = false
+		Async.main {
+			self.rightChartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
+			self.rightChartView.moveViewToX(0)
 		}
 	}
 
