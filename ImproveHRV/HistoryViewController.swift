@@ -559,21 +559,23 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			}
 		} else if let cellActivityData = tableData[row] as? ActivityData {
 			let cellActivityId = cellActivityData.id
-			if let data = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
-				if let activityData = data[cellActivityId] as? [String: Any] {
-					if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
-						upperLeftText = "\(title)"
+			if let fullData = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
+				if let data = fullData["required"] as? [String: Any] {
+					if let activityData = data[cellActivityId] as? [String: Any] {
+						if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
+							upperLeftText = "\(title)"
 
-						let duration = cellActivityData.endDate.timeIntervalSince(cellActivityData.startDate)
-						let (h, m, _) = HelperFunctions.secondsToHoursMinutesSeconds(Int(duration))
-						if h > 0 {
-							upperRightText = String(format: "%d h %d min", h, m)
-						} else {
-							upperRightText = String(format: "%d min", m)
-						}
+							let duration = cellActivityData.endDate.timeIntervalSince(cellActivityData.startDate)
+							let (h, m, _) = HelperFunctions.secondsToHoursMinutesSeconds(Int(duration))
+							if h > 0 {
+								upperRightText = String(format: "%d h %d min", h, m)
+							} else {
+								upperRightText = String(format: "%d min", m)
+							}
 
-						if let iconImage = icon.imageFromEmoji() {
-							leftmostImageView.image = iconImage
+							if let iconImage = icon.imageFromEmoji() {
+								leftmostImageView.image = iconImage
+							}
 						}
 					}
 				}
