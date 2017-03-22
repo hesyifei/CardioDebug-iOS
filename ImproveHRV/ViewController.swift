@@ -53,6 +53,9 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		if defaults.object(forKey: RemedyListViewController.DEFAULTS_STARTED_OPTIONAL_ACTIVITIES) == nil {
+			defaults.set([String](), forKey: RemedyListViewController.DEFAULTS_STARTED_OPTIONAL_ACTIVITIES)
+		}
 		if defaults.object(forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME) == nil {
 			defaults.set("BT05", forKey: RecordingViewController.DEFAULTS_BLE_DEVICE_NAME)
 		}
@@ -128,11 +131,13 @@ class ViewController: UIViewController {
 		var didSelectActivity = false
 		var labelText = ""
 		if let currentActivity = defaults.string(forKey: RemedyListViewController.DEFAULTS_CURRENT_ACTIVITY) {
-			if let data = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
-				if let activityData = data[currentActivity] as? [String: Any] {
-					if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
-						didSelectActivity = true
-						labelText = "Selected: \(title) \(icon)"
+			if let fullData = defaults.object(forKey: RemedyListViewController.DEFAULTS_ACTIVITIES_DATA) as? [String: Any] {
+				if let data = fullData["required"] as? [String: Any] {
+					if let activityData = data[currentActivity] as? [String: Any] {
+						if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
+							didSelectActivity = true
+							labelText = "Selected: \(title) \(icon)"
+						}
 					}
 				}
 			}
