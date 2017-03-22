@@ -12,9 +12,9 @@ import Foundation
 	class DebugConfig {
 		static let showTouchIndicator = true
 
-		static let skipRecordingAndGetResultDirectly = true
+		static let skipRecordingAndGetResultDirectly = false
 
-		static let useDebugECGRawData = true
+		static let useDebugECGRawData = false
 		static func getDebugECGRawData() -> [Int]? {
 			var returnArray: [Int]?
 			do {
@@ -32,7 +32,7 @@ import Foundation
 
 		static let debugRecordDuration: TimeInterval? = nil
 
-		static let showBPFromThisAppOnly = true
+		static let showBPFromThisAppOnly = false
 
 		static let showHistoryVCCellElementsBackground = false
 	}
