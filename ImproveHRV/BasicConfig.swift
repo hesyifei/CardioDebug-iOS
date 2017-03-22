@@ -12,8 +12,8 @@ import Foundation
 class BasicConfig {
 	// for source code, see http://bitbucket.org/eflyjason/improvehrv-other
 
-	//static let remedyListURL = "http://areflys-mac.local/other/improve-hrv/remedy/remedy.php"
-	static let remedyListURL = "http://app.arefly.com/cardio-debug/remedy/remedy.php"
+	//static let remedyListURL = "http://areflys-mac.local/other/improve-hrv/remedy/"
+	static let remedyListURL = "http://app.arefly.com/cardio-debug/remedy/"
 
 	static let ecgCalculationURL = "http://52.89.180.188:8080/"
 	//static let ecgCalculationURL = "http://arefly.com/"
