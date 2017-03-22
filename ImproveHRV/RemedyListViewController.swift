@@ -185,7 +185,7 @@ class RemedyListViewController: UIViewController, WKNavigationDelegate, WKScript
 
 	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 		if let data = message.body as? [String: Any] {
-			print(data)
+			//print(data)
 			defaults.set(data, forKey: Self.DEFAULTS_ACTIVITIES_DATA)
 		}
 	}

@@ -163,7 +163,7 @@ class ViewController: UIViewController {
 			}
 			upperButton.isEnabled = startButtonEnabled
 			middleButton.isEnabled = finishButtonEnabled
-		}else{
+		} else {
 			mainLabel.text = "Select your activity in \"Remedy\""
 			mainLabel.textColor = UIColor.red
 
