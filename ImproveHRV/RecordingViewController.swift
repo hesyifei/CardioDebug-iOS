@@ -741,19 +741,21 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							if eachReceivedData.hasPrefix("B") {
 								// meaning it may be a heart beat (B) and time between beats (Q) info
 								let splitedComponents = eachReceivedData.components(separatedBy: ",")
-								for eachComponent in splitedComponents {
-									if let thisData = Int(eachComponent.substring(from: eachComponent.index(eachComponent.startIndex, offsetBy: 1))) {
-										print(eachComponent)
-										switch eachComponent[eachComponent.startIndex] {
-										case "B":
-											self.upperLabel.text = "\(thisData) bpm"
-											break
-										case "Q":
-											self.rrData.append(thisData)
-											print("Added thisData \(thisData)")
-											break
-										default:
-											break
+								if splitedComponents.allPass({ $0.characters.count > 1 }) {
+									for eachComponent in splitedComponents {
+										if let thisData = Int(eachComponent.substring(from: eachComponent.index(eachComponent.startIndex, offsetBy: 1))) {
+											print(eachComponent)
+											switch eachComponent[eachComponent.startIndex] {
+											case "B":
+												self.upperLabel.text = "\(thisData) bpm"
+												break
+											case "Q":
+												self.rrData.append(thisData)
+												print("Added thisData \(thisData)")
+												break
+											default:
+												break
+											}
 										}
 									}
 								}

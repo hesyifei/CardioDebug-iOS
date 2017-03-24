@@ -136,3 +136,10 @@ extension Array where Element: Equatable {
 	}
 }
 
+
+extension Sequence {
+	// http://stackoverflow.com/a/37933006/2603230
+	func allPass(_ predicate: (Iterator.Element) -> Bool) -> Bool {
+		return first(where: { !predicate($0) }) == nil
+	}
+}
