@@ -17,9 +17,9 @@ enum DeviceType {
 	case bitalino
 }
 
-enum CDDeviceSupportedMethod {
-	case ecg
-	case ppg
+enum CDDeviceSupportedMethod: String {
+	case ecg = "E"
+	case ppg = "P"
 }
 
 class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, BITalinoBLEDelegate {
@@ -703,22 +703,26 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			// CBUUID see data in LightBlue
 			if characteristic.uuid == CBUUID(string: "FFE1") {
 				HelperFunctions.delay(1.0) {
-					self.startRecording()
-					self.rawData = []
-					self.rrData = []
-					#if DEBUG
-						if DebugConfig.useDebugECGRawData == true {
-							if let debugRawData = DebugConfig.getDebugECGRawData() {
-								self.debugRawData = debugRawData
-							} else {
-								fatalError("ERROR in getting debugRawData!")
+					self.peripheral.writeValue(self.currentMethod.rawValue.data(using: String.Encoding.utf8)!, for: characteristic, type: .withoutResponse)
+					// wait until finished
+					HelperFunctions.delay(2.0) {
+						self.startRecording()
+						self.rawData = []
+						self.rrData = []
+						#if DEBUG
+							if DebugConfig.useDebugECGRawData == true {
+								if let debugRawData = DebugConfig.getDebugECGRawData() {
+									self.debugRawData = debugRawData
+								} else {
+									fatalError("ERROR in getting debugRawData!")
+								}
 							}
-						}
-					#endif
+						#endif
 
-					self.progressCircleView.startAnimation(duration: self.duration)
+						self.progressCircleView.startAnimation(duration: self.duration)
 
-					peripheral.setNotifyValue(true, for: characteristic)
+						peripheral.setNotifyValue(true, for: characteristic)
+					}
 				}
 			}
 		}
