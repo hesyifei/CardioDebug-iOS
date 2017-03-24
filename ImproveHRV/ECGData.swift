@@ -19,7 +19,10 @@ class ECGData: Object {
 	// http://stackoverflow.com/q/29123245/2603230
 	var recordType: RecordType {
 		get {
-			return RecordType(rawValue: _recordType)!
+			if let parsedRecordType = RecordType(rawValue: _recordType) {
+				return parsedRecordType
+			}
+			return .ecg
 		}
 		set {
 			_recordType = newValue.rawValue
