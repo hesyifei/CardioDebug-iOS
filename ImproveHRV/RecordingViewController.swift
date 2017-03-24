@@ -17,6 +17,11 @@ enum DeviceType {
 	case bitalino
 }
 
+enum CDDeviceSupportedMethod {
+	case ecg
+	case ppg
+}
+
 class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate, BITalinoBLEDelegate {
 
 	// MARK: - static var
@@ -55,8 +60,10 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	// MARK: - data var
 	var rawData: [Int]!
+	var rrData: [Int]!	// for PPG method only
 
 	var deviceType: DeviceType!
+	var currentMethod: CDDeviceSupportedMethod!
 
 
 	let frequency: Int = 100
@@ -79,9 +86,12 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 
 		rawData = []
+		rrData = []
 
 		deviceType = .ble
 		//deviceType = .bitalino
+
+		currentMethod = .ecg
 
 
 
@@ -598,13 +608,24 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 				let alert = UIAlertController(title: "Device found", message: "Found BLE device named \(name)", preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "Connect & record", style: .default, handler: { (action: UIAlertAction) in
-					self.disableButtons()
-					self.mainLabel.text = "Connecting..."
 
-					self.peripheral = peripheral
-					self.peripheral.delegate = self
+					if self.deviceType == .ble {
+						// TODO: change to a better expression
+						let methodAlert = UIAlertController(title: "Choose your method", message: "Your CD Device support both Express Solution (put your finger tip on) and Professional Solution (use electrode). Which one do you want to use for this time?", preferredStyle: .alert)
+						methodAlert.addAction(UIAlertAction(title: "Express Solution", style: .default, handler: { (action: UIAlertAction) in
+							self.startConnectAfterDiscover(.ppg, peripheral: peripheral)
+						}))
+						methodAlert.addAction(UIAlertAction(title: "Professional Solution", style: .default, handler: { (action: UIAlertAction) in
+							self.startConnectAfterDiscover(.ecg, peripheral: peripheral)
+						}))
 
-					self.manager.connect(peripheral, options: nil)
+						Async.main {
+							self.present(methodAlert, animated: true, completion: nil)
+						}
+					} else {
+						self.startConnectAfterDiscover(peripheral)
+					}
+
 				}))
 				alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction) in
 					self.popViewController()
@@ -615,6 +636,24 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				}
 			}
 		}
+	}
+
+	func startConnectAfterDiscover(_ peripheral: CBPeripheral) {
+		startConnectAfterDiscover(nil, peripheral: peripheral)
+	}
+
+	func startConnectAfterDiscover(_ method: CDDeviceSupportedMethod?, peripheral: CBPeripheral) {
+		self.disableButtons()
+		self.mainLabel.text = "Connecting..."
+
+		if let method = method {
+			currentMethod = method
+		}
+
+		self.peripheral = peripheral
+		self.peripheral.delegate = self
+
+		self.manager.connect(peripheral, options: nil)
 	}
 
 	func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -660,6 +699,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				HelperFunctions.delay(1.0) {
 					self.startRecording()
 					self.rawData = []
+					self.rrData = []
 					#if DEBUG
 						if DebugConfig.useDebugECGRawData == true {
 							if let debugRawData = DebugConfig.getDebugECGRawData() {
@@ -687,6 +727,29 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				let someReceivedData = utf8Data.components(separatedBy: " ")
 				for eachReceivedData in someReceivedData {
 					if !eachReceivedData.isEmpty {
+						if currentMethod == .ppg {
+							if eachReceivedData.hasPrefix("B") {
+								// meaning it may be a heart beat (B) and time between beats (Q) info
+								let splitedComponents = eachReceivedData.components(separatedBy: ",")
+								for eachComponent in splitedComponents {
+									if let thisData = Int(eachComponent.substring(from: eachComponent.index(eachComponent.startIndex, offsetBy: 1))) {
+										print(eachComponent)
+										switch eachComponent[eachComponent.startIndex] {
+										case "B":
+											self.upperLabel.text = "\(thisData) bpm"
+											break
+										case "Q":
+											self.rrData.append(thisData)
+											print("Added thisData \(thisData)")
+											break
+										default:
+											break
+										}
+									}
+								}
+							}
+						}
+						// when receiving data like "B80,Q750", the following will NOT be executed
 						if let eachReceivedDataInt = Int(eachReceivedData) {
 							//print(eachReceivedDataInt)
 							self.rawData.append(eachReceivedDataInt)
