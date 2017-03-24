@@ -9,7 +9,25 @@
 import Foundation
 import RealmSwift
 
+enum RecordType: String {
+	case ecg
+	case ppg
+}
+
 class ECGData: Object {
+
+	// http://stackoverflow.com/q/29123245/2603230
+	var recordType: RecordType {
+		get {
+			return RecordType(rawValue: _recordType)!
+		}
+		set {
+			_recordType = newValue.rawValue
+		}
+	}
+	var _recordType = RecordType.ecg.rawValue
+
+
 	dynamic var startDate = Date(timeIntervalSince1970: 1)
 	dynamic var duration: Double = 0.0
 
@@ -36,14 +54,25 @@ class ECGData: Object {
 	// http://stackoverflow.com/a/31730894/2603230
 	dynamic var rawData: [Int] {
 		get {
-			return _ecgRawData.map { $0.value }
+			return _rawData.map { $0.value }
 		}
 		set {
-			_ecgRawData.removeAll()
-			_ecgRawData.append(objectsIn: newValue.map({ IntObject(value: [$0]) }))
+			_rawData.removeAll()
+			_rawData.append(objectsIn: newValue.map({ IntObject(value: [$0]) }))
 		}
 	}
-	let _ecgRawData = List<IntObject>()
+	var _rawData = List<IntObject>()
+
+	dynamic var rrData: [Int] {
+		get {
+			return _rrData.map { $0.value }
+		}
+		set {
+			_rrData.removeAll()
+			_rrData.append(objectsIn: newValue.map({ IntObject(value: [$0]) }))
+		}
+	}
+	var _rrData = List<IntObject>()
 
 	dynamic var fftData: [Double] {
 		get {
@@ -54,15 +83,18 @@ class ECGData: Object {
 			_fftRawData.append(objectsIn: newValue.map({ DoubleObject(value: [$0]) }))
 		}
 	}
-	let _fftRawData = List<DoubleObject>()
+	var _fftRawData = List<DoubleObject>()
 
 	override static func ignoredProperties() -> [String] {
-		return ["rawData", "fftData", "result"]
+		return ["recordType", "rawData", "rrData", "fftData", "result"]
 	}
 
 	func cleanAllData() {
-		self.realm?.delete(_ecgRawData)
+		self.realm?.delete(_rawData)
 		rawData = []
+
+		self.realm?.delete(_rrData)
+		rrData = []
 
 		self.realm?.delete(_fftRawData)
 		fftData = []
