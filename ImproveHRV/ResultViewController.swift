@@ -124,7 +124,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				if rawData.count >= 10*100 {
 					isPassedDataValid = true
 				} else {
-					print("time too short! \(rawData.count)")
+					print("Recording time is too short! (\(rawData.count) < \(10*100))")
+					#if DEBUG
+						if DebugConfig.ignoreShortestTimeRestriction == true {
+							print("[IGNORE LAST MSG] DebugConfig.ignoreShortestTimeRestriction is true")
+							isPassedDataValid = true
+						}
+					#endif
 				}
 			}
 		}

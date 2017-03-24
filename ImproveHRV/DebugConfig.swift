@@ -31,6 +31,7 @@ import Foundation
 		}
 
 		static let debugRecordDuration: TimeInterval? = nil
+		static let ignoreShortestTimeRestriction = false
 
 		static let showBPFromThisAppOnly = false
 
