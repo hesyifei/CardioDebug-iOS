@@ -505,7 +505,12 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 			timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
 			startTime = Date()
-			duration = TimeInterval(5*60)+extraPreTime
+			if currentMethod == .ppg {
+				duration = TimeInterval(1*60)
+			} else {
+				duration = TimeInterval(5*60)
+			}
+			duration = duration+extraPreTime
 			#if DEBUG
 				if let debugDuration = DebugConfig.debugRecordDuration {
 					duration = debugDuration
