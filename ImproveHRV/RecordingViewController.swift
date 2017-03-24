@@ -68,7 +68,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	let frequency: Int = 100
 
-	let extraPreTime: TimeInterval = 15.0
+	let extraPreTime: TimeInterval = 20.0
 
 	let BITALINO_DEVICE_UUID = "1AC1F712-C6FE-4728-9BEF-DBD2A6177D47"
 

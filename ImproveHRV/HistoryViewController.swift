@@ -416,7 +416,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 		if let reuseCell = tableView.dequeueReusableCell(withIdentifier: cellID) {
-			print("目前Cell \(indexPath.row)已創建過，即將dequeue這個cell")
+			//print("目前Cell \(indexPath.row)已創建過，即將dequeue這個cell")
 			cell = reuseCell
 
 			leftView = cell?.contentView.viewWithTag(tagIDs["leftView"]!)
@@ -427,7 +427,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			upperLeftLabel = cell?.contentView.viewWithTag(tagIDs["upperLeftLabel"]!) as! PaddingLabel
 			upperRightLabel = cell?.contentView.viewWithTag(tagIDs["upperRightLabel"]!) as! PaddingLabel
 		} else {
-			print("目前Cell \(indexPath.row)為nil，即將創建新Cell")
+			//print("目前Cell \(indexPath.row)為nil，即將創建新Cell")
 
 			cell = UITableViewCell(style: .default, reuseIdentifier: cellID)
 			let contentView = cell.contentView
