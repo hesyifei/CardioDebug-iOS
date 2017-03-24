@@ -169,6 +169,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						let realm = try! Realm()
 						if self.passedData.isNew == true {
 							let ecgData = ECGData()
+							ecgData.recordType = self.passedData.recordType
 							ecgData.startDate = self.passedData.startDate
 							ecgData.duration = Double(self.passedData.rawData.count)/100.0
 							ecgData.recordingHertz = self.passedData.recordingHertz
