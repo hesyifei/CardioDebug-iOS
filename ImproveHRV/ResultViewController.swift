@@ -161,7 +161,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				if self.passedData.recordType == .ppg {
 					dataToBeCalculated = self.passedData.rrData
 				}
-				self.calculateECGData(dataToBeCalculated!, recordType: self.passedData.recordType) { (successDownloadHRVData: Bool) in
+				self.calculateECGData(dataToBeCalculated!, recordType: self.passedData.recordType, hertz: self.passedData.recordingHertz) { (successDownloadHRVData: Bool) in
 					if !successDownloadHRVData {
 						print("ERROR")
 					}
@@ -579,13 +579,16 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 	}
 
-	func calculateECGData(_ inputValues: [Int], recordType: RecordType, completion completionBlock: @escaping (Bool) -> Void) {
+	func calculateECGData(_ inputValues: [Int], recordType: RecordType, hertz: Double, completion completionBlock: @escaping (Bool) -> Void) {
 
 		Async.background {
-			var parameters: Parameters = ["ecgRawData": inputValues]
+			var parameters: Parameters = [:]
 			if recordType == .ppg {
-				parameters = ["rrRawData": inputValues]
+				parameters["rrRawData"] = inputValues
+			} else {
+				parameters["ecgRawData"] = inputValues
 			}
+			parameters["hertz"] = hertz
 
 			self.sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
 
