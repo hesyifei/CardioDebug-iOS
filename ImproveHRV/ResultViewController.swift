@@ -125,6 +125,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					isPassedDataValid = true
 				} else {
 					print("Recording time is too short! (\(rawData.count) < \(10*100))")
+					HelperFunctions.showAlert(self, title: "Warning", message: "This record is too short to analyze. Please try to record some new ones.", completion: nil)
 					#if DEBUG
 						if DebugConfig.ignoreShortestTimeRestriction == true {
 							print("[IGNORE LAST MSG] DebugConfig.ignoreShortestTimeRestriction is true")
