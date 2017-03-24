@@ -590,7 +590,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		Async.background {
 			var parameters: Parameters = [:]
 			if recordType == .ppg {
-				parameters["rrRawData"] = inputValues
+				parameters["rrData"] = inputValues
 			} else {
 				parameters["ecgRawData"] = inputValues
 			}
