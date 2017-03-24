@@ -105,6 +105,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		lowerSegmentedControl.tintColor = StoredColor.middleBlue
 
 
+		if self.passedData.recordType == .ppg {
+			lowerSegmentedControl.setTitle("PPG Raw Data", forSegmentAt: 0)
+			lowerSegmentedControl.setTitle("RR Interval", forSegmentAt: 1)
+		}
+
+
 		loadDataAndChart(force: false)
 
 		if passedData.isNew == true {
@@ -557,7 +563,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.drawGridLinesEnabled = false
 
 
-		let values = self.fftResult
+		var values = self.fftResult
+		if self.passedData.recordType == .ppg {
+			values = self.passedData.rrData.map{ Double($0) }
+		}
 
 		rightChartView.data = nil
 		// doing this can make sure "noDataText" is displayed when values is really empty
