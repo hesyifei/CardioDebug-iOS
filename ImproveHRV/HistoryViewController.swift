@@ -544,7 +544,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		var thisDate = Date(timeIntervalSinceNow: 0)
 
 		if let cellECGData = tableData[row] as? ECGData {
-			let result = cellECGData.result
+			var result = cellECGData.result
+			if result.isEmpty {
+				// FIXME: weird bug that result cannot be found in cellECGData if PPG is recorded
+				// WORKAROUND: reload data from realm
+				if let thisData = realm.objects(ECGData.self).filter("startDate = %@", cellECGData.startDate).first {
+					result = thisData.result
+				}
+			}
 			if !result.isEmpty {
 				if let LFHF = result["LF/HF"] {
 					upperLeftText = "LF/HF: \(String(format:"%.2f", LFHF))"
