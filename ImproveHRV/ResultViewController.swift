@@ -597,6 +597,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 			parameters["hertz"] = hertz
 
+			print("parameters: \(parameters)")
+
 			self.sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
 
 				Async.main {

@@ -25,7 +25,7 @@ class ECGData: Object {
 			_recordType = newValue.rawValue
 		}
 	}
-	var _recordType = RecordType.ecg.rawValue
+	dynamic var _recordType: String = RecordType.ecg.rawValue
 
 
 	dynamic var startDate = Date(timeIntervalSince1970: 1)
