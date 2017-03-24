@@ -424,6 +424,12 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				}
 			}
 		}
+
+		// if it's still empty...
+		if tableData.isEmpty {
+			tableData.append("No analysis result available.|")
+			tableData.append("Please try to reload!|")
+		}
 	}
 
 
@@ -524,7 +530,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	func initRightChart() {
 		rightChartView.setViewPortOffsets(left: 20.0, top: 10.0, right: 20.0, bottom: 10.0)
 
-		rightChartView.noDataText = "No FFT data available. Try reloading."
+		rightChartView.noDataText = "No FFT data available. Please try to reload!"
 		rightChartView.chartDescription?.text = ""
 		rightChartView.scaleXEnabled = false
 		rightChartView.scaleYEnabled = false
