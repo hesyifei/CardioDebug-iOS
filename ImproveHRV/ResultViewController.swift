@@ -512,11 +512,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		leftChartView.data = lineChartData
 		leftChartView.data?.highlightEnabled = false
-		leftChartView.setVisibleXRangeMinimum(100.0)
-		leftChartView.setVisibleXRangeMaximum(600.0)
+		leftChartView.setVisibleXRangeMinimum(self.passedData.recordingHertz*1)
+		leftChartView.setVisibleXRangeMaximum(self.passedData.recordingHertz*6)
 		Async.main {
 			self.leftChartView.zoom(scaleX: 0.0001, scaleY: 1, x: 0, y: 0)		// reset scale
-			self.leftChartView.zoom(scaleX: CGFloat(600/200), scaleY: 1, x: 0, y: 0)
+			self.leftChartView.zoom(scaleX: CGFloat(6/2), scaleY: 1, x: 0, y: 0)
 			self.leftChartView.moveViewToX(0)
 		}
 	}
