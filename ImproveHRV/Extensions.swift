@@ -109,8 +109,8 @@ extension UITextView {
 }
 
 
-// http://stackoverflow.com/a/38809531/2603230
 extension String {
+	// http://stackoverflow.com/a/38809531/2603230
 	func imageFromEmoji() -> UIImage? {
 		let size = CGSize(width: 60, height: 70)
 		UIGraphicsBeginImageContextWithOptions(size, false, 0)

@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			// Set the block which will be called automatically when opening a Realm with a schema version lower than the one set above
 			migrationBlock: { migration, oldSchemaVersion in
 				// If we haven’t migrated anything yet, oldSchemaVersion == 0
-				// 0->1: rename _backingRawData to _backingRawData
+				// 0->1: rename _backingRawData to _ecgRawData
 				if (oldSchemaVersion < 1) {
 					var needMigration = false
 					let oldObjectSchema = migration.oldSchema.objectSchema

@@ -31,6 +31,7 @@ class ECGData: Object {
 	dynamic var startDate = Date(timeIntervalSince1970: 1)
 	dynamic var duration: Double = 0.0
 
+
 	dynamic var result: [String: Double] {
 		get {
 			if _resultKeys.isEmpty { return [:] } // Empty dict = default; change to other if desired
@@ -47,8 +48,8 @@ class ECGData: Object {
 			_resultValues.append(objectsIn: newValue.values.map({ DoubleObject(value: [$0]) }))
 		}
 	}
-	var _resultKeys = List<StringObject>();
-	var _resultValues = List<DoubleObject>();
+	var _resultKeys = List<StringObject>()
+	var _resultValues = List<DoubleObject>()
 
 
 	// http://stackoverflow.com/a/31730894/2603230
