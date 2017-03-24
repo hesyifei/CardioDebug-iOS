@@ -107,8 +107,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 				if let indexPath: IndexPath = self.tableView.indexPathForSelectedRow {
 					if let data = tableData[indexPath.row] as? ECGData {
 						let passedData = PassECGResult()
+						passedData.recordType = data.recordType
 						passedData.startDate = data.startDate
 						passedData.rawData = data.rawData
+						passedData.rrData = data.rrData
 						passedData.isNew = false
 
 						destination.passedData = passedData

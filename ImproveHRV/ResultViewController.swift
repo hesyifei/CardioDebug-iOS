@@ -14,8 +14,10 @@ import RealmSwift
 import MBProgressHUD
 
 class PassECGResult {
+	var recordType: RecordType!
 	var startDate: Date!
 	var rawData: [Int]!
+	var rrData: [Int] = []
 	var isNew: Bool!
 }
 
@@ -147,7 +149,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			fftResult = []
 
 			if self.passedData.isNew == true || force == true {
-				self.calculateECGData(self.passedData.rawData) { (successDownloadHRVData: Bool) in
+				var dataToBeCalculated = self.passedData.rawData
+				if self.passedData.recordType == .ppg {
+					dataToBeCalculated = self.passedData.rrData
+				}
+				self.calculateECGData(dataToBeCalculated!, recordType: self.passedData.recordType) { (successDownloadHRVData: Bool) in
 					if !successDownloadHRVData {
 						print("ERROR")
 					}
@@ -158,6 +164,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							ecgData.startDate = self.passedData.startDate
 							ecgData.duration = Double(self.passedData.rawData.count)/100.0
 							ecgData.rawData = self.passedData.rawData
+							ecgData.rrData = self.passedData.rrData
 							ecgData.result = self.result
 							ecgData.fftData = self.fftResult
 							try! realm.write {
@@ -562,10 +569,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 	}
 
-	func calculateECGData(_ inputValues: [Int], completion completionBlock: @escaping (Bool) -> Void) {
+	func calculateECGData(_ inputValues: [Int], recordType: RecordType, completion completionBlock: @escaping (Bool) -> Void) {
 
 		Async.background {
-			let parameters: Parameters = ["ecgRawData": inputValues]
+			var parameters: Parameters = ["ecgRawData": inputValues]
+			if recordType == .ppg {
+				parameters = ["rrRawData": inputValues]
+			}
 
 			self.sessionManager.request(BasicConfig.ecgCalculationURL, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseJSON { response in
 

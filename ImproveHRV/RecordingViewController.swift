@@ -229,6 +229,12 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					#endif
 
 					let passedData = PassECGResult()
+					if currentMethod == .ppg {
+						passedData.recordType = .ppg
+						passedData.rrData = self.rrData
+					} else {
+						passedData.recordType = .ecg
+					}
 					passedData.startDate = (startTime ?? Date()).addingTimeInterval(extraPreTime)
 					let extraPreTimeDataCount = Int(extraPreTime)*frequency
 					if rawData.count-1 > extraPreTimeDataCount {
