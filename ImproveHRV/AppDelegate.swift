@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				if (oldSchemaVersion < 3) {
 					migration.renameProperty(onType: ECGData.className(), from: "_ecgRawData", to: "_rawData")
 					migration.enumerateObjects(ofType: ECGData.className()) { oldObject, newObject in
-						newObject!["_recordType"] = "ecg"
+						newObject!["_recordType"] = RecordType.ecg.rawValue
 						newObject!["_rrData"] = []
 					}
 				}
