@@ -109,6 +109,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						let passedData = PassECGResult()
 						passedData.recordType = data.recordType
 						passedData.startDate = data.startDate
+						passedData.recordingHertz = data.recordingHertz
 						passedData.rawData = data.rawData
 						passedData.rrData = data.rrData
 						passedData.isNew = false

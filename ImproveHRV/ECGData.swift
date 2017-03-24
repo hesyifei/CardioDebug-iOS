@@ -31,6 +31,8 @@ class ECGData: Object {
 	dynamic var startDate = Date(timeIntervalSince1970: 1)
 	dynamic var duration: Double = 0.0
 
+	dynamic var recordingHertz: Double = 100.0
+
 
 	dynamic var result: [String: Double] {
 		get {

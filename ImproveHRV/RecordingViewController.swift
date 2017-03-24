@@ -230,9 +230,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 					let passedData = PassECGResult()
 					if currentMethod == .ppg {
+						passedData.recordingHertz = 50.0
 						passedData.recordType = .ppg
 						passedData.rrData = self.rrData
 					} else {
+						passedData.recordingHertz = 100.0
 						passedData.recordType = .ecg
 					}
 					passedData.startDate = (startTime ?? Date()).addingTimeInterval(extraPreTime)

@@ -16,6 +16,7 @@ import MBProgressHUD
 class PassECGResult {
 	var recordType: RecordType!
 	var startDate: Date!
+	var recordingHertz: Double!
 	var rawData: [Int]!
 	var rrData: [Int] = []
 	var isNew: Bool!
@@ -170,6 +171,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							let ecgData = ECGData()
 							ecgData.startDate = self.passedData.startDate
 							ecgData.duration = Double(self.passedData.rawData.count)/100.0
+							ecgData.recordingHertz = self.passedData.recordingHertz
 							ecgData.rawData = self.passedData.rawData
 							ecgData.rrData = self.passedData.rrData
 							ecgData.result = self.result
@@ -472,7 +474,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		xAxis.gridColor = UIColor(netHex: 0xF6CECE)
 		//xAxis.gridColor = StoredColor.middleBlue
 		xAxis.labelPosition = .bottom
-		xAxis.valueFormatter = ChartCSDoubleToSecondsStringFormatter()
+		// default is 100Hz (cs = centisecond = 0.01s which is 100Hz)
+		xAxis.valueFormatter = ChartDoubleToSecondsStringFormatter(hertz: self.passedData.recordingHertz)
 
 
 		//let values = passedData.rawData[0...2000]
@@ -640,9 +643,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 }
 
-class ChartCSDoubleToSecondsStringFormatter: NSObject, IAxisValueFormatter {
-	// cs = centisecond = 0.01s (as the record is 100Hz)
+class ChartDoubleToSecondsStringFormatter: NSObject, IAxisValueFormatter {
+	var hertz: Double!
+
+	init(hertz: Double) {
+		self.hertz = hertz
+	}
+
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-		return "\(String(format: "%.1f", value/100))s"
+		return "\(String(format: "%.1f", value/self.hertz))s"
 	}
 }
