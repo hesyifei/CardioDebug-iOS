@@ -14,6 +14,7 @@ class SimpleResultViewController: UIViewController {
 
 	// MARK: - static var
 	static let SHOW_SIMPLE_RESULT_SEGUE_ID = "showSimpleResultView"
+	static let VC_STORYBOARD_ID = "SimpleResultViewController"
 
 	// MARK: - basic var
 	let application = UIApplication.shared

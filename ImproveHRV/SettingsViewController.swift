@@ -112,14 +112,14 @@ class SettingsViewController: FormViewController {
 				}.cellUpdate { cell, row in
 					//cell.textLabel?.textAlignment = .left
 				}.onCellSelection { cell, row in
-					let destination = self.storyboard?.instantiateViewController(withIdentifier: "SimpleResultViewController") as! SimpleResultViewController
+					let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 					destination.isGood = false
 					destination.problemData = [
 						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>Atrial Premature Beats (APB)</a></span></div><br />There may not be any symptom for this disease, however it maybe further develop into more serious arrhythmia if no action is taken.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject
 						, "result": [
-						"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
-						"1": "Since you (a) have drunk coffee or alcohol within the last 4 hours / (b) are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again<br />(a) tomorrow <b>without</b> drinking any coffee or alcohol.<br />(b) after your are <b>not</b> sick any more.",
-						"2": "In order to alleviate this disease, please seek medical advice as soon as possible."
+							"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
+							"1": "Since you (a) have drunk coffee or alcohol within the last 4 hours / (b) are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again<br />(a) tomorrow <b>without</b> drinking any coffee or alcohol.<br />(b) after your are <b>not</b> sick any more.",
+							"2": "In order to alleviate this disease, please seek medical advice as soon as possible."
 						] as AnyObject, "questions": [
 							"Choose \"Yes\" if you are <b>not</b> having a cold, and vice versa.",
 							"Choose \"Yes\" if you <b>did't</b> drink any alcohol or caffeine within the last 4 hours, and vice versa."
