@@ -66,7 +66,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	var currentMethod: CDDeviceSupportedMethod!
 
 
-	let frequency: Int = 100
+	var frequency: Double = 100.0
 
 	let extraPreTime: TimeInterval = 20.0
 
@@ -235,16 +235,15 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					#endif
 
 					let passedData = PassECGResult()
+					passedData.recordingHertz = self.frequency
 					if currentMethod == .ppg {
-						passedData.recordingHertz = 50.0
 						passedData.recordType = .ppg
 						passedData.rrData = self.rrData
 					} else {
-						passedData.recordingHertz = 100.0
 						passedData.recordType = .ecg
 					}
 					passedData.startDate = (startTime ?? Date()).addingTimeInterval(extraPreTime)
-					let extraPreTimeDataCount = Int(extraPreTime)*frequency
+					let extraPreTimeDataCount = Int(extraPreTime*frequency)
 					if rawData.count-1 > extraPreTimeDataCount {
 						rawData.removeSubrange(0...extraPreTimeDataCount)
 					}
@@ -784,7 +783,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							chartView.data?.notifyDataChanged()
 							chartView.notifyDataSetChanged()
 
-							chartView.setVisibleXRange(minXRange: 600, maxXRange: 600)
+							chartView.setVisibleXRange(minXRange: 6*self.frequency, maxXRange: 6*self.frequency)
 							chartView.moveViewToX(Double((chartView.data?.entryCount)!))
 						}
 					}
