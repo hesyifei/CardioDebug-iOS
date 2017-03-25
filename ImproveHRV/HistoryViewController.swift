@@ -25,6 +25,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 	var refreshControl: UIRefreshControl!
 
+	var shareAction: UIBarButtonItem!
+
+
 	var realm: Realm!
 
 	var tableData: [Any]!
@@ -68,7 +71,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		self.navigationItem.title = "History"
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 
-		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
+		shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
 		self.navigationItem.setLeftBarButton(shareAction, animated: true)
 
 
@@ -124,6 +127,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	override func setEditing(_ editing: Bool, animated: Bool) {
 		super.setEditing(editing, animated: animated)
 		self.tableView.setEditing(editing, animated: animated)
+
+		if editing {
+			self.shareAction.isEnabled = false
+		} else {
+			self.shareAction.isEnabled = true
+		}
 	}
 
 	override func didReceiveMemoryWarning() {
