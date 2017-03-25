@@ -287,7 +287,7 @@
                         <outlet property="tableView" destination="Ack-wT-SzJ" id="giD-wD-3wp"/>
                         <outlet property="upperSegmentedControl" destination="jrJ-Vp-lFy" id="de0-5J-Xfu"/>
                         <segue destination="ejo-Ys-Sy4" kind="presentation" identifier="showSymptomSelection" id="3iO-M0-ycj"/>
-                        <segue destination="q9y-FK-bL3" kind="presentation" identifier="showSimpleResultView" id="XQE-mC-ecs"/>
+                        <segue destination="q9y-FK-bL3" kind="presentation" identifier="showSimpleResultView" modalPresentationStyle="pageSheet" id="XQE-mC-ecs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GBZ-j3-5jU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -586,7 +586,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="dmJ-vf-gXl">
                             <connections>
-                                <segue destination="iN1-Cp-HaP" kind="presentation" id="zIC-Zz-fns"/>
+                                <segue destination="iN1-Cp-HaP" kind="presentation" modalPresentationStyle="pageSheet" id="zIC-Zz-fns"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -920,9 +920,7 @@
                         <outlet property="mainLabel" destination="54I-fq-ebn" id="9dc-2d-hYT"/>
                         <outlet property="outerProgressCircleView" destination="5Rc-6t-WPe" id="g6b-fR-afz"/>
                         <outlet property="upperLabel" destination="V3h-qW-0Sf" id="2ia-GA-10g"/>
-                        <segue destination="K9M-NG-D8M" kind="popoverPresentation" identifier="showResult" popoverAnchorView="FMM-Mq-ZjU" id="qaB-dG-jRn">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
+                        <segue destination="K9M-NG-D8M" kind="presentation" identifier="showResult" modalPresentationStyle="formSheet" id="qaB-dG-jRn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6aS-QU-f8V" sceneMemberID="firstResponder"/>
@@ -937,6 +935,6 @@
         <image name="TabBarIcon-List" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AVZ-sP-xzk"/>
+        <segue reference="9gI-D6-7G4"/>
     </inferredMetricsTieBreakers>
 </document>
