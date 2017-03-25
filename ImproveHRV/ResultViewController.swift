@@ -604,6 +604,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	func calculateECGData(_ inputValues: [Int], recordType: RecordType, hertz: Double, completion completionBlock: @escaping (Bool) -> Void) {
 
+		self.application.isIdleTimerDisabled = true
+
 		Async.background {
 			var parameters: Parameters = [:]
 			if recordType == .ppg {
@@ -661,6 +663,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						}
 					}
 					print("result: \(self.result)")
+
+					self.application.isIdleTimerDisabled = false
 					completionBlock(success)
 				}
 
