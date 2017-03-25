@@ -15,13 +15,12 @@ import Foundation
 		static let skipRecordingAndGetResultDirectly = false
 
 		static let useDebugECGRawData = false
-		static func getDebugECGRawData() -> [Int]? {
-			var returnArray: [Int]?
+		static func getDebugECGRawData() -> [String]? {
+			var returnArray: [String]?
 			do {
 				if let path = Bundle.main.path(forResource: "DebugECGRawData", ofType: "txt"){
 					let data = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-					let arrayOfStrings = data.components(separatedBy: "\n")
-					returnArray = arrayOfStrings.flatMap({ Int($0) })
+					returnArray = data.components(separatedBy: "\n")
 				}
 			} catch let error {
 				// do something with Error

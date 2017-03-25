@@ -220,8 +220,14 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 					#if DEBUG
 						if DebugConfig.skipRecordingAndGetResultDirectly == true {
-							if let debugRawData = DebugConfig.getDebugECGRawData() {
-								rawData = debugRawData
+							rawData = []
+							rrData = []
+							if var debugRawData = DebugConfig.getDebugECGRawData() {
+								if currentMethod == .ppg {
+									// http://stackoverflow.com/a/28324072/2603230
+									debugRawData = debugRawData.filter { !checkPPGReceivedData($0) }
+								}
+								rawData = debugRawData.flatMap({ Int($0) })
 							} else {
 								fatalError("ERROR in getting debugRawData!")
 							}
@@ -661,6 +667,10 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 		if let method = method {
 			currentMethod = method
+
+			if method == .ppg {
+				frequency = 50.0
+			}
 		}
 
 		self.peripheral = peripheral
@@ -701,7 +711,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	}
 
 	#if DEBUG
-	var debugRawData: [Int]?
+	var debugRawData: [String]?
 	#endif
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
 		print("didDiscoverCharacteristicsFor \(service.uuid)")
@@ -742,31 +752,22 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			if let utf8Data = String(data: value, encoding: String.Encoding.utf8) {
 				//print(utf8Data)
 				let someReceivedData = utf8Data.components(separatedBy: " ")
-				for eachReceivedData in someReceivedData {
+				for rawEachReceivedData in someReceivedData {
+					var eachReceivedData = rawEachReceivedData
 					if !eachReceivedData.isEmpty {
-						if currentMethod == .ppg {
-							if eachReceivedData.hasPrefix("B") {
-								// meaning it may be a heart beat (B) and time between beats (Q) info
-								let splitedComponents = eachReceivedData.components(separatedBy: ",")
-								if splitedComponents.allPass({ $0.characters.count > 1 }) {
-									for eachComponent in splitedComponents {
-										if let thisData = Int(eachComponent.substring(from: eachComponent.index(eachComponent.startIndex, offsetBy: 1))) {
-											print(eachComponent)
-											switch eachComponent[eachComponent.startIndex] {
-											case "B":
-												self.upperLabel.text = "\(thisData) bpm"
-												break
-											case "Q":
-												self.rrData.append(thisData)
-												print("Added thisData \(thisData)")
-												break
-											default:
-												break
-											}
-										}
+						#if DEBUG
+							if DebugConfig.useDebugECGRawData == true {
+								if let debugRawData = self.debugRawData {
+									if debugRawData.count > 0 {
+										eachReceivedData = debugRawData[0]
+										(self.debugRawData)!.remove(at: 0)		// self here is important
 									}
 								}
 							}
+						#endif
+
+						if currentMethod == .ppg {
+							_ = checkPPGReceivedData(eachReceivedData)
 						}
 						// when receiving data like "B80,Q750", the following will NOT be executed
 						if let eachReceivedDataInt = Int(eachReceivedData) {
@@ -776,15 +777,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							let dataSet = self.chartView.data?.getDataSetByIndex(0)
 							let index = (dataSet?.entryCount)!-1+1
 							var value = eachReceivedDataInt
-							#if DEBUG
-								if DebugConfig.useDebugECGRawData == true {
-									if let debugRawData = self.debugRawData {
-										if index <= debugRawData.count-1 {
-											value = debugRawData[index]
-										}
-									}
-								}
-							#endif
 							print("\(index) \(value)")
 
 							let chartEntry = ChartDataEntry(x: Double(index), y: Double(value))
@@ -799,6 +791,34 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				}
 			}
 		}
+	}
+
+	func checkPPGReceivedData(_ eachReceivedData: String) -> Bool {
+		var hasDetectedRRInterval = false
+		if eachReceivedData.hasPrefix("B") {
+			// meaning it may be a heart beat (B) and time between beats (Q) info
+			let splitedComponents = eachReceivedData.components(separatedBy: ",")
+			if splitedComponents.allPass({ $0.characters.count > 1 }) {
+				for eachComponent in splitedComponents {
+					if let thisData = Int(eachComponent.substring(from: eachComponent.index(eachComponent.startIndex, offsetBy: 1))) {
+						print(eachComponent)
+						switch eachComponent[eachComponent.startIndex] {
+						case "B":
+							self.upperLabel.text = "\(thisData) bpm"
+							break
+						case "Q":
+							self.rrData.append(thisData)
+							hasDetectedRRInterval = true
+							print("Added thisData \(thisData)")
+							break
+						default:
+							break
+						}
+					}
+				}
+			}
+		}
+		return hasDetectedRRInterval
 	}
 
 
