@@ -34,9 +34,9 @@ class ProgressCircleView: UIView {
 		print("setupCircle(labelBoundsWidth: \(labelBoundsWidth)")
 		let centerPoint = CGPoint(x: self.bounds.width / 2, y: self.bounds.width / 2)
 		//let circleRadius: CGFloat = self.bounds.width / 2 * 0.83
-		var circleRadiusConstant: CGFloat = 25.0
+		var circleRadiusConstant: CGFloat = 30.0
 		if UIDevice.current.userInterfaceIdiom == .pad {
-			circleRadiusConstant = 75.0
+			circleRadiusConstant = 65.0
 		}
 		let circleRadius: CGFloat = labelBoundsWidth/2 + circleRadiusConstant
 
