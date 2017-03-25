@@ -134,9 +134,6 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			self.outerProgressCircleView.addConstraint(NSLayoutConstraint(item: self.progressCircleView, attribute: .trailing, relatedBy: .equal, toItem: self.outerProgressCircleView, attribute: .trailing, multiplier: 1.0, constant: 0))
 			self.outerProgressCircleView.layoutIfNeeded()
 
-			self.progressCircleView.setupCircle()
-
-
 			self.initChart()
 		}
 	}
@@ -201,8 +198,10 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			}
 
 			self.progressCircleView.progressCircle.removeFromSuperlayer()
-			self.progressCircleView.setupCircle()
-			self.progressCircleView.startAnimation(duration: self.endTime.timeIntervalSinceNow, fromValue: Double(1)-(self.endTime.timeIntervalSinceNow/self.duration))
+			if self.isConnectedAndRecording == true {
+				self.progressCircleView.setupCircle(labelBoundsWidth: self.mainLabel.intrinsicContentSize.width)
+				self.progressCircleView.startAnimation(duration: self.endTime.timeIntervalSinceNow, fromValue: Double(1)-(self.endTime.timeIntervalSinceNow/self.duration))
+			}
 
 			self.view.layoutIfNeeded()
 
@@ -735,6 +734,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							}
 						#endif
 
+						self.progressCircleView.setupCircle(labelBoundsWidth: self.mainLabel.intrinsicContentSize.width)
 						self.progressCircleView.startAnimation(duration: self.duration)
 
 						peripheral.setNotifyValue(true, for: characteristic)

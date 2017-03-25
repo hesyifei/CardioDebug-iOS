@@ -30,9 +30,16 @@ class ProgressCircleView: UIView {
 		self.progressCircle.frame = self.layer.bounds
 	}
 
-	func setupCircle() {
+	func setupCircle(labelBoundsWidth: CGFloat) {
+		print("setupCircle(labelBoundsWidth: \(labelBoundsWidth)")
 		let centerPoint = CGPoint(x: self.bounds.width / 2, y: self.bounds.width / 2)
-		let circleRadius: CGFloat = self.bounds.width / 2 * 0.83
+		//let circleRadius: CGFloat = self.bounds.width / 2 * 0.83
+		var circleRadiusConstant: CGFloat = 25.0
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			circleRadiusConstant = 75.0
+		}
+		let circleRadius: CGFloat = labelBoundsWidth/2 + circleRadiusConstant
+
 		let circlePath = UIBezierPath(arcCenter: centerPoint, radius: circleRadius, startAngle: CGFloat(-0.5 * M_PI), endAngle: CGFloat(1.5 * M_PI), clockwise: true)
 
 		progressCircle = CAShapeLayer()
