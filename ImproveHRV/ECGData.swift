@@ -36,6 +36,8 @@ class ECGData: Object {
 
 	dynamic var recordingHertz: Double = 100.0
 
+	dynamic var note: String = ""
+
 
 	dynamic var result: [String: Double] {
 		get {
