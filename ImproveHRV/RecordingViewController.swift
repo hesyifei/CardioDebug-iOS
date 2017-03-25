@@ -222,7 +222,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 						if DebugConfig.skipRecordingAndGetResultDirectly == true {
 							rawData = []
 							rrData = []
-							if var debugRawData = DebugConfig.getDebugECGRawData() {
+							if var debugRawData = DebugConfig.getDebugRawData() {
 								if currentMethod == .ppg {
 									// http://stackoverflow.com/a/28324072/2603230
 									debugRawData = debugRawData.filter { !checkPPGReceivedData($0) }
@@ -726,8 +726,8 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 						self.rawData = []
 						self.rrData = []
 						#if DEBUG
-							if DebugConfig.useDebugECGRawData == true {
-								if let debugRawData = DebugConfig.getDebugECGRawData() {
+							if DebugConfig.useDebugRawData == true {
+								if let debugRawData = DebugConfig.getDebugRawData() {
 									self.debugRawData = debugRawData
 								} else {
 									fatalError("ERROR in getting debugRawData!")
@@ -755,7 +755,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					var eachReceivedData = rawEachReceivedData
 					if !eachReceivedData.isEmpty {
 						#if DEBUG
-							if DebugConfig.useDebugECGRawData == true {
+							if DebugConfig.useDebugRawData == true {
 								if let debugRawData = self.debugRawData {
 									if debugRawData.count > 0 {
 										eachReceivedData = debugRawData[0]

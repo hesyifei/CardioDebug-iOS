@@ -14,8 +14,8 @@ import Foundation
 
 		static let skipRecordingAndGetResultDirectly = false
 
-		static let useDebugECGRawData = false
-		static func getDebugECGRawData() -> [String]? {
+		static let useDebugRawData = false
+		static func getDebugRawData() -> [String]? {
 			var returnArray: [String]?
 			do {
 				if let path = Bundle.main.path(forResource: "DebugECGRawData", ofType: "txt"){
