@@ -551,6 +551,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		var upperRightFontSize: CGFloat = 20.0
 		var upperRightText = "[...]"
 		var thisDate = Date(timeIntervalSinceNow: 0)
+		var thisNote = ""
 
 		if let cellECGData = tableData[row] as? ECGData {
 			var result = cellECGData.result
@@ -570,6 +571,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 				}
 			}
 			thisDate = cellECGData.startDate
+			thisNote = cellECGData.note
 
 			upperLeftColor = StoredColor.middleBlue
 
@@ -634,7 +636,11 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 		upperLeftLabel.text = upperLeftText
-		lowerLeftLabel.text = "\(DateFormatter.localizedString(from: thisDate, dateStyle: .short, timeStyle: .short))"
+		var lowerLeftLabelText = "\(DateFormatter.localizedString(from: thisDate, dateStyle: .short, timeStyle: .short))"
+		if !thisNote.isEmpty {
+			lowerLeftLabelText += " (\(thisNote))"
+		}
+		lowerLeftLabel.text = lowerLeftLabelText
 		upperRightLabel.text = upperRightText
 
 		/*** 修改數據結束 ***/

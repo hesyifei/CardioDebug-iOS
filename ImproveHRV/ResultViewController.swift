@@ -22,6 +22,12 @@ class PassECGResult {
 	var isNew: Bool!
 }
 
+enum UpperTableSegmentedControlSegment: Int {
+	case timeDomain = 0
+	case frequencyDomain = 1
+	case note = 2
+}
+
 class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	static let SHOW_RESULT_SEGUE_ID = "showResult"
 
@@ -216,7 +222,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							}
 						}
 
-						self.updateHRVTableData(isTimeDomain: true)
+						self.updateHRVTableData(.timeDomain)
 						self.isRightChartInited = false
 
 						}.main {
@@ -235,7 +241,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							}
 
 							// http://stackoverflow.com/q/5273775/2603230
-							self.upperSegmentedControl.selectedSegmentIndex = 0
+							self.upperSegmentedControl.selectedSegmentIndex = UpperTableSegmentedControlSegment.timeDomain.rawValue
 
 							if (self.refreshControl) != nil {
 								if self.refreshControl.isRefreshing {
@@ -250,7 +256,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					self.result = thisData.result
 					self.fftResult = thisData.fftData
 
-					self.updateHRVTableData(isTimeDomain: true)
+					self.updateHRVTableData(.timeDomain)
 
 					if self.result.isEmpty {
 						HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.HRVUnableToAnalyseMessage) { (_) in () }
@@ -325,14 +331,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	@IBAction func hrvSegmentedControlChanged(sender: UISegmentedControl) {
 		print("hrvSegmentedControlChanged: \(sender.selectedSegmentIndex)")
-		switch sender.selectedSegmentIndex {
-		case 0:
-			self.updateHRVTableData(isTimeDomain: true)
-		case 1:
-			self.updateHRVTableData(isTimeDomain: false)
-		default:
-			break
-		}
+		self.updateHRVTableData(UpperTableSegmentedControlSegment(rawValue: sender.selectedSegmentIndex)!)
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 	}
 
@@ -374,69 +373,82 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 
-	func updateHRVTableData(isTimeDomain: Bool) {
+	func updateHRVTableData(_ segmentedControlSegment: UpperTableSegmentedControlSegment) {
 		tableData = []
 
-		let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms²", bpmUnit = " bpm"
+		switch segmentedControlSegment {
+		case .timeDomain, .frequencyDomain:
+			let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms²", bpmUnit = " bpm"
 
-		if isTimeDomain {
-			if let avgHR = self.result["AvgHR"] {
-				self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)")
-			}
-			if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
-				self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)")
-			}
-		}
-
-
-		let fullStringDict = [
-			"TOT PWR": "Total HRV Power",
-			"ULF PWR": "Ultra-low Frequency Power",
-			"VLF PWR": "Very Low Frequency Power",
-			"LF PWR": "Low Frequency Power",
-			"HF PWR": "High Frequency Power",
-			"nHF": "Normalized HF (PNS)",
-			"nLF": "Normalized LF (SNS)",
-			]
-		let unitDict = [
-			"AVNN": msUnit,
-			"SDSD": msUnit,
-			"SDNN": msUnit,
-			"SDANN": msUnit,
-			"SDNNIDX": msUnit,
-			"rMSSD": msUnit,
-			"pNN20": percentageUnit,
-			"pNN50": percentageUnit,
-			"TOT PWR": ms2Unit,
-			"ULF PWR": ms2Unit,
-			"VLF PWR": ms2Unit,
-			"LF PWR": ms2Unit,
-			"HF PWR": ms2Unit,
-			"LF/HF": "",
-			"nHF": "",
-			"nLF": "",
-			]
-
-		let timeDomainOrder = ["AVNN", "SDSD", "SDNN", "SDANN", "SDNNIDX", "rMSSD", "pNN20", "pNN50"]
-		let frequencyDomainOrder = ["LF/HF", "nLF", "nHF", "TOT PWR", "ULF PWR", "VLF PWR", "LF PWR", "HF PWR"]
-		var allKey = frequencyDomainOrder
-		if isTimeDomain {
-			allKey = timeDomainOrder
-		}
-		for key in allKey {
-			if let value = self.result[key] {
-				if value != 0 {
-					var name = key
-					if let abbName = fullStringDict[key] {
-						name = abbName
-					}
-					var unit = ""
-					if let abbUnit = unitDict[key] {
-						unit = abbUnit
-					}
-					self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit)")
+			if segmentedControlSegment == .timeDomain {
+				if let avgHR = self.result["AvgHR"] {
+					self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)")
+				}
+				if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
+					self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)")
 				}
 			}
+
+
+			let fullStringDict = [
+				"TOT PWR": "Total HRV Power",
+				"ULF PWR": "Ultra-low Frequency Power",
+				"VLF PWR": "Very Low Frequency Power",
+				"LF PWR": "Low Frequency Power",
+				"HF PWR": "High Frequency Power",
+				"nHF": "Normalized HF (PNS)",
+				"nLF": "Normalized LF (SNS)",
+				]
+			let unitDict = [
+				"AVNN": msUnit,
+				"SDSD": msUnit,
+				"SDNN": msUnit,
+				"SDANN": msUnit,
+				"SDNNIDX": msUnit,
+				"rMSSD": msUnit,
+				"pNN20": percentageUnit,
+				"pNN50": percentageUnit,
+				"TOT PWR": ms2Unit,
+				"ULF PWR": ms2Unit,
+				"VLF PWR": ms2Unit,
+				"LF PWR": ms2Unit,
+				"HF PWR": ms2Unit,
+				"LF/HF": "",
+				"nHF": "",
+				"nLF": "",
+				]
+
+			let timeDomainOrder = ["AVNN", "SDSD", "SDNN", "SDANN", "SDNNIDX", "rMSSD", "pNN20", "pNN50"]
+			let frequencyDomainOrder = ["LF/HF", "nLF", "nHF", "TOT PWR", "ULF PWR", "VLF PWR", "LF PWR", "HF PWR"]
+			var allKey = frequencyDomainOrder
+			if segmentedControlSegment == .timeDomain {
+				allKey = timeDomainOrder
+			}
+			for key in allKey {
+				if let value = self.result[key] {
+					if value != 0 {
+						var name = key
+						if let abbName = fullStringDict[key] {
+							name = abbName
+						}
+						var unit = ""
+						if let abbUnit = unitDict[key] {
+							unit = abbUnit
+						}
+						self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit) ✅")
+					}
+				}
+			}
+			break
+		case .note:
+			let realm = try! Realm()
+			tableData = ["Note|Enter note..."]
+			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+				if !thisData.note.isEmpty {
+					tableData = ["Note|\(thisData.note)"]
+				}
+			}
+			break
 		}
 
 		// if it's still empty...
@@ -462,6 +474,47 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.tableView.deselectRow(at: indexPath, animated: true)
+
+		let data = tableData[indexPath.row].components(separatedBy: "|")
+
+		switch UpperTableSegmentedControlSegment(rawValue: self.upperSegmentedControl.selectedSegmentIndex)! {
+		case .timeDomain, .frequencyDomain:
+			HelperFunctions.showAlert(self, title: data[0], message: "Normal Value: ", completion: nil)
+			break
+		case .note:
+			let realm = try! Realm()
+			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+				let noteString = "Note"
+				if data[0] == noteString {
+					let noteAlertController = UIAlertController(title: "Note", message: "Enter anything you want:", preferredStyle: .alert)
+
+					let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
+						if let field = noteAlertController.textFields?[0] {
+							print("Saving note to local data.")
+							try! realm.write {
+								thisData.note = field.text!
+							}
+							self.tableData[0] = "\(noteString)|\(field.text!)"
+							self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+						}
+					}
+
+					let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+
+					noteAlertController.addTextField { (textField) in
+						textField.placeholder = "Note..."
+					}
+
+					noteAlertController.addAction(confirmAction)
+					noteAlertController.addAction(cancelAction)
+
+					Async.main {
+						self.present(noteAlertController, animated: true, completion: nil)
+					}
+				}
+			}
+			break
+		}
 	}
 
 
