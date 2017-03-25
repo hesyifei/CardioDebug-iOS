@@ -190,11 +190,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4Y-ve-gFO" userLabel="Right Chart View" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="398" width="375" height="220"/>
+                                <rect key="frame" x="0.0" y="398" width="375" height="269"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-Lm-mLq" userLabel="Left Chart View" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="398" width="375" height="220"/>
+                                <rect key="frame" x="0.0" y="398" width="375" height="269"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ack-wT-SzJ">
@@ -307,19 +307,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kVk-t7-Yrq">
-                                <rect key="frame" x="169.5" y="60" width="36" height="160"/>
+                                <rect key="frame" x="169.5" y="40" width="36" height="160"/>
                                 <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="135"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTICE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3q-vc-x1h">
-                                <rect key="frame" x="157" y="195" width="61" height="21"/>
+                                <rect key="frame" x="157" y="175" width="61" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-GJ-gvt" customClass="NonSelectableTextView" customModule="ImproveHRV" customModuleProvider="target">
-                                <rect key="frame" x="36" y="236" width="303" height="322.5"/>
+                                <rect key="frame" x="36" y="216" width="303" height="342.5"/>
                                 <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -801,7 +801,7 @@
                         <segue destination="R8L-wK-Rbr" kind="relationship" relationship="viewControllers" id="Gwk-ib-6oh"/>
                         <segue destination="TqD-i2-78M" kind="relationship" relationship="viewControllers" id="R0R-gt-44A"/>
                         <segue destination="1zp-W8-5gP" kind="relationship" relationship="viewControllers" id="OI6-R8-NLG"/>
-                        <segue destination="aCF-qZ-35X" kind="presentation" identifier="presentAddDataView" id="xGP-xf-k5e"/>
+                        <segue destination="aCF-qZ-35X" kind="presentation" identifier="presentAddDataView" modalPresentationStyle="pageSheet" id="xGP-xf-k5e"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sKf-iu-ubT" userLabel="First Responder" sceneMemberID="firstResponder"/>
