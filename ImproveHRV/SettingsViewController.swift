@@ -107,6 +107,31 @@ class SettingsViewController: FormViewController {
 		}
 		#if DEBUG
 			form +++ Section("DEBUG ONLY")
+				<<< ButtonRow("Show ANS Disorder Warning") {
+					$0.title = $0.tag
+					}.cellUpdate { cell, row in
+						//cell.textLabel?.textAlignment = .left
+					}.onCellSelection { cell, row in
+						let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
+						destination.isGood = false
+						destination.problemData = [
+							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>ANS disorder</a></span></div><br />ANS disorder is the imbalance of sympathetic nervous and parasympathetic nervous which controls the involuntary work of your body (such as digestion and heart rate).<br /><span class='lightPink'>Unhealthy lifestyle</span> and <span class='lightPink'>long working hours</span> may cause this disorder, and leaving it untreated maybe cause <span class='lightPink'>dysfunction of ANS</span>.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
+							"result": [
+								"0": "",
+								"1": "Since you have drunk coffee or alcohol within the last 4 hours, it is possible that the detection result is unrelated to ANS disorder. We suggest you to record and test again tomorrow <b>without</b> drinking any coffee or alcohol.",
+								"2": "Choose \"Yes\" if you did't drink any alcohol or caffeine, and vice versa."
+								] as AnyObject,
+							"questions": [
+								"Do you feel stressful all the time?",
+								"Did you sleep late recently?",
+								"Choose \"Yes\" if you did't drink any alcohol or caffeine, and vice versa."
+								] as AnyObject
+						]
+						destination.passedBackData = { bool in
+							// do nothing
+						}
+						self.present(destination, animated: true, completion: nil)
+				}
 			<<< ButtonRow("Show Arrhythmia Warning") {
 				$0.title = $0.tag
 				}.cellUpdate { cell, row in
@@ -115,8 +140,8 @@ class SettingsViewController: FormViewController {
 					let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 					destination.isGood = false
 					destination.problemData = [
-						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>Atrial Premature Beats (APB)</a></span></div><br />There may not be any symptom for this disease, however it maybe further develop into more serious arrhythmia if no action is taken.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject
-						, "result": [
+						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>Atrial Premature Beats (APB)</a></span></div><br />There may not be any symptom for this disease, however it maybe further develop into more serious arrhythmia if no action is taken.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
+						"result": [
 							"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
 							"1": "Since you (a) have drunk coffee or alcohol within the last 4 hours / (b) are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again<br />(a) tomorrow <b>without</b> drinking any coffee or alcohol.<br />(b) after your are <b>not</b> sick any more.",
 							"2": "In order to alleviate this disease, please seek medical advice as soon as possible."
