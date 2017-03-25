@@ -36,6 +36,7 @@ class SyncSession;
 class SyncUser;
 class SyncFileManager;
 class SyncMetadataManager;
+class SyncFileActionMetadata;
 
 namespace _impl {
 struct SyncClient;
@@ -69,6 +70,12 @@ public:
                                util::Optional<std::vector<char>> custom_encryption_key=none,
                                bool reset_metadata_on_error=false);
 
+    // Immediately run file actions for a single Realm at a given original path.
+    // Returns whether or not a file action was successfully executed for the specified Realm.
+    // Preconditions: all references to the Realm at the given path must have already been invalidated.
+    // The metadata and file management subsystems must also have already been configured.
+    bool immediately_run_file_actions(const std::string& original_name);
+
     void set_log_level(util::Logger::Level) noexcept;
     void set_logger_factory(SyncLoggerFactory&) noexcept;
 
@@ -83,6 +90,7 @@ public:
     util::Logger::Level log_level() const noexcept;
 
     std::shared_ptr<SyncSession> get_session(const std::string& path, const SyncConfig& config);
+    std::shared_ptr<SyncSession> get_existing_session(const std::string& path) const;
     std::shared_ptr<SyncSession> get_existing_active_session(const std::string& path) const;
 
     // If the metadata manager is configured, perform an update. Returns `true` iff the code was run.
@@ -104,6 +112,9 @@ public:
     // Get the default path for a Realm for the given user and absolute unresolved URL.
     std::string path_for_realm(const std::string& user_identity, const std::string& raw_realm_url) const;
 
+    // Get the path of the recovery directory for backed-up or recovered Realms.
+    std::string recovery_directory_path() const;
+
     // Reset the singleton state for testing purposes. DO NOT CALL OUTSIDE OF TESTING CODE.
     // Precondition: any synced Realms or `SyncSession`s must be closed or rendered inactive prior to
     // calling this method.
@@ -111,7 +122,6 @@ public:
 
 private:
     using ReconnectMode = sync::Client::ReconnectMode;
-    void dropped_last_reference_to_session(SyncSession*);
 
     // Stop tracking the session for the given path if it is inactive.
     // No-op if the session is either still active or in the active sessions list
@@ -125,8 +135,7 @@ private:
     _impl::SyncClient& get_sync_client() const;
     std::unique_ptr<_impl::SyncClient> create_sync_client() const;
 
-    std::shared_ptr<SyncSession> get_existing_active_session_locked(const std::string& path) const;
-    std::unique_ptr<SyncSession> get_existing_inactive_session_locked(const std::string& path);
+    std::shared_ptr<SyncSession> get_existing_session_locked(const std::string& path) const;
 
     mutable std::mutex m_mutex;
 
@@ -136,6 +145,8 @@ private:
     ReconnectMode m_client_reconnect_mode = ReconnectMode::normal;
     bool m_client_validate_ssl = true;
 
+    bool run_file_action(const SyncFileActionMetadata&);
+
     // Protects m_users
     mutable std::mutex m_user_mutex;
 
@@ -144,22 +155,18 @@ private:
 
     mutable std::unique_ptr<_impl::SyncClient> m_sync_client;
 
-    // Protects m_active_sessions and m_inactive_sessions
-    mutable std::mutex m_session_mutex;
-
     // Protects m_file_manager and m_metadata_manager
     mutable std::mutex m_file_system_mutex;
     std::unique_ptr<SyncFileManager> m_file_manager;
     std::unique_ptr<SyncMetadataManager> m_metadata_manager;
 
-    // Active sessions are sessions which the client code holds a strong
-    // reference to. When the last strong reference is released, the session is
-    // moved to inactive sessions. Inactive sessions are promoted back to active
-    // sessions until the session itself calls unregister_session to remove
-    // itself from inactive sessions once it's done with whatever async cleanup
-    // it needs to do.
-    std::unordered_map<std::string, std::weak_ptr<SyncSession>> m_active_sessions;
-    std::unordered_map<std::string, std::unique_ptr<SyncSession>> m_inactive_sessions;
+    // Protects m_sessions
+    mutable std::mutex m_session_mutex;
+
+    // Map of sessions by path name.
+    // Sessions remove themselves from this map by calling `unregister_session` once they're
+    // inactive and have performed any necessary cleanup work.
+    std::unordered_map<std::string, std::shared_ptr<SyncSession>> m_sessions;
 };
 
 } // namespace realm

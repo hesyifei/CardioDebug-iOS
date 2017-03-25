@@ -1,18 +1,18 @@
 PODS:
-  - Alamofire (4.3.0)
+  - Alamofire (4.4.0)
   - AsyncSwift (2.0.1)
   - Charts (3.0.1):
     - Charts/Core (= 3.0.1)
   - Charts/Core (3.0.1)
-  - Eureka (2.0.0-beta.1)
+  - Eureka (2.0.1)
   - MBProgressHUD (1.0.0)
-  - Realm (2.2.0):
-    - Realm/Headers (= 2.2.0)
-  - Realm/Headers (2.2.0)
-  - RealmSwift (2.2.0):
-    - Realm (= 2.2.0)
+  - Realm (2.4.4):
+    - Realm/Headers (= 2.4.4)
+  - Realm/Headers (2.4.4)
+  - RealmSwift (2.4.4):
+    - Realm (= 2.4.4)
   - TouchVisualizer (2.1.0)
-  - VTAcknowledgementsViewController (1.2)
+  - VTAcknowledgementsViewController (1.2.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
@@ -25,15 +25,15 @@ DEPENDENCIES:
   - VTAcknowledgementsViewController
 
 SPEC CHECKSUMS:
-  Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AsyncSwift: 632138e42ead868b53c745fcde9bf733ce1527ad
   Charts: 0e84f4418e87dad6a9edde221fba37ebb51d3ba7
-  Eureka: d014adf16406745e1a78d5790ea37ed130a0a8e5
+  Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
-  RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
+  Realm: 5a280a1f5a9a3c267bebf4f41ee47911137703d7
+  RealmSwift: 0c02b9f2d4be4301c497ed10e53a0580584eb1dd
   TouchVisualizer: a67d7b7c2786b6a2e13103fd76ac08093542f0c0
-  VTAcknowledgementsViewController: 62d2b3979b6d86677246967cf880d14b13ee7ac4
+  VTAcknowledgementsViewController: e1de80f2c0ce31cc7e1c6f1c8aaeec2770371f09
 
 PODFILE CHECKSUM: a5356f1c99e9bac32797d90a2c9d409015adca9b
 

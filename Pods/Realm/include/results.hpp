@@ -181,7 +181,7 @@ public:
     // The query will be run on a background thread and delivered to the callback,
     // and then rerun after each commit (if needed) and redelivered if it changed
     NotificationToken async(std::function<void (std::exception_ptr)> target);
-    NotificationToken add_notification_callback(CollectionChangeCallback cb);
+    NotificationToken add_notification_callback(CollectionChangeCallback cb) &;
 
     bool wants_background_updates() const { return m_wants_background_updates; }
 
@@ -206,7 +206,7 @@ private:
     Query m_query;
     TableView m_table_view;
     LinkViewRef m_link_view;
-    Table* m_table = nullptr;
+    TableRef m_table;
     SortDescriptor m_sort;
     SortDescriptor m_distinct;
 

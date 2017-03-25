@@ -18,12 +18,16 @@
 
 #include "shared_realm.hpp"
 
+#include "impl/collection_notifier.hpp"
 #include "impl/realm_coordinator.hpp"
 #include "impl/transact_log_handler.hpp"
 
 #include "binding_context.hpp"
+#include "list.hpp"
+#include "object.hpp"
 #include "object_schema.hpp"
 #include "object_store.hpp"
+#include "results.hpp"
 #include "schema.hpp"
 #include "thread_safe_reference.hpp"
 
@@ -39,37 +43,6 @@
 
 using namespace realm;
 using namespace realm::_impl;
-
-static std::string get_initial_temporary_directory()
-{
-    auto tmp_dir = getenv("TMPDIR");
-    if (!tmp_dir) {
-        return std::string();
-    }
-    std::string tmp_dir_str(tmp_dir);
-    if (!tmp_dir_str.empty() && tmp_dir_str.back() != '/') {
-        tmp_dir_str += '/';
-    }
-    return tmp_dir_str;
-}
-
-static std::string temporary_directory = get_initial_temporary_directory();
-
-void realm::set_temporary_directory(std::string directory_path)
-{
-    if (directory_path.empty()) {
-        throw std::invalid_argument("'directory_path` is empty.");
-    }
-    if (directory_path.back() != '/') {
-        throw std::invalid_argument("'directory_path` must ends with '/'.");
-    }
-    temporary_directory = std::move(directory_path);
-}
-
-const std::string& realm::get_temporary_directory() noexcept
-{
-    return temporary_directory;
-}
 
 Realm::Realm(Config config, std::shared_ptr<_impl::RealmCoordinator> coordinator)
 : m_config(std::move(config))
@@ -194,11 +167,10 @@ void Realm::open_with_config(const Config& config,
                     realm->upgrade_final_version = to_version;
                 }
             };
-            options.temp_dir = get_temporary_directory();
             shared_group = std::make_unique<SharedGroup>(*history, options);
         }
     }
-    catch (realm::FileFormatUpgradeRequired const& ex) {
+    catch (realm::FileFormatUpgradeRequired const&) {
         if (config.schema_mode != SchemaMode::ResetFile) {
             translate_file_exception(config.path, config.read_only());
         }
@@ -327,8 +299,11 @@ void Realm::update_schema(Schema schema, uint64_t version, MigrationFunction mig
 
             case SchemaMode::Additive:
                 if (required_changes.empty()) {
-                    set_schema(std::move(schema), version);
-                    return version == m_schema_version;
+                    if (version == m_schema_version) {
+                        set_schema(std::move(schema), version);
+                        return true;
+                    }
+                    return false;
                 }
                 ObjectStore::verify_valid_additive_changes(required_changes);
                 return false;
@@ -460,13 +435,17 @@ void Realm::begin_transaction()
         throw InvalidTransactionException("The Realm is already in a write transaction");
     }
 
+    // Any of the callbacks to user code below could drop the last remaining
+    // strong reference to `this`
+    auto retain_self = shared_from_this();
+
     // If we're already in the middle of sending notifications, just begin the
     // write transaction without sending more notifications. If this actually
     // advances the read version this could leave the user in an inconsistent
     // state, but that's unavoidable.
     if (m_is_sending_notifications) {
         _impl::NotifierPackage notifiers;
-        transaction::begin(*m_shared_group, m_binding_context.get(), notifiers);
+        transaction::begin(m_shared_group, m_binding_context.get(), notifiers);
         return;
     }
 
@@ -508,6 +487,10 @@ void Realm::invalidate()
     verify_open();
     verify_thread();
     check_read_write(this);
+
+    if (m_is_sending_notifications) {
+        return;
+    }
 
     if (is_in_transaction()) {
         cancel_transaction();
@@ -573,27 +556,43 @@ void Realm::notify()
 
     verify_thread();
 
-    m_is_sending_notifications = true;
-    auto cleanup = util::make_scope_exit([this]() noexcept { m_is_sending_notifications = false; });
+    // Any of the callbacks to user code below could drop the last remaining
+    // strong reference to `this`
+    auto retain_self = shared_from_this();
 
-    if (m_shared_group->has_changed()) { // Throws
-        if (m_binding_context) {
-            m_binding_context->changes_available();
+    if (m_binding_context) {
+        m_binding_context->before_notify();
+    }
+
+    auto cleanup = util::make_scope_exit([this]() noexcept { m_is_sending_notifications = false; });
+    if (!m_shared_group->has_changed()) {
+        m_is_sending_notifications = true;
+        m_coordinator->process_available_async(*this);
+        return;
+    }
+
+    if (m_binding_context) {
+        m_binding_context->changes_available();
+
+        // changes_available() may have advanced the read version, and if
+        // so we don't need to do anything further
+        if (!m_shared_group->has_changed())
+            return;
+    }
+
+    m_is_sending_notifications = true;
+    if (m_auto_refresh) {
+        if (m_group) {
+            m_coordinator->advance_to_ready(*this);
         }
-        if (m_auto_refresh) {
-            if (m_group) {
-                m_coordinator->advance_to_ready(*this);
+        else  {
+            if (m_binding_context) {
+                m_binding_context->did_change({}, {});
             }
-            else  {
-                if (m_binding_context) {
-                    m_binding_context->did_change({}, {});
-                }
+            if (!is_closed()) {
                 m_coordinator->process_available_async(*this);
             }
         }
-    }
-    else {
-        m_coordinator->process_available_async(*this);
     }
 }
 
@@ -612,9 +611,16 @@ bool Realm::refresh()
         return false;
     }
 
+    // Any of the callbacks to user code below could drop the last remaining
+    // strong reference to `this`
+    auto retain_self = shared_from_this();
+
     m_is_sending_notifications = true;
     auto cleanup = util::make_scope_exit([this]() noexcept { m_is_sending_notifications = false; });
 
+    if (m_binding_context) {
+        m_binding_context->before_notify();
+    }
     if (m_group) {
         return m_coordinator->advance_to_latest(*this);
     }
@@ -698,6 +704,10 @@ T Realm::resolve_thread_safe_reference(ThreadSafeReference<T> reference)
         throw MismatchedRealmException("Cannot resolve thread safe reference in Realm with different configuration "
                                        "than the source Realm.");
     }
+
+    // Any of the callbacks to user code below could drop the last remaining
+    // strong reference to `this`
+    auto retain_self = shared_from_this();
 
     // Ensure we're on the same version as the reference
     if (!m_group) {
