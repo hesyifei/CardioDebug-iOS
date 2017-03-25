@@ -232,7 +232,7 @@
                                 <segments>
                                     <segment title="Time Domain"/>
                                     <segment title="Frequency Domain"/>
-                                    <segment title="Note"/>
+                                    <segment title="Other"/>
                                 </segments>
                                 <connections>
                                     <action selector="hrvSegmentedControlChangedWithSender:" destination="Whc-jM-XXx" eventType="valueChanged" id="LMa-Vc-a4F"/>
@@ -436,10 +436,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5m-HU-Cja" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="145.5" y="249" width="84" height="83"/>
+                                        <rect key="frame" x="146" y="249" width="83" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBC-yp-42C">
-                                                <rect key="frame" x="21.5" y="25.5" width="41" height="30"/>
+                                                <rect key="frame" x="21" y="26.5" width="41" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="Finish"/>
                                             </button>
@@ -506,7 +506,7 @@
                                         <rect key="frame" x="0.0" y="332" width="375" height="83"/>
                                         <subviews>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmC-wB-bHc" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
-                                                <rect key="frame" x="178" y="12.5" width="19" height="57.5"/>
+                                                <rect key="frame" x="178" y="12" width="19.5" height="59"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="CmC-wB-bHc" secondAttribute="height" multiplier="1:3" id="0T7-Ih-sFk"/>

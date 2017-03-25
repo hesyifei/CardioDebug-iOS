@@ -503,6 +503,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 					noteAlertController.addTextField { (textField) in
 						textField.placeholder = "Note..."
+						textField.autocapitalizationType = .sentences
 					}
 
 					noteAlertController.addAction(confirmAction)
