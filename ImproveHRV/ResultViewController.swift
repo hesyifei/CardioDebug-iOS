@@ -237,8 +237,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							// http://stackoverflow.com/q/5273775/2603230
 							self.upperSegmentedControl.selectedSegmentIndex = 0
 
-							if self.refreshControl.isRefreshing {
-								self.refreshControl.endRefreshing()
+							if (self.refreshControl) != nil {
+								if self.refreshControl.isRefreshing {
+									self.refreshControl.endRefreshing()
+								}
 							}
 					}
 				}
@@ -256,8 +258,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					loadingHUD.hide(animated: true)
 					self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 
-					if refreshControl.isRefreshing {
-						self.refreshControl.endRefreshing()
+					if (self.refreshControl) != nil {
+						if refreshControl.isRefreshing {
+							self.refreshControl.endRefreshing()
+						}
 					}
 				}
 			}
