@@ -286,7 +286,7 @@
                         <outlet property="rightChartView" destination="E4Y-ve-gFO" id="q9S-Lo-lMC"/>
                         <outlet property="tableView" destination="Ack-wT-SzJ" id="giD-wD-3wp"/>
                         <outlet property="upperSegmentedControl" destination="jrJ-Vp-lFy" id="de0-5J-Xfu"/>
-                        <segue destination="ejo-Ys-Sy4" kind="presentation" identifier="showSymptomSelection" id="3iO-M0-ycj"/>
+                        <segue destination="ejo-Ys-Sy4" kind="presentation" identifier="showSymptomSelection" modalPresentationStyle="pageSheet" id="3iO-M0-ycj"/>
                         <segue destination="q9y-FK-bL3" kind="presentation" identifier="showSimpleResultView" modalPresentationStyle="pageSheet" id="XQE-mC-ecs"/>
                     </connections>
                 </viewController>
