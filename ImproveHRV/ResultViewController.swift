@@ -71,11 +71,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		isRightChartInited = false
 
-		refreshControl = UIRefreshControl()
-		refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-		refreshControl.addTarget(self, action: #selector(self.refreshData), for: UIControlEvents.valueChanged)
-		self.tableView.addSubview(refreshControl)
-		self.tableView.sendSubview(toBack: refreshControl)
+		// allow user only to refresh if the record is not new (to avoid bug)
+		if self.passedData.isNew == false {
+			refreshControl = UIRefreshControl()
+			refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+			refreshControl.addTarget(self, action: #selector(self.refreshData), for: UIControlEvents.valueChanged)
+			self.tableView.addSubview(refreshControl)
+			self.tableView.sendSubview(toBack: refreshControl)
+		}
 
 
 		self.title = "\(DateFormatter.localizedString(from: passedData.startDate!, dateStyle: .medium, timeStyle: .medium))"
