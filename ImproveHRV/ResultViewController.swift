@@ -508,6 +508,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
 
 					noteAlertController.addTextField { (textField) in
+						if data.count == 2 {
+							textField.text = data[1]
+						}
 						textField.placeholder = "Note..."
 						textField.autocapitalizationType = .sentences
 					}
