@@ -222,7 +222,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							}
 						}
 
-						self.updateHRVTableData(.timeDomain)
+						self.updateUpperTableData(.timeDomain)
 						self.isRightChartInited = false
 
 						}.main {
@@ -256,7 +256,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					self.result = thisData.result
 					self.fftResult = thisData.fftData
 
-					self.updateHRVTableData(.timeDomain)
+					self.updateUpperTableData(.timeDomain)
 
 					if self.result.isEmpty {
 						HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.HRVUnableToAnalyseMessage) { (_) in () }
@@ -331,7 +331,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 	@IBAction func hrvSegmentedControlChanged(sender: UISegmentedControl) {
 		print("hrvSegmentedControlChanged: \(sender.selectedSegmentIndex)")
-		self.updateHRVTableData(UpperTableSegmentedControlSegment(rawValue: sender.selectedSegmentIndex)!)
+		self.updateUpperTableData(UpperTableSegmentedControlSegment(rawValue: sender.selectedSegmentIndex)!)
 		self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 	}
 
@@ -373,7 +373,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	}
 
 
-	func updateHRVTableData(_ segmentedControlSegment: UpperTableSegmentedControlSegment) {
+	func updateUpperTableData(_ segmentedControlSegment: UpperTableSegmentedControlSegment) {
 		tableData = []
 
 		switch segmentedControlSegment {
