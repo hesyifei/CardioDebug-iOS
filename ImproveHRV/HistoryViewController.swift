@@ -105,8 +105,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 	}
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == ResultViewController.SHOW_RESULT_SEGUE_ID {
-			if let destination = segue.destination as? ResultViewController {
+		if segue.identifier == ResultViewController.SHOW_RESULT_SEGUE_ID || segue.identifier == ResultViewController.PRESENT_RESULT_MODALLY_SEGUE_ID {
+			var destination: ResultViewController? = nil
+			if let destinationNavigationController = segue.destination as? UINavigationController {
+				if let thisDestination = destinationNavigationController.topViewController as? ResultViewController {
+					destination = thisDestination
+				}
+			}
+			if let thisDestination = segue.destination as? ResultViewController {
+				destination = thisDestination
+			}
+			if let destination = destination {
 				if let indexPath: IndexPath = self.tableView.indexPathForSelectedRow {
 					if let data = tableData[indexPath.row] as? ECGData {
 						let passedData = PassECGResult()
@@ -654,7 +663,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if let _ = tableData[indexPath.row] as? ECGData {
-			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+			if self.traitCollection.horizontalSizeClass == .compact {
+				self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+			} else {
+				self.performSegue(withIdentifier: ResultViewController.PRESENT_RESULT_MODALLY_SEGUE_ID, sender: self)
+			}
+
 		}
 		self.tableView.deselectRow(at: indexPath, animated: true)
 	}
