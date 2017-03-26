@@ -491,7 +491,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			let realm = try! Realm()
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 				let noteString = "Note"
-				if data[0] == noteString {
+				switch data[0] {
+				case noteString:
 					let noteAlertController = UIAlertController(title: "Note", message: "Enter anything you want:", preferredStyle: .alert)
 
 					let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
@@ -521,6 +522,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 					Async.main {
 						self.present(noteAlertController, animated: true, completion: nil)
 					}
+				default:
+					break
 				}
 			}
 			break
