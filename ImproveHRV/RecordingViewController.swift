@@ -213,7 +213,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	}
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == ResultViewController.SHOW_RESULT_SEGUE_ID {
+		if segue.identifier == ResultViewController.PRESENT_RESULT_MODALLY_SEGUE_ID {
 			if let destinationNavigationController = segue.destination as? UINavigationController {
 				if let destination = destinationNavigationController.topViewController as? ResultViewController {
 
@@ -340,7 +340,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 			#if DEBUG
 				if DebugConfig.skipRecordingAndGetResultDirectly == true {
 					// TODO: change here to using the way 古詩一指彈 use (which is send to NotificationCenter)
-					self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+					self.performSegue(withIdentifier: ResultViewController.PRESENT_RESULT_MODALLY_SEGUE_ID, sender: self)
 					Async.main(after: 1.0) {
 						self.popViewController(animated: false)
 					}
@@ -558,7 +558,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		if isNormalCondition {
 			isConnectedAndRecording = false
 			// TODO: change here to using the way 古詩一指彈 use (which is send to NotificationCenter)
-			self.performSegue(withIdentifier: ResultViewController.SHOW_RESULT_SEGUE_ID, sender: self)
+			self.performSegue(withIdentifier: ResultViewController.PRESENT_RESULT_MODALLY_SEGUE_ID, sender: self)
 			Async.main(after: 1.0) {
 				self.popViewController(animated: false)
 			}

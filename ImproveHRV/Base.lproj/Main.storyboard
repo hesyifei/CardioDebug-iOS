@@ -190,15 +190,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E4Y-ve-gFO" userLabel="Right Chart View" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="334" width="375" height="333"/>
+                                <rect key="frame" x="0.0" y="398" width="375" height="220"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqo-Lm-mLq" userLabel="Left Chart View" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="0.0" y="334" width="375" height="333"/>
+                                <rect key="frame" x="0.0" y="398" width="375" height="220"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ack-wT-SzJ">
-                                <rect key="frame" x="0.0" y="28" width="375" height="278"/>
+                                <rect key="frame" x="0.0" y="92" width="375" height="278"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="xMG-J2-BC2" detailTextLabel="03p-v9-5rA" style="IBUITableViewCellStyleValue1" id="Z0i-OB-OLn">
@@ -228,7 +228,7 @@
                                 </prototypes>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jrJ-Vp-lFy">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="29"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="29"/>
                                 <segments>
                                     <segment title="Time Domain"/>
                                     <segment title="Frequency Domain"/>
@@ -239,7 +239,7 @@
                                 </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="blu-8Q-l1f">
-                                <rect key="frame" x="0.0" y="306" width="375" height="29"/>
+                                <rect key="frame" x="0.0" y="370" width="375" height="29"/>
                                 <segments>
                                     <segment title="ECG Raw Data"/>
                                     <segment title="Power Spectral Density"/>
@@ -452,10 +452,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Dw-J3-dh1" customClass="CircleView" customModule="ImproveHRV" customModuleProvider="target">
-                                        <rect key="frame" x="145.5" y="415.5" width="84" height="83"/>
+                                        <rect key="frame" x="146" y="415.5" width="83" height="83"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Roa-Zl-hLh">
-                                                <rect key="frame" x="26.5" y="26.5" width="31" height="30"/>
+                                                <rect key="frame" x="26" y="26.5" width="31" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="ECG"/>
                                                 <connections>
@@ -506,7 +506,7 @@
                                         <rect key="frame" x="0.0" y="332" width="375" height="83.5"/>
                                         <subviews>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmC-wB-bHc" customClass="TriangleView" customModule="ImproveHRV" customModuleProvider="target">
-                                                <rect key="frame" x="178" y="12.5" width="19.5" height="57.5"/>
+                                                <rect key="frame" x="178" y="12" width="19.5" height="58.5"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="CmC-wB-bHc" secondAttribute="height" multiplier="1:3" id="0T7-Ih-sFk"/>
@@ -924,7 +924,7 @@
                         <outlet property="mainLabel" destination="54I-fq-ebn" id="9dc-2d-hYT"/>
                         <outlet property="outerProgressCircleView" destination="5Rc-6t-WPe" id="g6b-fR-afz"/>
                         <outlet property="upperLabel" destination="V3h-qW-0Sf" id="2ia-GA-10g"/>
-                        <segue destination="K9M-NG-D8M" kind="presentation" identifier="showResult" modalPresentationStyle="formSheet" id="qaB-dG-jRn"/>
+                        <segue destination="K9M-NG-D8M" kind="presentation" identifier="presentResultModally" modalPresentationStyle="formSheet" id="qaB-dG-jRn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6aS-QU-f8V" sceneMemberID="firstResponder"/>
