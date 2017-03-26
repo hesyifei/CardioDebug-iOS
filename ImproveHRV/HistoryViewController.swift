@@ -106,10 +106,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == ResultViewController.SHOW_RESULT_SEGUE_ID || segue.identifier == ResultViewController.PRESENT_RESULT_MODALLY_SEGUE_ID {
+			var willPresent = false
 			var destination: ResultViewController? = nil
 			if let destinationNavigationController = segue.destination as? UINavigationController {
 				if let thisDestination = destinationNavigationController.topViewController as? ResultViewController {
 					destination = thisDestination
+					willPresent = true
 				}
 			}
 			if let thisDestination = segue.destination as? ResultViewController {
@@ -125,6 +127,13 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 						passedData.rawData = data.rawData
 						passedData.rrData = data.rrData
 						passedData.isNew = false
+
+						destination.passedBackData = { bool in
+							if willPresent {
+								print("ResultViewController passedBackData \(bool)")
+								self.refreshData()
+							}
+						}
 
 						destination.passedData = passedData
 					}

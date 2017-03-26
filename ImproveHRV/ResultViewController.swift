@@ -357,6 +357,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	func doneButtonAction() {
 		if passedData.isNew == true {
 			passedBackData?(true)
+		} else {
+			passedBackData?(false)
 		}
 		navigationController?.dismiss(animated: true, completion: nil)
 	}
