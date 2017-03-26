@@ -25,7 +25,7 @@ class PassECGResult {
 enum UpperTableSegmentedControlSegment: Int {
 	case timeDomain = 0
 	case frequencyDomain = 1
-	case note = 2
+	case other = 2
 }
 
 class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -440,7 +440,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				}
 			}
 			break
-		case .note:
+		case .other:
 			let realm = try! Realm()
 			tableData = ["Note|Enter note..."]
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
@@ -484,7 +484,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				HelperFunctions.showAlert(self, title: "\(data[0])", message: "Description: ...\nNormal Value: ", completion: nil)
 			}
 			break
-		case .note:
+		case .other:
 			let realm = try! Realm()
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 				let noteString = "Note"
