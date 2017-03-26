@@ -479,7 +479,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		switch UpperTableSegmentedControlSegment(rawValue: self.upperSegmentedControl.selectedSegmentIndex)! {
 		case .timeDomain, .frequencyDomain:
-			HelperFunctions.showAlert(self, title: data[0], message: "Normal Value: ", completion: nil)
+			// to make sure this row really have a value
+			if data.count == 2 {
+				HelperFunctions.showAlert(self, title: "\(data[0])", message: "Description: ...\nNormal Value: ", completion: nil)
+			}
 			break
 		case .note:
 			let realm = try! Realm()
