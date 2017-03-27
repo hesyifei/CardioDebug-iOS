@@ -66,6 +66,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var passedBackData: ((Bool) -> Void)?
 
 
+
+	let defaultNoteCell = ["Note", "Enter note..."]
+
+
 	var sessionManager: SessionManager!
 
 
@@ -445,7 +449,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			break
 		case .other:
 			let realm = try! Realm()
-			tableData = ["Note|Enter note..."]
+			tableData = [defaultNoteCell.joined(separator: "|")]
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 				if !thisData.note.isEmpty {
 					tableData = ["Note|\(thisData.note)"]
@@ -490,7 +494,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		case .other:
 			let realm = try! Realm()
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
-				let noteString = "Note"
+				let noteString = defaultNoteCell[0]
 				switch data[0] {
 				case noteString:
 					let noteAlertController = UIAlertController(title: "Note", message: "Enter anything you want:", preferredStyle: .alert)
@@ -510,7 +514,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 					noteAlertController.addTextField { (textField) in
 						if data.count == 2 {
-							textField.text = data[1]
+							if data[1] != defaultNoteCell[1] {
+								textField.text = data[1]
+							}
 						}
 						textField.placeholder = "Note..."
 						textField.autocapitalizationType = .sentences
