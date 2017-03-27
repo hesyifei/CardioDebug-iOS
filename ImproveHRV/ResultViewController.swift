@@ -514,7 +514,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 					noteAlertController.addTextField { (textField) in
 						if data.count == 2 {
-							if data[1] != defaultNoteCell[1] {
+							if data[1] != self.defaultNoteCell[1] {
 								textField.text = data[1]
 							}
 						}
