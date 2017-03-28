@@ -191,7 +191,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							let ecgData = ECGData()
 							ecgData.recordType = self.passedData.recordType
 							ecgData.startDate = self.passedData.startDate
-							ecgData.duration = Double(self.passedData.rawData.count)/100.0
+							ecgData.duration = Double(self.passedData.rawData.count)/self.passedData.recordingHertz
 							ecgData.recordingHertz = self.passedData.recordingHertz
 							ecgData.rawData = self.passedData.rawData
 							ecgData.rrData = self.passedData.rrData
