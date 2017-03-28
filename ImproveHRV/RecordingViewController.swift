@@ -776,7 +776,10 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							let dataSet = self.chartView.data?.getDataSetByIndex(0)
 							let index = (dataSet?.entryCount)!-1+1
 							var value = eachReceivedDataInt
-							print("\(Date()) \(index) \(value)")
+
+							let df = DateFormatter()
+							df.dateFormat = "m:ss.SSSS"
+							print("\(df.string(from: Date())) \(index) \(value)")
 
 							// TODO: very lag when data is large. Consider using other 3rd party simple graph?
 							let chartEntry = ChartDataEntry(x: Double(index), y: Double(value))
