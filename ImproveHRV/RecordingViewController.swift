@@ -244,7 +244,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					passedData.startDate = (startTime ?? Date()).addingTimeInterval(extraPreTime)
 					let extraPreTimeDataCount = Int(extraPreTime*frequency)
 					if rawData.count-1 > extraPreTimeDataCount {
-						rawData.removeSubrange(0...extraPreTimeDataCount)
+						rawData = rawData.dropFirst(extraPreTimeDataCount)
 					}
 					print(rawData.description)
 					passedData.rawData = rawData
@@ -778,6 +778,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 							var value = eachReceivedDataInt
 							print("\(index) \(value)")
 
+							// TODO: very lag when data is large. Consider using other 3rd party simple graph?
 							let chartEntry = ChartDataEntry(x: Double(index), y: Double(value))
 							chartView.data?.addEntry(chartEntry, dataSetIndex: 0)
 							chartView.data?.notifyDataChanged()
