@@ -233,14 +233,17 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 						}
 					#endif
 
+					self.frequency = Double(1.0)/(Double(endAbsoluteTime-startAbsoluteTime)/Double(self.rawData.count))		// important!
+					print("self.frequency after calculation: \(self.frequency)")
+
 					let passedData = PassECGResult()
-					passedData.recordingHertz = self.frequency
 					if currentMethod == .ppg {
 						passedData.recordType = .ppg
 						passedData.rrData = self.rrData
 					} else {
 						passedData.recordType = .ecg
 					}
+					passedData.recordingHertz = self.frequency
 					passedData.startDate = (startTime ?? Date()).addingTimeInterval(extraPreTime)
 					let extraPreTimeDataCount = Int(extraPreTime*frequency)
 					if rawData.count-1 > extraPreTimeDataCount {
@@ -708,6 +711,11 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		}
 	}
 
+
+	var startAbsoluteTime: CFAbsoluteTime!
+	var endAbsoluteTime: CFAbsoluteTime!
+	var isFirstReceivedRecord = false
+
 	#if DEBUG
 	var debugRawData: [String]?
 	#endif
@@ -754,6 +762,12 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				for rawEachReceivedData in someReceivedData {
 					var eachReceivedData = rawEachReceivedData
 					if !eachReceivedData.isEmpty {
+						if isFirstReceivedRecord == false {
+							isFirstReceivedRecord = true
+							startAbsoluteTime = CFAbsoluteTimeGetCurrent()
+						}
+						endAbsoluteTime = CFAbsoluteTimeGetCurrent()		// replace old value every time
+
 						#if DEBUG
 							if DebugConfig.useDebugRawData == true {
 								if let debugRawData = self.debugRawData {
