@@ -12,6 +12,19 @@ import Async
 
 class HelperFunctions {
 
+	// http://stackoverflow.com/a/27301207/2603230
+	static func isModal(_ vc: UIViewController) -> Bool {
+		if vc.presentingViewController != nil {
+			return true
+		} else if vc.navigationController?.presentingViewController?.presentedViewController == vc.navigationController  {
+			return true
+		} else if vc.tabBarController?.presentingViewController is UITabBarController {
+			return true
+		}
+		return false
+	}
+
+
 	static func showAlert(_ selfVC: UIViewController, title: String, message: String, completion completionBlock: ((UIAlertAction) -> Void)?) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: completionBlock))

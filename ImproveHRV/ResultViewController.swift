@@ -106,7 +106,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareButtonAction))
 
-		if self.viewIsPresented() {
+		if HelperFunctions.isModal(self) {
 			let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonAction))
 			self.navigationItem.setRightBarButton(doneButton, animated: true)
 
@@ -159,7 +159,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		if isPassedDataValid {
 			var addHUDTo: UIView!
-			if self.viewIsPresented() {
+			if HelperFunctions.isModal(self) {
 				addHUDTo = self.navigationController?.view
 			} else {
 				addHUDTo = self.navigationController?.tabBarController?.view
@@ -743,10 +743,6 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 		}
 
-	}
-
-	func viewIsPresented() -> Bool {
-		return (self.navigationController?.isBeingPresented) ?? false
 	}
 
 }
