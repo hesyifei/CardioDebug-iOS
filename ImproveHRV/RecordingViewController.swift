@@ -793,7 +793,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 							let df = DateFormatter()
 							df.dateFormat = "m:ss.SSSS"
-							print("\(df.string(from: Date())) \(index) \(value)")
+							print("\(index) \(value) \(df.string(from: Date())) \(CFAbsoluteTimeGetCurrent())")
 
 							// TODO: very lag when data is large. Consider using other 3rd party simple graph?
 							let chartEntry = ChartDataEntry(x: Double(index), y: Double(value))

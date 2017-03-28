@@ -124,6 +124,8 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			lowerSegmentedControl.setTitle("RR Interval", forSegmentAt: 1)
 		}
 
+		//print(passedData.rawData)
+
 
 		loadDataAndChart(force: false)
 
