@@ -244,7 +244,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					passedData.startDate = (startTime ?? Date()).addingTimeInterval(extraPreTime)
 					let extraPreTimeDataCount = Int(extraPreTime*frequency)
 					if rawData.count-1 > extraPreTimeDataCount {
-						rawData = Array(rawData.dropFirst(extraPreTimeDataCount))
+						rawData.removeSubrange(0...extraPreTimeDataCount)
 					}
 					print(rawData.description)
 					passedData.rawData = rawData
