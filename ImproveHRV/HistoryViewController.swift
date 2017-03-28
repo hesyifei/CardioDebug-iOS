@@ -119,23 +119,26 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			}
 			if let destination = destination {
 				if let indexPath: IndexPath = self.tableView.indexPathForSelectedRow {
-					if let data = tableData[indexPath.row] as? ECGData {
-						let passedData = PassECGResult()
-						passedData.recordType = data.recordType
-						passedData.startDate = data.startDate
-						passedData.recordingHertz = data.recordingHertz
-						passedData.rawData = data.rawData
-						passedData.rrData = data.rrData
-						passedData.isNew = false
+					if let cellData = tableData[indexPath.row] as? ECGData {
+						// to make sure the newest realm data is gotten
+						if let data = realm.objects(ECGData.self).filter("startDate = %@", cellData.startDate).first {
+							let passedData = PassECGResult()
+							passedData.recordType = data.recordType
+							passedData.startDate = data.startDate
+							passedData.recordingHertz = data.recordingHertz
+							passedData.rawData = data.rawData
+							passedData.rrData = data.rrData
+							passedData.isNew = false
 
-						destination.passedBackData = { bool in
-							if willPresent {
-								print("ResultViewController passedBackData \(bool)")
-								self.refreshData()
+							destination.passedBackData = { bool in
+								if willPresent {
+									print("ResultViewController passedBackData \(bool)")
+									self.refreshData()
+								}
 							}
-						}
 
-						destination.passedData = passedData
+							destination.passedData = passedData
+						}
 					}
 				}
 			}
