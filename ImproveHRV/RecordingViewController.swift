@@ -233,7 +233,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 						}
 					#endif
 
-					self.frequency = Double(1.0)/(Double(endAbsoluteTime-startAbsoluteTime)/Double(self.rawData.count))		// important!
+					self.frequency = Double(1.0)/(Double(endAbsoluteTime-startAbsoluteTime)/Double(self.rawData.count))		// important and must place before code related to passedData!
 					print("self.frequency after calculation: \(self.frequency)")
 
 					let passedData = PassECGResult()
