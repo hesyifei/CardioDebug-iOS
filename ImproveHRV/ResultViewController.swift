@@ -593,7 +593,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		let ecgRawDataSet = LineChartDataSet(values: dataEntries, label: nil)
 		ecgRawDataSet.colors = [UIColor.lightGray]
-		ecgRawDataSet.mode = .cubicBezier
+		ecgRawDataSet.mode = .linear
 		ecgRawDataSet.drawCirclesEnabled = false
 
 

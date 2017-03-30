@@ -325,7 +325,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userLFHFDataSet.drawCirclesEnabled = true
 		userLFHFDataSet.circleRadius = 5
 		userLFHFDataSet.circleColors = [StoredColor.middleBlue]
-		userLFHFDataSet.mode = .cubicBezier
+		userLFHFDataSet.mode = .linear
 		userLFHFDataSet.lineWidth = 2.0
 		//userLFHFDataSet.highlightColor = UIColor.red
 		userLFHFDataSet.highlightEnabled = false
@@ -336,7 +336,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userAVNNDataSet.drawCirclesEnabled = true
 		userAVNNDataSet.circleRadius = 5
 		userAVNNDataSet.circleColors = [StoredColor.darkRed]
-		userAVNNDataSet.mode = .cubicBezier
+		userAVNNDataSet.mode = .linear
 		userAVNNDataSet.lineWidth = 2.0
 		userAVNNDataSet.highlightColor = UIColor.blue
 		userAVNNDataSet.highlightEnabled = false
