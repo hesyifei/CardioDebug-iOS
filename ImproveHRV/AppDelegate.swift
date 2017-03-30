@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		let config = Realm.Configuration(
 			// Set the new schema version. This must be greater than the previously used version (if you've never set a schema version before, the version is 0).
-			schemaVersion: 5,
+			schemaVersion: 6,
 
 			// Set the block which will be called automatically when opening a Realm with a schema version lower than the one set above
 			migrationBlock: { migration, oldSchemaVersion in
@@ -83,6 +83,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				if (oldSchemaVersion < 5) {
 					migration.enumerateObjects(ofType: ECGData.className()) { oldObject, newObject in
 						newObject!["note"] = ""
+					}
+				}
+
+				// 5->6: fix old bugs by setting a more accurate frequency
+				if (oldSchemaVersion < 6) {
+					migration.enumerateObjects(ofType: ECGData.className()) { oldObject, newObject in
+						if let oldHertz = oldObject!["recordingHertz"] as? Double, let oldDuration = oldObject!["duration"] as? Double {
+							if oldHertz == 100.0 {
+								newObject!["recordingHertz"] = oldHertz*0.9
+								newObject!["duration"] = oldDuration/0.9
+							}
+						}
 					}
 				}
 		})
