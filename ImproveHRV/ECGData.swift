@@ -32,7 +32,12 @@ class ECGData: Object {
 
 
 	dynamic var startDate = Date(timeIntervalSince1970: 1)
-	dynamic var duration: Double = 0.0
+	dynamic var duration: Double {
+		get {
+			// use direct calculation
+			return Double(self.rawData.count)/self.recordingHertz
+		}
+	}
 
 	dynamic var recordingHertz: Double = 100.0
 
@@ -94,7 +99,7 @@ class ECGData: Object {
 	var _fftRawData = List<DoubleObject>()
 
 	override static func ignoredProperties() -> [String] {
-		return ["recordType", "rawData", "rrData", "fftData", "result"]
+		return ["duration", "recordType", "rawData", "rrData", "fftData", "result"]
 	}
 
 	func cleanAllData() {

@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		let config = Realm.Configuration(
 			// Set the new schema version. This must be greater than the previously used version (if you've never set a schema version before, the version is 0).
-			schemaVersion: 6,
+			schemaVersion: 7,
 
 			// Set the block which will be called automatically when opening a Realm with a schema version lower than the one set above
 			migrationBlock: { migration, oldSchemaVersion in
@@ -96,6 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 							}
 						}
 					}
+				}
+
+				// 6->7: remove duration (change to direct calculation inside ECGData)
+				if (oldSchemaVersion < 7) {
+					// Realm will automatically detect new properties and removed properties
+					// And will update the schema on disk automatically
 				}
 		})
 		// Tell Realm to use this new configuration object for the default Realm
