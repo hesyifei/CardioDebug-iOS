@@ -68,6 +68,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 	let defaultNoteCell = ["Note", "Enter note..."]
+	var normalRange = [String: ClosedRange<Double>]()
 
 
 	var sessionManager: SessionManager!
@@ -124,6 +125,32 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			lowerSegmentedControl.setTitle("RR Interval", forSegmentAt: 1)
 		}
 
+
+		let totalPowerRange = getRangeFrom(log10: 3.20, plusMinus: 0.30)
+
+		let LFRange = getRangeFrom(log10: 2.77, plusMinus: 0.35)
+		let HFRange = getRangeFrom(log10: 2.30, plusMinus: 0.30)
+
+		let oneLFHF = LFRange.upperBound/HFRange.lowerBound
+		let twoLFHF = LFRange.lowerBound/HFRange.upperBound
+
+		normalRange = [
+			"AvgHR": 54...102,
+			//"SDNN": getRangeFrom(number: 132, plusMinus: 30),
+			"SDNN": 79...219,
+			"SDNNIDX": 30...94,
+			"SDANN": 67...206,
+			//"rMSSD": getRangeFrom(number: 31, plusMinus: 11),
+			"rMSSD": 15...63,
+			"pNN50": 1...48,
+			"TOT PWR": totalPowerRange,
+			"LF PWR": LFRange,
+			"HF PWR": HFRange,
+			"LF/HF": min(oneLFHF, twoLFHF)...max(oneLFHF, twoLFHF),
+		]
+
+
+
 		//print(passedData.rawData)
 
 
@@ -134,7 +161,13 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				self.performSegue(withIdentifier: SymptomSelectionViewController.SHOW_SYMPTOM_SELECTION_SEGUE_ID, sender: self)
 			}
 		}
+	}
 
+	func getRangeFrom(number: Double, plusMinus: Double) -> ClosedRange<Double> {
+		return (number-plusMinus)...(number+plusMinus)
+	}
+	func getRangeFrom(log10: Double, plusMinus: Double) -> ClosedRange<Double> {
+		return pow(10.0, log10-plusMinus)...pow(10.0, log10+plusMinus)
 	}
 
 	func refreshData() {
@@ -390,15 +423,24 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 			if segmentedControlSegment == .timeDomain {
 				if let avgHR = self.result["AvgHR"] {
-					self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)")
+					var checkResult = ""
+					if let thisNormalRange = normalRange["AvgHR"] {
+						if thisNormalRange.contains(avgHR) {
+							checkResult = " ✅"
+						} else {
+							checkResult = " ❗️"
+						}
+					}
+					self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)\(checkResult)|AvgHR")
 				}
 				if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
-					self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)")
+					self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)|MaxHR")
 				}
 			}
 
 
 			let fullStringDict = [
+				"SDNNIDX": "SDNN Index",
 				"TOT PWR": "Total HRV Power",
 				"ULF PWR": "Ultra-low Frequency Power",
 				"VLF PWR": "Very Low Frequency Power",
@@ -443,7 +485,16 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 						if let abbUnit = unitDict[key] {
 							unit = abbUnit
 						}
-						self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit) ✅")
+
+						var checkResult = ""
+						if let thisNormalRange = normalRange[key] {
+							if thisNormalRange.contains(value) {
+								checkResult = " ✅"
+							} else {
+								checkResult = " ❗️"
+							}
+						}
+						self.tableData.append("\(name)|\(String(format: "%.2f", value))\(unit)\(checkResult)|\(key)")
 					}
 				}
 			}
@@ -488,8 +539,17 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		switch UpperTableSegmentedControlSegment(rawValue: self.upperSegmentedControl.selectedSegmentIndex)! {
 		case .timeDomain, .frequencyDomain:
 			// to make sure this row really have a value
-			if data.count == 2 {
-				HelperFunctions.showAlert(self, title: "\(data[0])", message: "Description: ...\nNormal Value: ", completion: nil)
+			if data.count >= 2 {
+				var messageString = "Description: ..."
+				if data.count == 3 {
+					let key = data[2]
+					if let thisNormalRange = normalRange[key] {
+						let lowerBoundString = String(format: "%.2f", thisNormalRange.lowerBound)
+						let upperBoundString = String(format: "%.2f", thisNormalRange.upperBound)
+						messageString += "\nNormal Range: \(lowerBoundString)-\(upperBoundString)"
+					}
+				}
+				HelperFunctions.showAlert(self, title: "\(data[0])", message: messageString, completion: nil)
 			}
 			break
 		case .other:
