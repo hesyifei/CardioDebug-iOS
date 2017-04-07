@@ -89,10 +89,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 				// 5->6: fix old bugs by setting a more accurate frequency
 				if (oldSchemaVersion < 6) {
 					migration.enumerateObjects(ofType: ECGData.className()) { oldObject, newObject in
-						if let oldHertz = oldObject!["recordingHertz"] as? Double, let oldDuration = oldObject!["duration"] as? Double {
+						if let oldHertz = oldObject?["recordingHertz"] as? Double {
 							if oldHertz == 100.0 {
 								newObject!["recordingHertz"] = oldHertz*0.9
-								newObject!["duration"] = oldDuration/0.9
+								if let oldDuration = oldObject?["duration"] as? Double {
+									newObject!["duration"] = oldDuration/0.9
+								}
 							}
 						}
 					}
