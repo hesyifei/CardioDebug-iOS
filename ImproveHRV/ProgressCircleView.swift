@@ -40,7 +40,7 @@ class ProgressCircleView: UIView {
 		}
 		let circleRadius: CGFloat = labelBoundsWidth/2 + circleRadiusConstant
 
-		let circlePath = UIBezierPath(arcCenter: centerPoint, radius: circleRadius, startAngle: CGFloat(-0.5 * M_PI), endAngle: CGFloat(1.5 * M_PI), clockwise: true)
+		let circlePath = UIBezierPath(arcCenter: centerPoint, radius: circleRadius, startAngle: CGFloat(-0.5 * Double.pi), endAngle: CGFloat(1.5 * Double.pi), clockwise: true)
 
 		progressCircle = CAShapeLayer()
 		progressCircle.masksToBounds = true

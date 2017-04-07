@@ -176,7 +176,7 @@ class ViewController: UIViewController {
 			if success {
 				print("success authorizeHealthKit")
 			} else {
-				print("failed: \(error?.localizedDescription)")
+				print("failed: \(String(describing: error?.localizedDescription))")
 			}
 		}
 	}

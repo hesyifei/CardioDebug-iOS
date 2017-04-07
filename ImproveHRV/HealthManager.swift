@@ -105,7 +105,7 @@ class HealthManager {
 
 		self.healthKitStore.save(heartRateSample) { (success, error) -> Void in
 			if !success {
-				print("An error occured saving the HR sample \(heartRateSample). In your app, try to handle this gracefully. The error was: \(error).")
+				print("An error occured saving the HR sample \(heartRateSample). In your app, try to handle this gracefully. The error was: \(String(describing: error)).")
 			}
 			completionBlock(success, error)
 		}
@@ -130,7 +130,7 @@ class HealthManager {
 
 		self.healthKitStore.save(correlation) { (success, error) -> Void in
 			if !success {
-				print("An error occured saving the Blood pressure sample \(systolicSample). In your app, try to handle this gracefully. The error was: \(error).")
+				print("An error occured saving the Blood pressure sample \(systolicSample). In your app, try to handle this gracefully. The error was: \(String(describing: error)).")
 			}
 			completionBlock(success, error)
 		}
