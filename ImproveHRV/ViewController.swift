@@ -8,15 +8,24 @@
 
 import UIKit
 import Foundation
+import UserNotifications
 import Async
 import MBProgressHUD
 import RealmSwift
 
-class ViewController: UIViewController {
+struct NotificationInfo {
+	var time: Date
+	var message: String
+	var categoryIdentifier: String?
+}
+
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
 	// MARK: - static var
 	static let DEFAULTS_ACTIVITY_START_DATE = "activityStartDate"
 	static let DEFAULTS_ACTIVITY_END_DATE = "activityEndDate"		// maybe it's useless?
+
+	let NOTIFICATION_CATEGORY_DO_REMEDY_ID = "com.arefly.CardioDebug.notification-category.DoRemedy"
 
 	// MARK: - basic var
 	let application = UIApplication.shared
@@ -122,6 +131,31 @@ class ViewController: UIViewController {
 		lowerTriangleView.triangleColor = triangleColor
 		lowerTriangleView.backgroundColor = triangleBackgroundColor
 
+
+
+
+		if #available(iOS 10.0, *) {
+			let center = UNUserNotificationCenter.current()
+			center.requestAuthorization(options: [.alert, .badge, .sound]){ (granted, error) in
+				if self.defaults.object(forKey: AppDelegate.DEFAULTS_NOTIFICATION_REGISTERED) == nil {
+					self.defaults.set(true, forKey: AppDelegate.DEFAULTS_NOTIFICATION_REGISTERED)
+					print("已註冊UserNotification")
+				}
+			}
+
+			let category = UNNotificationCategory(identifier: NOTIFICATION_CATEGORY_DO_REMEDY_ID, actions: [], intentIdentifiers: [], options: [])
+			center.setNotificationCategories([category])
+
+			center.delegate = self
+		} else {
+			let notificationCategory = UIMutableUserNotificationCategory()
+			notificationCategory.identifier = NOTIFICATION_CATEGORY_DO_REMEDY_ID
+			notificationCategory.setActions([], for: .minimal)
+			notificationCategory.setActions([], for: .default)
+
+			application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: (NSSet(array: [notificationCategory])) as? Set<UIUserNotificationCategory>))
+		}
+
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -179,17 +213,88 @@ class ViewController: UIViewController {
 				print("failed: \(String(describing: error?.localizedDescription))")
 			}
 		}
+
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
 	}
 
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
+
+
+	// MARK: - life cycle
+	func didEnterBackground() {
+		print("準備加載 View Controller 之 didEnterBackground()")
+
+		var notificationsToBeSent = [NotificationInfo]()
+		// testing only
+		notificationsToBeSent = addNotificationTo(inputDict: notificationsToBeSent, time: Date().addingTimeInterval(5), message: "Recommendation to improve your HRV: Do endurance exercise! :)")
+
+		initNotifications(notificationsToBeSent)
+	}
+
+
+	// MARK: - notification related
+	func addNotificationTo(inputDict: [NotificationInfo], time: Date, message: String, categoryIdentifier: String? = nil) -> [NotificationInfo] {
+		var dict = inputDict
+		if time > Date() {
+			dict.append(NotificationInfo(time: time, message: message, categoryIdentifier: categoryIdentifier))
+		}
+		return dict
+	}
+
+	func initNotifications(_ notificationsToBeSent: [NotificationInfo]) {
+		if #available(iOS 10.0, *) {
+			let notificationCenter = UNUserNotificationCenter.current()
+			for info in notificationsToBeSent {
+				let date = info.time
+				let message = info.message
+
+				let notificationContent = UNMutableNotificationContent()
+				notificationContent.body = message
+				notificationContent.sound = UNNotificationSound.default()
+				if let categoryIdentifier = info.categoryIdentifier {
+					notificationContent.categoryIdentifier = categoryIdentifier
+				}
+
+				let notificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: date.timeIntervalSinceNow, repeats: false)
+				let notificationRequest = UNNotificationRequest(identifier: "\(date)", content: notificationContent, trigger: notificationTrigger)
+
+				notificationCenter.add(notificationRequest, withCompletionHandler: nil)
+			}
+		} else {
+			for info in notificationsToBeSent {
+				let date = info.time
+				let message = info.message
+
+				let notification = UILocalNotification()
+				notification.fireDate = date
+				notification.alertBody = message
+				notification.soundName = UILocalNotificationDefaultSoundName
+				if let categoryIdentifier = info.categoryIdentifier {
+					notification.category = categoryIdentifier
+				}
+
+				application.scheduleLocalNotification(notification)
+			}
+		}
+	}
+
+	@available(iOS 10.0, *)
+	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+		print("準備加載 View Controller 之 userNotificationCenter didReceiveNotificationResponse()")
+
+		completionHandler()
+	}
+
 
 
 	func clickUpperButton() {
