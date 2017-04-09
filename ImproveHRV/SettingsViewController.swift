@@ -115,11 +115,12 @@ class SettingsViewController: FormViewController {
 						let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 						destination.isGood = false
 						destination.problemData = [
-							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>ANS disorder</a></span></div><br />ANS disorder is the imbalance of sympathetic nervous and parasympathetic nervous which controls the involuntary work of your body (such as digestion and heart rate).<br /><span class='lightPink'>Unhealthy lifestyle</span> and <span class='lightPink'>long working hours</span> may cause this disorder, and leaving it untreated maybe cause <span class='lightPink'>dysfunction of ANS</span>.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
+							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>ANS disorder</a></span></div><br />ANS disorder is the imbalance of sympathetic nervous and parasympathetic nervous which controls the involuntary work of your body (such as digestion and heart rate).<br /><span class='lightPink'>Unhealthy lifestyle</span> and <span class='lightPink'>long working hours</span> may cause this disorder, and leaving it untreated maybe cause <span class='lightPink'>dysfunction of ANS</span>.<br /><br /><span style='font-size: 140%;'>ANS disorder may cause symptoms including <span class='lightPink'>poor digestion</span> and <span class='lightPink'>insomnia</span>.</span><br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
 							"result": [
-								"0": "",
+								"0": "It is possible that you may have ANS disorder. We suggest you to do<br /><br /><div style='text-align: center;'><span style='font-size: 200%;'>Endurance Exercise</span></div><br /><span style='font-size: 130%;'>Do endurance exercise which heart rate is elevated to 60-80% (e.g. running, swimming) for at least 20 mins every day.</span>",
 								"1": "Since you have drunk coffee or alcohol within the last 4 hours, it is possible that the detection result is unrelated to ANS disorder. We suggest you to record and test again tomorrow <b>without</b> drinking any coffee or alcohol.",
-								"2": "Choose \"Yes\" if you did't drink any alcohol or caffeine, and vice versa."
+								"2": "",
+								"3": ""
 								] as AnyObject,
 							"questions": [
 								"Do you feel stressful all the time?",
