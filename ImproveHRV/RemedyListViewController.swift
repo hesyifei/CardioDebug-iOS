@@ -15,6 +15,8 @@ import MBProgressHUD
 class RemedyListViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
 	// MARK: - static var
+	static let SHOW_REMEDY_SEGUE_ID = "showRemedy"
+
 	static let DEFAULTS_CURRENT_ACTIVITY = "currentActivity"
 	static let DEFAULTS_STARTED_OPTIONAL_ACTIVITIES = "startedOptionalActivities"
 	static let DEFAULTS_ACTIVITIES_DATA = "activitiesData"

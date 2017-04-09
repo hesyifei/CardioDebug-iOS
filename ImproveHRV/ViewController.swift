@@ -236,7 +236,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
 		var notificationsToBeSent = [NotificationInfo]()
 		// testing only
-		notificationsToBeSent = addNotificationTo(inputDict: notificationsToBeSent, time: Date().addingTimeInterval(5), message: "Recommendation to improve your HRV: Do endurance exercise! :)")
+		notificationsToBeSent = addNotificationTo(inputDict: notificationsToBeSent, time: Date().addingTimeInterval(5), message: "Choose a remedy to improve your HRV now! :)")
 
 		initNotifications(notificationsToBeSent)
 	}
@@ -291,6 +291,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 	@available(iOS 10.0, *)
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		print("準備加載 View Controller 之 userNotificationCenter didReceiveNotificationResponse()")
+
+		Async.main {
+			self.performSegue(withIdentifier: RemedyListViewController.SHOW_REMEDY_SEGUE_ID, sender: self)
+		}
 
 		completionHandler()
 	}
