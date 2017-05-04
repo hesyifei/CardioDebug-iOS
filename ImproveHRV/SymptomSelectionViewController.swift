@@ -33,12 +33,7 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 		self.navigationItem.setRightBarButton(doneButton, animated: true)
 
 
-		tableHeader = ["Sleep", "Eat", "Feel"]
-		tableData = [
-			["hard to fall asleep", "mostly light sleep", "dreamful sleep"],
-			["vegetarian", "high fat", "high sugar", "high salt"],
-			["tiredness", "dizziness", "headache", "palpitation", "perspire", "eye strain"]
-		]
+		updateUpperTableData(0)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +55,30 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 	func doneButtonAction() {
 		passedBackData?(true)
 		navigationController?.dismiss(animated: true, completion: nil)
+	}
+
+
+
+	@IBAction func segmentedControlChanged(sender: UISegmentedControl) {
+		print("segmentedControlChanged: \(sender.selectedSegmentIndex)")
+		self.updateUpperTableData(sender.selectedSegmentIndex)
+		self.tableView.reloadData()
+	}
+
+	func updateUpperTableData(_ index: Int) {
+		if index == 0 {
+			tableHeader = ["Sleep", "Eat", "Feel"]
+			tableData = [
+				["hard to fall asleep", "mostly light sleep", "dreamful sleep"],
+				["vegetarian", "high fat", "high sugar", "high salt"],
+				["tiredness", "dizziness", "headache", "palpitation", "perspire", "eye strain"]
+			]
+		} else {
+			tableHeader = [""]
+			tableData = [
+				["tense", "angry", "wornout", "unhappy", "proud", "lively", "confused", "sad", "active", "on-edge", "grouchy", "ashamed", "energetic", "hopeless", "uneasy", "restless", "unable to concentrate", "fatigued", "competent", "annoyed", "discouraged", "resentful", "nervous", "miserable"]
+			]
+		}
 	}
 
 
