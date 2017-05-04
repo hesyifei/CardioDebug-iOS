@@ -236,7 +236,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
 		var notificationsToBeSent = [NotificationInfo]()
 		// testing only
-		notificationsToBeSent = addNotificationTo(inputDict: notificationsToBeSent, time: Date().addingTimeInterval(5), message: "Choose a remedy to improve your HRV now! :)")
+		//notificationsToBeSent = addNotificationTo(inputDict: notificationsToBeSent, time: Date().addingTimeInterval(5), message: "Let's start to do an exercise to improve your ANS! :)")
 
 		initNotifications(notificationsToBeSent)
 	}
