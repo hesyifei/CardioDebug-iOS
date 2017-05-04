@@ -281,14 +281,38 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		var AVNNUpperLimitDataEntries: [ChartDataEntry] = []
 		var AVNNLowerLimitDataEntries: [ChartDataEntry] = []
 
+
+		var LFHFBestFitLinePointX: [Double] = [-1, -1]
+		var LFHFBestFitLinePointY: [Double] = [-1, -1]
+
 		var atLeastOneChartDataAvailable = false
 		if let _ = ecgData {
+			var LFHFSum: Double = 0
+			var TimeLFHFSum: Double = 0
+			var LFHFCount: Double = 0
+
+			var LFHFFirstTime: Double = Date(timeIntervalSinceReferenceDate: 0).timeIntervalSinceReferenceDate
+			var LFHFLastTime: Double = Date().timeIntervalSinceReferenceDate
+
 			let values = ecgData.reversed()
 			for (_, value) in values.enumerated() {
 				if let SDNN = value.result["SDNN"], let LFHF = value.result["LF/HF"], let AVNN = value.result["AVNN"] {
+
+					LFHFSum += LFHF
+					LFHFCount += 1
+
+
 					atLeastOneChartDataAvailable = true
 
 					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
+
+					if LFHFFirstTime == Date(timeIntervalSinceReferenceDate: 0).timeIntervalSinceReferenceDate {
+						LFHFFirstTime = time
+					}
+					LFHFLastTime = time
+
+					TimeLFHFSum += time
+
 
 					let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 13.18)
 					LFHFUpperLimitDataEntries.append(LFHFUpperLimitDataEntry)
@@ -313,7 +337,48 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					userAVNNDataEntries.append(userAVNNDataEntry)
 				}
 			}
+			let LFHFAverage = LFHFSum/LFHFCount
+			let TimeLFHFSumAverage = TimeLFHFSum/LFHFCount
+
+			var upperSum: Double = 0
+			var lowerSum: Double = 0
+			for (_, value) in values.enumerated() {
+				if let LFHF = value.result["LF/HF"] {
+					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
+					upperSum += (time-TimeLFHFSumAverage)*(LFHF-LFHFAverage)
+					lowerSum += pow((time-TimeLFHFSumAverage), 2)
+				}
+			}
+
+			let LFHFBestFitLineSlope = upperSum/lowerSum
+			print("LFHFBestFitLineSlope: \(LFHFBestFitLineSlope)")
+
+			let yInterceptForLFHFBestFitLine = LFHFAverage - LFHFBestFitLineSlope*TimeLFHFSumAverage
+			print("equ: y=\(LFHFBestFitLineSlope)x+\(yInterceptForLFHFBestFitLine)")
+
+			print(LFHFFirstTime)
+
+			LFHFBestFitLinePointX[0] = LFHFFirstTime
+			LFHFBestFitLinePointY[0] = LFHFBestFitLineSlope*LFHFFirstTime+yInterceptForLFHFBestFitLine
+
+			LFHFBestFitLinePointX[1] = LFHFLastTime
+			LFHFBestFitLinePointY[1] = LFHFBestFitLineSlope*LFHFLastTime+yInterceptForLFHFBestFitLine
 		}
+
+
+		var LFHFBestFitDataEntries: [ChartDataEntry] = []
+		for (index, eachX) in LFHFBestFitLinePointX.enumerated() {
+			let dataEntry = ChartDataEntry(x: eachX, y: LFHFBestFitLinePointY[index])
+			LFHFBestFitDataEntries.append(dataEntry)
+		}
+
+
+
+
+
+
+
+
 
 		/*let userSDNNDataSet = LineChartDataSet(values: userSDNNDataEntries, label: "Your SDNN")
 		userSDNNDataSet.colors = [UIColor.gray]
@@ -342,7 +407,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userAVNNDataSet.highlightEnabled = false
 
 
-		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: nil)
+		let LFHFBestFitLineDataSet = LineChartDataSet(values: LFHFBestFitDataEntries, label: "Line of best fit for LF/HF")
+		LFHFBestFitLineDataSet.axisDependency = .left
+		LFHFBestFitLineDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.7)]
+		LFHFBestFitLineDataSet.drawValuesEnabled = false
+		LFHFBestFitLineDataSet.drawCirclesEnabled = false
+		LFHFBestFitLineDataSet.mode = .linear
+		LFHFBestFitLineDataSet.lineWidth = 5.0
+		LFHFBestFitLineDataSet.highlightEnabled = false
+
+
+		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: "Normal Range for LF/HF")
 		LFHFUpperLimitDataSet.axisDependency = .left
 		LFHFUpperLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
 		LFHFUpperLimitDataSet.drawValuesEnabled = false
@@ -392,7 +467,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 		if !ecgData.isEmpty && atLeastOneChartDataAvailable {
-			let lineChartData = LineChartData(dataSets: [userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+			let lineChartData = LineChartData(dataSets: [LFHFBestFitLineDataSet, userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
 			chartView.data = lineChartData
 		} else {
 			chartView.data = nil
