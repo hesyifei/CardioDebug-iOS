@@ -290,14 +290,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 					let time = Double(value.startDate.timeIntervalSinceReferenceDate)
 
-					let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 11.6)
+					let LFHFUpperLimitDataEntry = ChartDataEntry(x: time, y: 13.18)
 					LFHFUpperLimitDataEntries.append(LFHFUpperLimitDataEntry)
-					let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 1.1)
+					let LFHFLowerLimitDataEntry = ChartDataEntry(x: time, y: 0.66)
 					LFHFLowerLimitDataEntries.append(LFHFLowerLimitDataEntry)
 
-					let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 1160)
+					let AVNNUpperLimitDataEntry = ChartDataEntry(x: time, y: 1111.11)
 					AVNNUpperLimitDataEntries.append(AVNNUpperLimitDataEntry)
-					let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 785)
+					let AVNNLowerLimitDataEntry = ChartDataEntry(x: time, y: 588.23)
 					AVNNLowerLimitDataEntries.append(AVNNLowerLimitDataEntry)
 
 					//print("SDNN: \(SDNN) time: \(time)")
@@ -348,7 +348,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFUpperLimitDataSet.drawValuesEnabled = false
 		LFHFUpperLimitDataSet.drawCirclesEnabled = false
 		LFHFUpperLimitDataSet.mode = .linear
-		LFHFUpperLimitDataSet.lineWidth = 0.5
+		LFHFUpperLimitDataSet.lineWidth = 0.8
 		LFHFUpperLimitDataSet.highlightEnabled = false
 		/*LFHFUpperLimitDataSet.fillAlpha = 0.1
 		LFHFUpperLimitDataSet.fillColor = StoredColor.middleBlue
@@ -360,7 +360,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFLowerLimitDataSet.drawValuesEnabled = false
 		LFHFLowerLimitDataSet.drawCirclesEnabled = false
 		LFHFLowerLimitDataSet.mode = .linear
-		LFHFLowerLimitDataSet.lineWidth = 0.5
+		LFHFLowerLimitDataSet.lineWidth = 0.8
 		LFHFLowerLimitDataSet.highlightEnabled = false
 		/*LFHFLowerLimitDataSet.fillAlpha = 1.0
 		LFHFLowerLimitDataSet.fillColor = UIColor.white
@@ -372,7 +372,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		AVNNUpperLimitDataSet.drawValuesEnabled = false
 		AVNNUpperLimitDataSet.drawCirclesEnabled = false
 		AVNNUpperLimitDataSet.mode = .linear
-		AVNNUpperLimitDataSet.lineWidth = 0.5
+		AVNNUpperLimitDataSet.lineWidth = 0.8
 		AVNNUpperLimitDataSet.highlightEnabled = false
 		//AVNNUpperLimitDataSet.fillAlpha = 0.1
 		//AVNNUpperLimitDataSet.fillColor = StoredColor.darkRed
@@ -384,7 +384,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		AVNNLowerLimitDataSet.drawValuesEnabled = false
 		AVNNLowerLimitDataSet.drawCirclesEnabled = false
 		AVNNLowerLimitDataSet.mode = .linear
-		AVNNLowerLimitDataSet.lineWidth = 0.5
+		AVNNLowerLimitDataSet.lineWidth = 0.8
 		AVNNLowerLimitDataSet.highlightEnabled = false
 		//AVNNLowerLimitDataSet.fillAlpha = 1.0
 		//AVNNLowerLimitDataSet.fillColor = UIColor.white
