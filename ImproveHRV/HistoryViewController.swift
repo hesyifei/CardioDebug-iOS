@@ -268,7 +268,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		xAxis.drawGridLinesEnabled = false
 		xAxis.labelPosition = .bottom
 		xAxis.valueFormatter = ChartDateToStringFormatter()
-		xAxis.setLabelCount(3, force: true)
 
 
 		var userSDNNDataEntries: [ChartDataEntry] = []
@@ -407,35 +406,35 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userAVNNDataSet.highlightEnabled = false
 
 
-		let LFHFBestFitLineDataSet = LineChartDataSet(values: LFHFBestFitDataEntries, label: "Line of best fit for LF/HF")
+		let LFHFBestFitLineDataSet = LineChartDataSet(values: LFHFBestFitDataEntries, label: "Your LF/HF overall trend")
 		LFHFBestFitLineDataSet.axisDependency = .left
-		LFHFBestFitLineDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.7)]
+		LFHFBestFitLineDataSet.colors = [StoredColor.darkRed.withAlphaComponent(0.7)]
 		LFHFBestFitLineDataSet.drawValuesEnabled = false
 		LFHFBestFitLineDataSet.drawCirclesEnabled = false
 		LFHFBestFitLineDataSet.mode = .linear
-		LFHFBestFitLineDataSet.lineWidth = 5.0
+		LFHFBestFitLineDataSet.lineWidth = 1.5
 		LFHFBestFitLineDataSet.highlightEnabled = false
 
 
 		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: "Normal Range for LF/HF")
 		LFHFUpperLimitDataSet.axisDependency = .left
-		LFHFUpperLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
+		LFHFUpperLimitDataSet.colors = [StoredColor.darkGreen.withAlphaComponent(0.3)]
 		LFHFUpperLimitDataSet.drawValuesEnabled = false
 		LFHFUpperLimitDataSet.drawCirclesEnabled = false
 		LFHFUpperLimitDataSet.mode = .linear
-		LFHFUpperLimitDataSet.lineWidth = 0.8
+		LFHFUpperLimitDataSet.lineWidth = 1.0
 		LFHFUpperLimitDataSet.highlightEnabled = false
 		/*LFHFUpperLimitDataSet.fillAlpha = 0.1
 		LFHFUpperLimitDataSet.fillColor = StoredColor.middleBlue
 		LFHFUpperLimitDataSet.drawFilledEnabled = true*/
 
-		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: nil)
+		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: "Normal Range for LF/HF")
 		LFHFLowerLimitDataSet.axisDependency = .left
-		LFHFLowerLimitDataSet.colors = [StoredColor.middleBlue.withAlphaComponent(0.3)]
+		LFHFLowerLimitDataSet.colors = [StoredColor.darkGreen.withAlphaComponent(0.3)]
 		LFHFLowerLimitDataSet.drawValuesEnabled = false
 		LFHFLowerLimitDataSet.drawCirclesEnabled = false
 		LFHFLowerLimitDataSet.mode = .linear
-		LFHFLowerLimitDataSet.lineWidth = 0.8
+		LFHFLowerLimitDataSet.lineWidth = 1.0
 		LFHFLowerLimitDataSet.highlightEnabled = false
 		/*LFHFLowerLimitDataSet.fillAlpha = 1.0
 		LFHFLowerLimitDataSet.fillColor = UIColor.white
@@ -467,7 +466,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 
 		if !ecgData.isEmpty && atLeastOneChartDataAvailable {
-			let lineChartData = LineChartData(dataSets: [LFHFBestFitLineDataSet, userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+			//let lineChartData = LineChartData(dataSets: [LFHFBestFitLineDataSet, userLFHFDataSet, userAVNNDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet, AVNNUpperLimitDataSet, AVNNLowerLimitDataSet])
+			let lineChartData = LineChartData(dataSets: [LFHFBestFitLineDataSet, userLFHFDataSet, LFHFUpperLimitDataSet, LFHFLowerLimitDataSet])
 			chartView.data = lineChartData
 		} else {
 			chartView.data = nil
@@ -475,7 +475,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		chartView.notifyDataSetChanged()
 		// only show first two legends
 		let legendEntries = chartView.legend.entries
-		chartView.legend.entries = Array(legendEntries.prefix(2))
+		chartView.legend.entries = Array(legendEntries.prefix(3))
 		chartView.legend.resetCustom()
 	}
 
