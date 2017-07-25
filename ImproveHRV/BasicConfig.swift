@@ -15,6 +15,7 @@ class BasicConfig {
 	//static let remedyListURL = "http://areflys-mac.local/other/improve-hrv/remedy/"
 	static let remedyListURL = "http://app.arefly.com/cardio-debug/remedy/"
 
+	//static let ecgCalculationURL = "http://ec2-54-68-166-131.us-west-2.compute.amazonaws.com:8080/"
 	static let ecgCalculationURL = "http://aws.arefly.com:8080/"
 	//static let ecgCalculationURL = "http://arefly.com/"
 }

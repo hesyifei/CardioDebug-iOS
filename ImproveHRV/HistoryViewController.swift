@@ -383,7 +383,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userSDNNDataSet.colors = [UIColor.gray]
 		userSDNNDataSet.drawCirclesEnabled = false*/
 
-		let userLFHFDataSet = LineChartDataSet(values: userLFHFDataEntries, label: "Your LF/HF")
+		let userLFHFDataSet = LineChartDataSet(values: userLFHFDataEntries, label: NSLocalizedString("History.Chart.Label.YourLFHF", comment: "Your LF/HF"))
 		userLFHFDataSet.axisDependency = .left
 		userLFHFDataSet.colors = [StoredColor.middleBlue]
 		userLFHFDataSet.drawCirclesEnabled = true
@@ -394,7 +394,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		//userLFHFDataSet.highlightColor = UIColor.red
 		userLFHFDataSet.highlightEnabled = false
 
-		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: "Your AVNN")
+		let userAVNNDataSet = LineChartDataSet(values: userAVNNDataEntries, label: NSLocalizedString("History.Chart.Label.YourAVNN", comment: "Your AVNN"))
 		userAVNNDataSet.axisDependency = .right
 		userAVNNDataSet.colors = [StoredColor.darkRed]
 		userAVNNDataSet.drawCirclesEnabled = true
@@ -406,7 +406,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		userAVNNDataSet.highlightEnabled = false
 
 
-		let LFHFBestFitLineDataSet = LineChartDataSet(values: LFHFBestFitDataEntries, label: "Your LF/HF overall trend")
+		let LFHFBestFitLineDataSet = LineChartDataSet(values: LFHFBestFitDataEntries, label: NSLocalizedString("History.Chart.Label.YourLFHFOverallTrend", comment: "Your LF/HF overall trend"))
 		LFHFBestFitLineDataSet.axisDependency = .left
 		LFHFBestFitLineDataSet.colors = [StoredColor.darkRed.withAlphaComponent(0.7)]
 		LFHFBestFitLineDataSet.drawValuesEnabled = false
@@ -416,7 +416,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFBestFitLineDataSet.highlightEnabled = false
 
 
-		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: "Normal Range for LF/HF")
+		let LFHFUpperLimitDataSet = LineChartDataSet(values: LFHFUpperLimitDataEntries, label: NSLocalizedString("History.Chart.Label.NormalLFHFRange", comment: "Normal Range for LF/HF"))
 		LFHFUpperLimitDataSet.axisDependency = .left
 		LFHFUpperLimitDataSet.colors = [StoredColor.darkGreen.withAlphaComponent(0.3)]
 		LFHFUpperLimitDataSet.drawValuesEnabled = false
@@ -428,7 +428,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFUpperLimitDataSet.fillColor = StoredColor.middleBlue
 		LFHFUpperLimitDataSet.drawFilledEnabled = true*/
 
-		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: "Normal Range for LF/HF")
+		let LFHFLowerLimitDataSet = LineChartDataSet(values: LFHFLowerLimitDataEntries, label: NSLocalizedString("History.Chart.Label.NormalLFHFRange", comment: "Normal Range for LF/HF"))
 		LFHFLowerLimitDataSet.axisDependency = .left
 		LFHFLowerLimitDataSet.colors = [StoredColor.darkGreen.withAlphaComponent(0.3)]
 		LFHFLowerLimitDataSet.drawValuesEnabled = false
@@ -660,10 +660,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 			}
 			if !result.isEmpty {
 				if let LFHF = result["LF/HF"] {
-					upperLeftText = "LF/HF: \(String(format:"%.2f", LFHF))"
+					upperLeftText = String.localizedStringWithFormat(NSLocalizedString("History.Table.LFHFX", comment: "LF/HF: %@"), String(format:"%.2f", LFHF))
 				}
 				if let averageBpm = result["AvgHR"] {
-					upperRightText = "\(String(format:"%.0f", averageBpm)) bpm"
+					upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.Xbpm", comment: "%@ bpm"), String(format:"%.0f", averageBpm))
 				}
 			}
 			thisDate = cellECGData.startDate
@@ -685,9 +685,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 							let duration = cellActivityData.endDate.timeIntervalSince(cellActivityData.startDate)
 							let (h, m, _) = HelperFunctions.secondsToHoursMinutesSeconds(Int(duration))
 							if h > 0 {
-								upperRightText = String(format: "%d h %d min", h, m)
+								upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.XhXm", comment: "%@ h %@ m"), h, m)
 							} else {
-								upperRightText = String(format: "%d min", m)
+								upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.Xm", comment: "%@ min"), m)
 							}
 
 							if let iconImage = icon.imageFromEmoji() {
@@ -707,12 +707,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					let unit = HKUnit.millimeterOfMercury()
 					let systolicValue = Int(systolicData.quantity.doubleValue(for: unit))
 					let diastolicValue = Int(diastolicData.quantity.doubleValue(for: unit))
-					upperLeftText = String(format: "%d/%d mmHg", systolicValue, diastolicValue)
+					upperLeftText = String.localizedStringWithFormat(NSLocalizedString("History.Table.X/XmmHg", comment: "%@/%@ mmHg"), systolicValue, diastolicValue)
 
 					upperLeftColor = StoredColor.darkRed
 
 					if let heartRateData = bpData["heartRate"] as? Double {
-						upperRightText = "\(String(format:"%.0f", heartRateData)) bpm"
+						upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.Xbpm", comment: "%@ bpm"), String(format:"%.0f", heartRateData))
 					} else {
 						upperRightText = ""
 					}

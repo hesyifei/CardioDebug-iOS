@@ -82,7 +82,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 		}
 
 
-		self.navigationItem.title = "Cardio Debug"
+		self.navigationItem.title = NSLocalizedString("Main.NavigationTitle", comment: "Cardio Debug")
 
 		if let navController = self.navigationController {
 			// http://stackoverflow.com/a/18969325/2603230
@@ -100,7 +100,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 		upperButton.setTitleColor(disabledButtonColor, for: .disabled)
 		upperButton.titleLabel?.textAlignment = .center
 		upperButton.titleLabel?.lineBreakMode = .byWordWrapping
-		upperButton.setTitle("Start\nActivity", for: .normal)
+		upperButton.setTitle(NSLocalizedString("Main.Button.StartActivity", comment: "Start\nActivity"), for: .normal)
 		upperButton.addTarget(self, action: #selector(self.startActivityAction), for: .touchUpInside)
 
 		middleButtonOuterView.circleColor = circleColor
@@ -110,7 +110,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 		middleButton.setTitleColor(disabledButtonColor, for: .disabled)
 		middleButton.titleLabel?.textAlignment = .center
 		middleButton.titleLabel?.lineBreakMode = .byWordWrapping
-		middleButton.setTitle("Finish\nActivity", for: .normal)
+		middleButton.setTitle(NSLocalizedString("Main.Button.FinishActivity", comment: "Finish\nActivity"), for: .normal)
 		middleButton.addTarget(self, action: #selector(self.finishActivityAction), for: .touchUpInside)
 
 		lowerButtonOuterView.circleColor = circleColor
@@ -120,7 +120,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 		lowerButton.setTitleColor(disabledButtonColor, for: .disabled)
 		lowerButton.titleLabel?.textAlignment = .center
 		lowerButton.titleLabel?.lineBreakMode = .byWordWrapping
-		lowerButton.setTitle("Record\nECG", for: .normal)
+		lowerButton.setTitle(NSLocalizedString("Main.Button.RecordECG", comment: "Record\nECG"), for: .normal)
 
 
 

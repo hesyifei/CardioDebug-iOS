@@ -419,7 +419,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 		switch segmentedControlSegment {
 		case .timeDomain, .frequencyDomain:
-			let msUnit = " ms", percentageUnit = " %", ms2Unit = " ms²", bpmUnit = " bpm"
+			let msUnit = NSLocalizedString("Result.Table.Unit.ms", comment: " ms"), percentageUnit = NSLocalizedString("Result.Table.Unit.percentage", comment: " %"), ms2Unit = NSLocalizedString("Result.Table.Unit.ms2", comment: " ms²"), bpmUnit = NSLocalizedString("Result.Table.Unit.bpm", comment: " bpm")
 
 			if segmentedControlSegment == .timeDomain {
 				if let avgHR = self.result["AvgHR"] {
@@ -440,14 +440,14 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 			let fullStringDict = [
-				"SDNNIDX": "SDNN Index",
-				"TOT PWR": "Total HRV Power",
-				"ULF PWR": "Ultra-low Frequency Power",
-				"VLF PWR": "Very Low Frequency Power",
-				"LF PWR": "Low Frequency Power",
-				"HF PWR": "High Frequency Power",
-				"nHF": "Normalized HF (PNS)",
-				"nLF": "Normalized LF (SNS)",
+				"SDNNIDX": NSLocalizedString("Result.Table.FullItemName.SDNNIDX", comment: "SDNN Index"),
+				"TOT PWR": NSLocalizedString("Result.Table.FullItemName.TOT-PWR", comment: "Total HRV Power"),
+				"ULF PWR": NSLocalizedString("Result.Table.FullItemName.ULF-PWR", comment: "Ultra-low Frequency Power"),
+				"VLF PWR": NSLocalizedString("Result.Table.FullItemName.VLF-PWR", comment: "Very Low Frequency Power"),
+				"LF PWR": NSLocalizedString("Result.Table.FullItemName.LF-PWR", comment: "Low Frequency Power"),
+				"HF PWR": NSLocalizedString("Result.Table.FullItemName.HF-PWR", comment: "High Frequency Power"),
+				"nHF": NSLocalizedString("Result.Table.FullItemName.nHF", comment: "Normalized HF (PNS)"),
+				"nLF": NSLocalizedString("Result.Table.FullItemName.nLF", comment: "Normalized LF (SNS)"),
 				]
 			let unitDict = [
 				"AVNN": msUnit,
@@ -504,7 +504,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			tableData = [defaultNoteCell.joined(separator: "|")]
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 				if !thisData.note.isEmpty {
-					tableData = ["Note|\(thisData.note)"]
+					tableData = ["\(NSLocalizedString("Result.Table.FullItemName.Note", comment: "Note"))|\(thisData.note)"]
 				}
 			}
 			break
