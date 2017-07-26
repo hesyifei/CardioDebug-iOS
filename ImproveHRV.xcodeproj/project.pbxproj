@@ -11,6 +11,7 @@
 		9FAAFD44D7742D1AAA638E9F /* Pods_ImproveHRVUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C13FC58786F30516ACD43344 /* Pods_ImproveHRVUITests.framework */; };
 		AF501F794EB54087F297309C /* Pods_ImproveHRV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2856FFFF7311A83D7CB30A7 /* Pods_ImproveHRV.framework */; };
 		ED1543731E2C5C5A00D13910 /* BloodPressureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED1543721E2C5C5A00D13910 /* BloodPressureData.swift */; };
+		ED22322E1F284DEF000F6913 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ED2232301F284DEF000F6913 /* Localizable.strings */; };
 		ED2C5B511DD20BA700E6D3BD /* SymptomSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2C5B501DD20BA700E6D3BD /* SymptomSelectionViewController.swift */; };
 		ED2ECE0E1E2DD5060089218F /* DebugConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2ECE0D1E2DD5060089218F /* DebugConfig.swift */; };
 		ED86F6211DBC5A1100301D30 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED86F6201DBC5A1100301D30 /* ResultViewController.swift */; };
@@ -88,6 +89,8 @@
 		E3AF92B3DAF407210EB2545C /* Pods-ImproveHRVUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImproveHRVUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ImproveHRVUITests/Pods-ImproveHRVUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED1543721E2C5C5A00D13910 /* BloodPressureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BloodPressureData.swift; sourceTree = "<group>"; };
 		ED22322B1F270BB6000F6913 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		ED22322F1F284DEF000F6913 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		ED2232311F284DF1000F6913 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		ED2C5B501DD20BA700E6D3BD /* SymptomSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymptomSelectionViewController.swift; sourceTree = "<group>"; };
 		ED2ECE0D1E2DD5060089218F /* DebugConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugConfig.swift; sourceTree = "<group>"; };
 		ED2ECE0F1E2DD5B50089218F /* DebugECGRawData.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DebugECGRawData.txt; sourceTree = "<group>"; };
@@ -234,6 +237,7 @@
 				ED2C5B501DD20BA700E6D3BD /* SymptomSelectionViewController.swift */,
 				EDAC0EC31E29B1AE004B03A7 /* AddNewDataViewController.swift */,
 				EDF329381E2B2B1600DA15C4 /* AddNewDataInputViewController.swift */,
+				ED2232301F284DEF000F6913 /* Localizable.strings */,
 				EDD34D501DC4CF0F00698598 /* Supporting Views */,
 				EDD34D511DC4CF2100698598 /* Supporting Classes */,
 				EDCF4C921DB9C858006A8045 /* Main.storyboard */,
@@ -416,6 +420,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = EDCF4C821DB9C858006A8045;
 			productRefGroup = EDCF4C8C1DB9C858006A8045 /* Products */;
@@ -434,6 +439,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED22322E1F284DEF000F6913 /* Localizable.strings in Resources */,
 				EDCF4C9C1DB9C858006A8045 /* LaunchScreen.storyboard in Resources */,
 				EDCF4C991DB9C858006A8045 /* Assets.xcassets in Resources */,
 				EDCF4C941DB9C858006A8045 /* Main.storyboard in Resources */,
@@ -688,6 +694,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		ED2232301F284DEF000F6913 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ED22322F1F284DEF000F6913 /* en */,
+				ED2232311F284DF1000F6913 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		EDCF4C921DB9C858006A8045 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

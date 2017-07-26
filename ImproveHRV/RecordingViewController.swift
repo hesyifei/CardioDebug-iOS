@@ -664,7 +664,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	func startConnectAfterDiscover(_ method: CDDeviceSupportedMethod?, peripheral: CBPeripheral) {
 		self.disableButtons()
-		self.mainLabel.text = "Connecting..."
+		self.mainLabel.text = NSLocalizedString("Recording.Label.Connecting", comment: "Connecting...")
 
 		if let method = method {
 			currentMethod = method
@@ -841,7 +841,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 	// MARK: - bitalino related func
 	func bitalinoDidConnect(_ bitalino: BITalinoBLE!) {
-		mainLabel.text = "Connected :)"
+		mainLabel.text = NSLocalizedString("Recording.Label.Connected", comment: "Connected :)")
 		print("Connected")
 		HelperFunctions.delay(1.0) {
 			self.startRecording()
@@ -853,7 +853,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		if isConnectedAndRecording == true {
 			self.stopTimer()
 			self.progressCircleView.progressCircle.removeFromSuperlayer()
-			mainLabel.text = "Disconnected :("
+			mainLabel.text = NSLocalizedString("Recording.Label.Disconnected", comment: "Disconnected :(")
 			HelperFunctions.delay(1.0) {
 				self.setupViewAndStopRecording(isNormalCondition: false)
 			}
