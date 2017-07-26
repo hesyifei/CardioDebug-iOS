@@ -472,7 +472,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 	func startConnect() {
 		if deviceType == .bitalino {
 			if !bitalino.isConnected {
-				mainLabel.text = "Connecting..."
+				mainLabel.text = NSLocalizedString("Recording.Label.Connecting", comment: "Connecting...")
 				bitalino.scanAndConnect()
 			}
 		} else if deviceType == .ble {
@@ -487,7 +487,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 				}
 			}
 			if poweredOn {
-				mainLabel.text = "Searching..."
+				mainLabel.text = NSLocalizedString("Recording.Label.Searching", comment: "Searching...")
 				manager.scanForPeripherals(withServices: nil, options: nil)
 			} else {
 				mainLabel.text = "Please enable BT"
@@ -626,16 +626,16 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 
 				self.manager.stopScan()
 
-				let alert = UIAlertController(title: "Device found", message: "Found BLE device named \(name)", preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: "Connect & record", style: .default, handler: { (action: UIAlertAction) in
+				let alert = UIAlertController(title: NSLocalizedString("Recording.Alert.DeviceFound.Title", comment: "Device found"), message: String.localizedStringWithFormat(NSLocalizedString("Recording.Alert.DeviceFound.Message", comment: "Found BLE device named %@"), name), preferredStyle: .alert)
+				alert.addAction(UIAlertAction(title: NSLocalizedString("Recording.Alert.DeviceFound.Button.ConnectRecord", comment: "Connect & record"), style: .default, handler: { (action: UIAlertAction) in
 
 					if self.deviceType == .ble {
 						// TODO: change to a better expression
-						let methodAlert = UIAlertController(title: "Choose your method", message: "Your CD Device support both Express Solution (put your finger tip on) and Professional Solution (use electrode). Which one do you want to use for this time?", preferredStyle: .alert)
-						methodAlert.addAction(UIAlertAction(title: "Express Solution", style: .default, handler: { (action: UIAlertAction) in
+						let methodAlert = UIAlertController(title: NSLocalizedString("Recording.Alert.ChooseMethod.Title", comment: "Choose your method"), message: NSLocalizedString("Recording.Alert.ChooseMethod.Message", comment: "Your CD Device support both Express Solution (put your finger tip on) and Professional Solution (use electrode). Which one do you want to use for this time?"), preferredStyle: .alert)
+						methodAlert.addAction(UIAlertAction(title: NSLocalizedString("Recording.Alert.ChooseMethod.Button.Express", comment: "Express Solution"), style: .default, handler: { (action: UIAlertAction) in
 							self.startConnectAfterDiscover(.ppg, peripheral: peripheral)
 						}))
-						methodAlert.addAction(UIAlertAction(title: "Professional Solution", style: .default, handler: { (action: UIAlertAction) in
+						methodAlert.addAction(UIAlertAction(title: NSLocalizedString("Recording.Alert.ChooseMethod.Button.Professional", comment: "Professional Solution"), style: .default, handler: { (action: UIAlertAction) in
 							self.startConnectAfterDiscover(.ecg, peripheral: peripheral)
 						}))
 
@@ -647,7 +647,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 					}
 
 				}))
-				alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction) in
+				alert.addAction(UIAlertAction(title: NSLocalizedString("Recording.Alert.DeviceFound.Button.Cancel", comment: "Cancel"), style: .cancel, handler: { (action: UIAlertAction) in
 					self.popViewController()
 				}))
 
@@ -690,7 +690,7 @@ class RecordingViewController: UIViewController, CBCentralManagerDelegate, CBPer
 		if isConnectedAndRecording == true {
 			self.stopTimer()
 			self.progressCircleView.progressCircle.removeFromSuperlayer()
-			mainLabel.text = "Disconnected :("
+			mainLabel.text = NSLocalizedString("Recording.Label.Disconnected", comment: "Disconnected :(")
 			HelperFunctions.delay(1.0) {
 				self.setupViewAndStopRecording(isNormalCondition: false)
 			}
