@@ -67,7 +67,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 
 
-	let defaultNoteCell = ["Note", "Enter note..."]
+	let defaultNoteCell = [NSLocalizedString("Result.Table.FullItemName.Note", comment: "Note"), NSLocalizedString("Result.Table.FullItemDetail.EnterNote", comment: "Enter note...")]
 	var normalRange = [String: ClosedRange<Double>]()
 
 
