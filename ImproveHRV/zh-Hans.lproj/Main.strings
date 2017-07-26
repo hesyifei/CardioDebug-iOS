@@ -1,0 +1,54 @@
+
+/* Class = "UISegmentedControl"; 47s-Qv-NXb.segmentTitles[0] = "Physical"; ObjectID = "47s-Qv-NXb"; */
+"47s-Qv-NXb.segmentTitles[0]" = "生理";
+
+/* Class = "UISegmentedControl"; 47s-Qv-NXb.segmentTitles[1] = "Mental"; ObjectID = "47s-Qv-NXb"; */
+"47s-Qv-NXb.segmentTitles[1]" = "心理";
+
+/* Class = "UIButton"; normalTitle = "No"; ObjectID = "LOs-kw-k3Y"; */
+"LOs-kw-k3Y.normalTitle" = "否";
+
+/* Class = "UIBarButtonItem"; title = "Remedy"; ObjectID = "O4i-he-JYe"; */
+"O4i-he-JYe.title" = "疗法";
+
+/* Class = "UILabel"; text = "Measurement in progress"; ObjectID = "V3h-qW-0Sf"; */
+"V3h-qW-0Sf.text" = "记录数据中";
+
+/* Class = "UISegmentedControl"; blu-8Q-l1f.segmentTitles[0] = "ECG Raw Data"; ObjectID = "blu-8Q-l1f"; */
+"blu-8Q-l1f.segmentTitles[0]" = "心电图源数据";
+
+/* Class = "UISegmentedControl"; blu-8Q-l1f.segmentTitles[1] = "Power Spectral Density"; ObjectID = "blu-8Q-l1f"; */
+"blu-8Q-l1f.segmentTitles[1]" = "功率频谱密度";
+
+/* Class = "UIBarButtonItem"; title = "Settings"; ObjectID = "dmJ-vf-gXl"; */
+"dmJ-vf-gXl.title" = "设置";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "fwh-2h-3xq"; */
+"fwh-2h-3xq.text" = "Title";
+
+/* Class = "UISegmentedControl"; jrJ-Vp-lFy.segmentTitles[0] = "Time Domain"; ObjectID = "jrJ-Vp-lFy"; */
+"jrJ-Vp-lFy.segmentTitles[0]" = "时域";
+
+/* Class = "UISegmentedControl"; jrJ-Vp-lFy.segmentTitles[1] = "Frequency Domain"; ObjectID = "jrJ-Vp-lFy"; */
+"jrJ-Vp-lFy.segmentTitles[1]" = "频域";
+
+/* Class = "UISegmentedControl"; jrJ-Vp-lFy.segmentTitles[2] = "Other"; ObjectID = "jrJ-Vp-lFy"; */
+"jrJ-Vp-lFy.segmentTitles[2]" = "其它";
+
+/* Class = "UILabel"; text = "!"; ObjectID = "kVk-t7-Yrq"; */
+"kVk-t7-Yrq.text" = "!";
+
+/* Class = "UIButton"; normalTitle = "Yes"; ObjectID = "u3X-s3-5oh"; */
+"u3X-s3-5oh.normalTitle" = "是";
+
+/* Class = "UIButton"; normalTitle = "Finish"; ObjectID = "uBC-yp-42C"; */
+"uBC-yp-42C.normalTitle" = "完成";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "xMG-J2-BC2"; */
+"xMG-J2-BC2.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "yC0-il-Dn6"; */
+"yC0-il-Dn6.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "(at every night)"; ObjectID = "zl9-KB-b4I"; */
+"zl9-KB-b4I.text" = "（每晚）";
