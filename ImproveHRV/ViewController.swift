@@ -170,7 +170,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 					if let activityData = data[currentActivity] as? [String: Any] {
 						if let title = activityData["title"] as? String, let icon = activityData["icon"] as? String {
 							didSelectActivity = true
-							labelText = "Selected: \(title) \(icon)"
+							labelText = String.localizedStringWithFormat(NSLocalizedString("Main.Label.SelectedActivity", comment: "Selected: %@ %@"), title, icon)
 						}
 					}
 				}

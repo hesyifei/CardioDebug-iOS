@@ -68,7 +68,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		self.tableView.sendSubview(toBack: refreshControl)
 
 
-		self.navigationItem.title = "History"
+		self.navigationItem.title = NSLocalizedString("History.NavigationTitle", comment: "History")
 		self.navigationItem.rightBarButtonItem = self.editButtonItem
 
 		shareAction = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.shareRecords))
