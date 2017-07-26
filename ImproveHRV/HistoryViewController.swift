@@ -685,9 +685,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 							let duration = cellActivityData.endDate.timeIntervalSince(cellActivityData.startDate)
 							let (h, m, _) = HelperFunctions.secondsToHoursMinutesSeconds(Int(duration))
 							if h > 0 {
-								upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.XhXm", comment: "%@ h %@ m"), h, m)
+								upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.XhXm", comment: "%d h %d m"), h, m)
 							} else {
-								upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.Xm", comment: "%@ min"), m)
+								upperRightText = String.localizedStringWithFormat(NSLocalizedString("History.Table.Xm", comment: "%d min"), m)
 							}
 
 							if let iconImage = icon.imageFromEmoji() {
@@ -707,7 +707,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 					let unit = HKUnit.millimeterOfMercury()
 					let systolicValue = Int(systolicData.quantity.doubleValue(for: unit))
 					let diastolicValue = Int(diastolicData.quantity.doubleValue(for: unit))
-					upperLeftText = String.localizedStringWithFormat(NSLocalizedString("History.Table.X/XmmHg", comment: "%@/%@ mmHg"), systolicValue, diastolicValue)
+					upperLeftText = String.localizedStringWithFormat(NSLocalizedString("History.Table.X/XmmHg", comment: "%d/%d mmHg"), systolicValue, diastolicValue)
 
 					upperLeftColor = StoredColor.darkRed
 
