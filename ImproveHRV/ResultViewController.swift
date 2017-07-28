@@ -431,10 +431,10 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							checkResult = " ❗️"
 						}
 					}
-					self.tableData.append("Average|\(String(format: "%.0f", avgHR))\(bpmUnit)\(checkResult)|AvgHR")
+					self.tableData.append("\(NSLocalizedString("Result.Table.FullItemName.Average", comment: "Average"))|\(String(format: "%.0f", avgHR))\(bpmUnit)\(checkResult)|AvgHR")
 				}
 				if let maxHR = self.result["MaxHR"], let minHR = self.result["MinHR"] {
-					self.tableData.append("Range|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)|MaxHR")
+					self.tableData.append("\(NSLocalizedString("Result.Table.FullItemName.Range", comment: "Range"))|\(String(format: "%.0f", minHR))-\(String(format: "%.0f", maxHR))\(bpmUnit)|MaxHR")
 				}
 			}
 

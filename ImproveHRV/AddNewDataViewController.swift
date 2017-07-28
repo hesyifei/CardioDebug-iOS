@@ -24,9 +24,9 @@ class AddNewDataViewController: UIViewController, UITableViewDelegate, UITableVi
 		tableView.delegate = self
 		tableView.dataSource = self
 
-		self.title = "Add"
+		self.title = NSLocalizedString("AddNewData.Title", comment: "Add")
 
-		tableData = ["Blood Pressure", "Height & Weight", "Body Temperature"]
+		tableData = [NSLocalizedString("AddNewData.Table.First.BloodPressure", comment: "Blood Pressure"), NSLocalizedString("AddNewData.Table.First.HeightWeight", comment: "Height & Weight"), NSLocalizedString("AddNewData.Table.First.BodyTemp", comment: "Body Temperature")]
 		cellTitleToBePassed = ["Systoloc|Diastolic|Heart Rate (bpm)", "Height (m)|Weight (kg)", "°C"]
 		cellPlaceholderToBePassed = ["||(optional)", "|", ""]
 

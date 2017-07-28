@@ -61,7 +61,7 @@ class SimpleResultViewController: UIViewController {
 			self.upperLabel.text = " "
 			self.upperLabel.textColor = UIColor.green
 
-			self.mainLabel.text = "Congrats! You looks fine!"
+			self.mainLabel.text = NSLocalizedString("SimpleResult.TitleLabel.CongratsFine", comment: "Congrats! You looks fine!")
 			self.mainLabel.font = UIFont.systemFont(ofSize: 25)
 
 			let centerParagraphStyle = NSMutableParagraphStyle()
@@ -81,7 +81,7 @@ class SimpleResultViewController: UIViewController {
 			self.upperLabel.textColor = UIColor.red
 
 			// TODO: use problemData here
-			self.mainLabel.text = "We detected that you may have:"
+			self.mainLabel.text = NSLocalizedString("SimpleResult.TitleLabel.WeDetectedYouMayHave", comment: "We detected that you may have:")
 			self.mainLabel.textColor = UIColor.white
 
 			self.mainTextView.textColor = UIColor.white		// have to put before using any attributedStringFromHTMLToTextView
@@ -101,9 +101,9 @@ class SimpleResultViewController: UIViewController {
 		leftButton.addTarget(self, action: #selector(self.leftButtonAction), for: .touchUpInside)
 
 		if isGood == true {
-			rightButton.setTitle("Done", for: .normal)
+			rightButton.setTitle(NSLocalizedString("SimpleResult.Button.Done", comment: "Done"), for: .normal)
 		} else {
-			rightButton.setTitle("Next", for: .normal)
+			rightButton.setTitle(NSLocalizedString("SimpleResult.Button.Next", comment: "Next"), for: .normal)
 		}
 		rightButton.addTarget(self, action: #selector(self.rightButtonAction), for: .touchUpInside)
 	}
@@ -150,10 +150,10 @@ class SimpleResultViewController: UIViewController {
 			}
 			switch currentState {
 			case firstPageCount:
-				leftButton.setTitle("Yes", for: .normal)
+				leftButton.setTitle(NSLocalizedString("SimpleResult.Button.Yes", comment: "Yes"), for: .normal)
 				leftButton.isHidden = false
-				rightButton.setTitle("No", for: .normal)
-				mainLabel.text = "Did you feel..."
+				rightButton.setTitle(NSLocalizedString("SimpleResult.Button.No", comment: "No"), for: .normal)
+				mainLabel.text = NSLocalizedString("SimpleResult.TitleLabel.DidYouFeel", comment: "Did you feel...")
 
 				mainTextView.setAttributedStringFromHTML(symptoms[currentState]) { _ in }
 
@@ -161,8 +161,8 @@ class SimpleResultViewController: UIViewController {
 				break
 			case symptoms.count:
 				leftButton.isHidden = true
-				rightButton.setTitle("Close", for: .normal)
-				mainLabel.text = "Recommendation:"
+				rightButton.setTitle(NSLocalizedString("SimpleResult.Button.Close", comment: "Close"), for: .normal)
+				mainLabel.text = NSLocalizedString("SimpleResult.TitleLabel.Recommendation", comment: "Recommendation:")
 
 				if let resultDict = problemData["result"] as? [String: String] {
 					if let htmlDescription = resultDict["\(numberOfYes)"] {

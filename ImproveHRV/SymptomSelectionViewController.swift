@@ -24,7 +24,7 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		self.title = "Choose all symptoms you felt"
+		self.title = NSLocalizedString("SymptomSelection.Title", comment: "Choose all symptoms you felt")
 
 		tableView.delegate = self
 		tableView.dataSource = self
@@ -67,16 +67,16 @@ class SymptomSelectionViewController: UIViewController, UITableViewDelegate, UIT
 
 	func updateUpperTableData(_ index: Int) {
 		if index == 0 {
-			tableHeader = ["Sleep", "Eat", "Feel"]
+			tableHeader = [NSLocalizedString("SymptomSelection.Symptom.Physical.Sleep", comment: "Sleep"), NSLocalizedString("SymptomSelection.Symptom.Physical.Eat", comment: "Eat"), NSLocalizedString("SymptomSelection.Symptom.Physical.Feel", comment: "Feel")]
 			tableData = [
-				["hard to fall asleep", "mostly light sleep", "dreamful sleep"],
-				["vegetarian", "high fat", "high sugar", "high salt"],
-				["tiredness", "dizziness", "headache", "palpitation", "perspire", "eye strain"]
+				[NSLocalizedString("SymptomSelection.Symptom.Physical.hard to fall asleep", comment: "hard to fall asleep"), NSLocalizedString("SymptomSelection.Symptom.Physical.mostly light sleep", comment: "mostly light sleep"), NSLocalizedString("SymptomSelection.Symptom.Physical.dreamful sleep", comment: "dreamful sleep")],
+				[NSLocalizedString("SymptomSelection.Symptom.Physical.vegetarian", comment: "vegetarian"), NSLocalizedString("SymptomSelection.Symptom.Physical.high fat", comment: "high fat"), NSLocalizedString("SymptomSelection.Symptom.Physical.high sugar", comment: "high sugar"), NSLocalizedString("SymptomSelection.Symptom.Physical.high salt", comment: "high salt")],
+				[NSLocalizedString("SymptomSelection.Symptom.Physical.tiredness", comment: "tiredness"), NSLocalizedString("SymptomSelection.Symptom.Physical.dizziness", comment: "dizziness"), NSLocalizedString("SymptomSelection.Symptom.Physical.headache", comment: "headache"), NSLocalizedString("SymptomSelection.Symptom.Physical.palpitation", comment: "palpitation"), NSLocalizedString("SymptomSelection.Symptom.Physical.perspire", comment: "perspire"), NSLocalizedString("SymptomSelection.Symptom.Physical.eye strain", comment: "eye strain")]
 			]
 		} else {
 			tableHeader = [""]
 			tableData = [
-				["tense", "angry", "wornout", "unhappy", "proud", "lively", "confused", "sad", "active", "on-edge", "grouchy", "ashamed", "energetic", "hopeless", "uneasy", "restless", "unable to concentrate", "fatigued", "competent", "annoyed", "discouraged", "resentful", "nervous", "miserable"]
+				[NSLocalizedString("SymptomSelection.Symptom.Mental.tense", comment: "tense"), NSLocalizedString("SymptomSelection.Symptom.Mental.angry", comment: "angry"), NSLocalizedString("SymptomSelection.Symptom.Mental.wornout", comment: "wornout"), NSLocalizedString("SymptomSelection.Symptom.Mental.unhappy", comment: "unhappy"), NSLocalizedString("SymptomSelection.Symptom.Mental.proud", comment: "proud"), NSLocalizedString("SymptomSelection.Symptom.Mental.lively", comment: "lively"), NSLocalizedString("SymptomSelection.Symptom.Mental.confused", comment: "confused"), NSLocalizedString("SymptomSelection.Symptom.Mental.sad", comment: "sad"), NSLocalizedString("SymptomSelection.Symptom.Mental.active", comment: "active"), NSLocalizedString("SymptomSelection.Symptom.Mental.on-edge", comment: "on-edge"), NSLocalizedString("SymptomSelection.Symptom.Mental.grouchy", comment: "grouchy"), NSLocalizedString("SymptomSelection.Symptom.Mental.ashamed", comment: "ashamed"), NSLocalizedString("SymptomSelection.Symptom.Mental.energetic", comment: "energetic"), NSLocalizedString("SymptomSelection.Symptom.Mental.hopeless", comment: "hopeless"), NSLocalizedString("SymptomSelection.Symptom.Mental.uneasy", comment: "uneasy"), NSLocalizedString("SymptomSelection.Symptom.Mental.restless", comment: "restless"), NSLocalizedString("SymptomSelection.Symptom.Mental.unable to concentrate", comment: "unable to concentrate"), NSLocalizedString("SymptomSelection.Symptom.Mental.fatigued", comment: "fatigued"), NSLocalizedString("SymptomSelection.Symptom.Mental.competent", comment: "competent"), NSLocalizedString("SymptomSelection.Symptom.Mental.annoyed", comment: "annoyed"), NSLocalizedString("SymptomSelection.Symptom.Mental.discouraged", comment: "discouraged"), NSLocalizedString("SymptomSelection.Symptom.Mental.resentful", comment: "resentful"), NSLocalizedString("SymptomSelection.Symptom.Mental.nervous", comment: "nervous"), NSLocalizedString("SymptomSelection.Symptom.Mental.miserable", comment: "miserable")]
 			]
 		}
 	}
