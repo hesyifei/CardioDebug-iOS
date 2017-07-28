@@ -115,6 +115,20 @@ class SettingsViewController: FormViewController {
 						let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 						destination.isGood = false
 						destination.problemData = [
+							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>自主神经失调</a></span></div><br />自主神经失调是交感副交感神经的失衡，会影响我们的日常生活并导致各种不同症状（如失眠、消化不良等）。<br /><span class='lightPink'>不健康的生活方式</span>和<span class='lightPink'>长时间工作</span>都有机会导致这一问题，长远更可能导致<span class='lightPink'>自主神经紊乱</span>等问题.<br /><br />为得出更准确的检测结果，请点击“下一步”并回答一些问题。" as AnyObject,
+							"result": [
+								"3": "您有机会有自主神经失调。我们建议您做<br /><br /><div style='text-align: center;'><span style='font-size: 200%;'>耐力运动</span></div><br /><span style='font-size: 130%;'>耐力运动是指能将您的心跳率提升到60-80%的活动（如跑步、游泳等），每日须做至少20分钟。</span>",
+								"1": "由于您在过去四小时曾喝过咖啡或酒，检测结果可能并不准确，我们建议您明天在<b>在不喝咖啡或酒</b>的情况下再测一次。",
+								"2": "",
+								"0": ""
+								] as AnyObject,
+							"questions": [
+								"您有觉得压力很大么？",
+								"您最近有晚睡么？",
+								"如果您没有喝咖啡或者酒，请选择“是”，反之请选“否”。"
+								] as AnyObject
+						]
+						/*destination.problemData = [
 							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>ANS disorder</a></span></div><br />ANS disorder is the imbalance of sympathetic nervous and parasympathetic nervous which controls the involuntary work of your body (such as digestion and heart rate).<br /><span class='lightPink'>Unhealthy lifestyle</span> and <span class='lightPink'>long working hours</span> may cause this disorder, and leaving it untreated maybe cause <span class='lightPink'>dysfunction of ANS</span>.<br /><br /><span style='font-size: 140%;'>ANS disorder may cause symptoms including <span class='lightPink'>poor digestion</span> and <span class='lightPink'>insomnia</span>.</span><br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
 							"result": [
 								"0": "It is possible that you may have ANS disorder. We suggest you to do<br /><br /><div style='text-align: center;'><span style='font-size: 200%;'>Endurance Exercise</span></div><br /><span style='font-size: 130%;'>Do endurance exercise which heart rate is elevated to 60-80% (e.g. running, swimming) for at least 20 mins every day.</span>",
@@ -127,7 +141,7 @@ class SettingsViewController: FormViewController {
 								"Did you sleep late recently?",
 								"Choose \"Yes\" if you did't drink any alcohol or caffeine, and vice versa."
 								] as AnyObject
-						]
+						]*/
 						destination.passedBackData = { bool in
 							// do nothing
 						}
@@ -140,7 +154,7 @@ class SettingsViewController: FormViewController {
 				}.onCellSelection { cell, row in
 					let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 					destination.isGood = false
-					destination.problemData = [
+					/*destination.problemData = [
 						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>Atrial Premature Beats (APB)</a></span></div><br />There may not be any symptom for this disease, however it maybe further develop into more serious arrhythmia if no action is taken.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
 						"result": [
 							"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
@@ -150,6 +164,17 @@ class SettingsViewController: FormViewController {
 							"Choose \"Yes\" if you are <b>not</b> having a cold, and vice versa.",
 							"Choose \"Yes\" if you <b>did't</b> drink any alcohol or caffeine within the last 4 hours, and vice versa."
 						] as AnyObject
+					]*/
+					destination.problemData = [
+						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>房性早搏（APB）</a></span></div><br />您可能没有任何明显的症状，但若无采取措施有可能将会导致更加严重的问题。<br /><br />为得出更准确的检测结果，请点击“下一步”并回答一些问题。" as AnyObject,
+						"result": [
+							"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
+							"1": "Since you (a) have drunk coffee or alcohol within the last 4 hours / (b) are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again<br />(a) tomorrow <b>without</b> drinking any coffee or alcohol.<br />(b) after your are <b>not</b> sick any more.",
+							"2": "请前往医院检测并进一步向医生查询。"
+							] as AnyObject, "questions": [
+								"如果您没有感冒，请选择“是”，反之请选“否”。",
+								"如果您近4小时没有喝咖啡或者酒，请选择“是”，反之请选“否”。"
+								] as AnyObject
 					]
 					destination.passedBackData = { bool in
 						// do nothing
