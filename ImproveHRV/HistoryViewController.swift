@@ -412,7 +412,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 		LFHFBestFitLineDataSet.drawValuesEnabled = false
 		LFHFBestFitLineDataSet.drawCirclesEnabled = false
 		LFHFBestFitLineDataSet.mode = .linear
-		LFHFBestFitLineDataSet.lineWidth = 1.5
+		LFHFBestFitLineDataSet.lineWidth = 3
 		LFHFBestFitLineDataSet.highlightEnabled = false
 
 
@@ -841,7 +841,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 class ChartDateToStringFormatter: NSObject, IAxisValueFormatter {
 	public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
 		let formatter = DateFormatter()
-		formatter.dateFormat = "dd-MM-yyyy HH:mm"
+		formatter.dateStyle = .short
+		formatter.timeStyle = .short
 		let date = Date(timeIntervalSinceReferenceDate: TimeInterval(value))
 		return formatter.string(from: date)
 	}
