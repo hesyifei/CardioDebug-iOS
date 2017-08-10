@@ -212,81 +212,110 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			fftResult = []
 
 			if self.passedData.isNew == true || force == true {
-				var dataToBeCalculated = self.passedData.rawData
-				if self.passedData.recordType == .ppg {
-					dataToBeCalculated = self.passedData.rrData
-				}
-				self.calculateECGData(dataToBeCalculated!, recordType: self.passedData.recordType, hertz: self.passedData.recordingHertz) { (successDownloadHRVData: Bool) in
-					if !successDownloadHRVData {
-						print("ERROR")
-					}
-					Async.background {
-						let realm = try! Realm()
-						if self.passedData.isNew == true {
-							let ecgData = ECGData()
-							ecgData.recordType = self.passedData.recordType
-							ecgData.startDate = self.passedData.startDate
-							ecgData.recordingHertz = self.passedData.recordingHertz
-							ecgData.rawData = self.passedData.rawData
-							ecgData.rrData = self.passedData.rrData
-							ecgData.result = self.result
-							ecgData.fftData = self.fftResult
-							try! realm.write {
-								realm.add(ecgData)
-							}
-							if !successDownloadHRVData {
-								// TODO: this error not showing when no internet and SSVC (SelectSymptoms) not closed
-								self.isCalculationError = true
-								self.calculationErrorMessage = "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view."
-							}
-						} else if force == true {
-							if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
-								if successDownloadHRVData {
-									print("Loaded online HRV. Saving it to local data.")
-									if (thisData.result != self.result) || (thisData.fftData != self.fftResult) {
-										try! realm.write {
-											thisData.result = self.result
-											thisData.fftData = self.fftResult
-										}
-									}
-								} else {
-									print("Cannot load online HRV. Reloading local data.")
-									self.result = thisData.result
-									self.fftResult = thisData.fftData
-									if self.result.isEmpty {
-										self.isCalculationError = true
-										self.calculationErrorMessage = self.HRVUnableToAnalyseMessage
+				var skipCalculation = false
+				#if DEBUG
+					if DebugConfig.useSampleResultForNewResultOrRefreshingResult == true {
+						Async.main(after: 5.0) {
+							let realm = try! Realm()
+							if let thisData = realm.objects(ECGData.self).filter("note = %@", "--[SampleResult]--").first {
+								self.result = thisData.result
+								self.fftResult = thisData.fftData
+
+								self.updateUpperTableData(.timeDomain)
+
+								if self.result.isEmpty {
+									HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.HRVUnableToAnalyseMessage) { (_) in () }
+								}
+								loadingHUD.hide(animated: true)
+								self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+
+								if (self.refreshControl) != nil {
+									if self.refreshControl.isRefreshing {
+										self.refreshControl.endRefreshing()
 									}
 								}
 							}
 						}
-
-						self.updateUpperTableData(.timeDomain)
-						self.isRightChartInited = false
-
-						}.main {
-							loadingHUD.hide(animated: true)
-							self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
-
-							if self.isCalculationError == true {
-								HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
-									self.isCalculationError = false
+						skipCalculation = true
+					}
+				#endif
+				if skipCalculation == false {
+					var dataToBeCalculated = self.passedData.rawData
+					if self.passedData.recordType == .ppg {
+						dataToBeCalculated = self.passedData.rrData
+					}
+					self.calculateECGData(dataToBeCalculated!, recordType: self.passedData.recordType, hertz: self.passedData.recordingHertz) { (successDownloadHRVData: Bool) in
+						if !successDownloadHRVData {
+							print("ERROR")
+						}
+						Async.background {
+							let realm = try! Realm()
+							if self.passedData.isNew == true {
+								let ecgData = ECGData()
+								ecgData.recordType = self.passedData.recordType
+								ecgData.startDate = self.passedData.startDate
+								ecgData.recordingHertz = self.passedData.recordingHertz
+								ecgData.rawData = self.passedData.rawData
+								ecgData.rrData = self.passedData.rrData
+								ecgData.result = self.result
+								ecgData.fftData = self.fftResult
+								try! realm.write {
+									realm.add(ecgData)
 								}
-							} else {
-								if self.passedData.isNew == true {
-									self.isPresentSimpleResultNecessary = true
-									self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
+								if !successDownloadHRVData {
+									// TODO: this error not showing when no internet and SSVC (SelectSymptoms) not closed
+									self.isCalculationError = true
+									self.calculationErrorMessage = "The HRV cannot be analyzed for now. Data is stored and you can connect internet and analyzed it later in Record view."
+								}
+							} else if force == true {
+								if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+									if successDownloadHRVData {
+										print("Loaded online HRV. Saving it to local data.")
+										if (thisData.result != self.result) || (thisData.fftData != self.fftResult) {
+											try! realm.write {
+												thisData.result = self.result
+												thisData.fftData = self.fftResult
+											}
+										}
+									} else {
+										print("Cannot load online HRV. Reloading local data.")
+										self.result = thisData.result
+										self.fftResult = thisData.fftData
+										if self.result.isEmpty {
+											self.isCalculationError = true
+											self.calculationErrorMessage = self.HRVUnableToAnalyseMessage
+										}
+									}
 								}
 							}
 
-							// http://stackoverflow.com/q/5273775/2603230
-							self.upperSegmentedControl.selectedSegmentIndex = UpperTableSegmentedControlSegment.timeDomain.rawValue
+							self.updateUpperTableData(.timeDomain)
+							self.isRightChartInited = false
 
-							if (self.refreshControl) != nil {
-								if self.refreshControl.isRefreshing {
-									self.refreshControl.endRefreshing()
+							}.main {
+								loadingHUD.hide(animated: true)
+								self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+
+								if self.isCalculationError == true {
+									HelperFunctions.showAlert(self, title: self.calculationErrorTitle, message: self.calculationErrorMessage) { (_) in
+										self.isCalculationError = false
+									}
+								} else {
+									if self.passedData.isNew == true {
+										self.isPresentSimpleResultNecessary = true
+										self.performSegue(withIdentifier: SimpleResultViewController.SHOW_SIMPLE_RESULT_SEGUE_ID, sender: self)
+									}
 								}
-							}
+
+								// http://stackoverflow.com/q/5273775/2603230
+								self.upperSegmentedControl.selectedSegmentIndex = UpperTableSegmentedControlSegment.timeDomain.rawValue
+
+								if (self.refreshControl) != nil {
+									if self.refreshControl.isRefreshing {
+										self.refreshControl.endRefreshing()
+									}
+								}
+						}
 					}
 				}
 			} else {
