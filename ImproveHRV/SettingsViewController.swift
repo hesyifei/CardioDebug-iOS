@@ -20,6 +20,8 @@ class SettingsViewController: FormViewController {
 	static let DEFAULTS_HEIGHT = "height"
 	static let DEFAULTS_WEIGHT = "weight"
 
+	static let DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS = "analyzeServerAddress"
+
 	// MARK: - basic var
 	let defaults = UserDefaults.standard
 
@@ -107,6 +109,13 @@ class SettingsViewController: FormViewController {
 		}
 		#if DEBUG
 			form +++ Section("DEBUG ONLY")
+				/*<<< TextRow("Analyze Server Address"){ row in
+					row.title = row.tag
+					row.value = defaults.string(forKey: Self.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
+					row.placeholder = "Empty for default"
+					}.onChange { row in
+						self.defaults.set(row.value!, forKey: Self.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
+				}*/
 				<<< ButtonRow("Show ANS Disorder Warning") {
 					$0.title = $0.tag
 					}.cellUpdate { cell, row in
@@ -154,8 +163,8 @@ class SettingsViewController: FormViewController {
 				}.onCellSelection { cell, row in
 					let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 					destination.isGood = false
-					/*destination.problemData = [
-						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>Atrial Premature Beats (APB)</a></span></div><br />There may not be any symptom for this disease, however it maybe further develop into more serious arrhythmia if no action is taken.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
+					destination.problemData = [
+						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>Premature atrial contraction (PAC)</a></span></div><br />There may not be any symptom for this disease, however it maybe further develop into more serious arrhythmia if no action is taken.<br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
 						"result": [
 							"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
 							"1": "Since you (a) have drunk coffee or alcohol within the last 4 hours / (b) are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again<br />(a) tomorrow <b>without</b> drinking any coffee or alcohol.<br />(b) after your are <b>not</b> sick any more.",
@@ -164,8 +173,8 @@ class SettingsViewController: FormViewController {
 							"Choose \"Yes\" if you are <b>not</b> having a cold, and vice versa.",
 							"Choose \"Yes\" if you <b>did't</b> drink any alcohol or caffeine within the last 4 hours, and vice versa."
 						] as AnyObject
-					]*/
-					destination.problemData = [
+					]
+					/*destination.problemData = [
 						"description": "<style>a { text-decoration: none; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>房性早搏（APB）</a></span></div><br />您可能没有任何明显的症状，但若无采取措施有可能将会导致更加严重的问题。<br /><br />为得出更准确的检测结果，请点击“下一步”并回答一些问题。" as AnyObject,
 						"result": [
 							"0": "Since you have drunk coffee or alcohol within the last 4 hours and are having a cold, it is possible that the detection result is unrelated to the APB. We suggest you to record and test again after your are not sick any more and without</b> drinking any coffee or alcohol.",
@@ -175,7 +184,7 @@ class SettingsViewController: FormViewController {
 								"如果您没有感冒，请选择“是”，反之请选“否”。",
 								"如果您近4小时没有喝咖啡或者酒，请选择“是”，反之请选“否”。"
 								] as AnyObject
-					]
+					]*/
 					destination.passedBackData = { bool in
 						// do nothing
 					}

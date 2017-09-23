@@ -81,6 +81,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 			defaults.set(Double(70.00), forKey: SettingsViewController.DEFAULTS_WEIGHT)
 		}
 
+		if defaults.object(forKey: SettingsViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS) == nil {
+			defaults.set("", forKey: RemedyListViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
+		}
+
 
 		self.navigationItem.title = NSLocalizedString("Main.NavigationTitle", comment: "Cardio Debug")
 
