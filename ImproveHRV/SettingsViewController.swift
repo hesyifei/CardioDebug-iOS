@@ -109,13 +109,13 @@ class SettingsViewController: FormViewController {
 		}
 		#if DEBUG
 			form +++ Section("DEBUG ONLY")
-				/*<<< TextRow("Analyze Server Address"){ row in
+				<<< TextRow("Analyze Server Address"){ row in
 					row.title = row.tag
 					row.value = defaults.string(forKey: Self.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
 					row.placeholder = "Empty for default"
 					}.onChange { row in
 						self.defaults.set(row.value!, forKey: Self.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
-				}*/
+				}
 				<<< ButtonRow("Show ANS Disorder Warning") {
 					$0.title = $0.tag
 					}.cellUpdate { cell, row in

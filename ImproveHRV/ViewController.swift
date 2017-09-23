@@ -82,7 +82,7 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 		}
 
 		if defaults.object(forKey: SettingsViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS) == nil {
-			defaults.set("", forKey: RemedyListViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
+			defaults.set("", forKey: SettingsViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
 		}
 
 

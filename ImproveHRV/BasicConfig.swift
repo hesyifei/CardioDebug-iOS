@@ -16,16 +16,18 @@ class BasicConfig {
 	static let remedyListURL = "https://app.arefly.com/cardio-debug/remedy/"
 
 	//static let ecgCalculationURL = "http://ec2-54-68-166-131.us-west-2.compute.amazonaws.com:8080/"
-	var ecgCalculationURL: String {
+	static var ecgCalculationURL: URL {
 		get {
 			#if DEBUG
-				let debugServerURL = UserDefaults.standard.string(forKey: SettingsViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
-				if !debugServerURL?.isEmpty {
-					return debugServerURL
+				if let debugServerURL = UserDefaults.standard.string(forKey: SettingsViewController.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS) {
+					if !debugServerURL.isEmpty {
+						if let theURL = URL(string: debugServerURL) {
+							return theURL
+						}
+					}
 				}
-				return
 			#endif
-			return "http://aws.arefly.com:8080/"
+			return URL(string: "http://aws.arefly.com:8080/")!
 		}
 	}
 	//static let ecgCalculationURL = "http://arefly.com/"
