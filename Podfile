@@ -9,9 +9,9 @@ target 'ImproveHRV' do
   # Pods for ImproveHRV
   pod 'AsyncSwift'
   pod 'Alamofire', '~> 4.0'
-  pod 'Charts'
+  pod 'Charts', '3.0.3'
   pod "TouchVisualizer", :configurations => ['Debug']
-  pod 'Eureka', '~> 2.0.0-beta.1'
+  pod 'Eureka', :git => 'https://github.com/xmartlabs/Eureka.git', :branch => 'Xcode9-Swift3_2'
   pod 'RealmSwift'
   pod 'MBProgressHUD', '~> 1.0.0'
   pod 'VTAcknowledgementsViewController'

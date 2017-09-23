@@ -445,7 +445,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			super.touchesCancelled(with: event!)
         }
         
-		var backgroundColor: NSUIColor?
+		open var backgroundColor: NSUIColor?
         {
             get
             {
@@ -455,6 +455,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
             set
             {
+                self.wantsLayer = true
                 self.layer?.backgroundColor = newValue == nil ? nil : newValue!.cgColor
             }
         }
@@ -549,7 +550,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representation(using: NSPNGFileType, properties: [:])
+		return rep?.representation(using: .PNG, properties: [:])
 	}
 
 	func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
@@ -557,7 +558,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-        return rep?.representation(using: NSJPEGFileType, properties: [NSImageCompressionFactor: quality])
+        return rep?.representation(using: .JPEG, properties: [NSImageCompressionFactor: quality])
 	}
 
 	private var imageContextStack: [CGFloat] = []
