@@ -109,10 +109,11 @@ class SettingsViewController: FormViewController {
 		}
 		#if DEBUG
 			form +++ Section("DEBUG ONLY")
-				<<< TextRow("Analyze Server Address"){ row in
+				<<< TextRow("Analyze Server URL"){ row in
 					row.title = row.tag
 					row.value = defaults.string(forKey: Self.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
 					row.placeholder = "Empty for default"
+					row.cell.textField.keyboardType = UIKeyboardType.URL
 					}.onChange { row in
 						self.defaults.set(row.value!, forKey: Self.DEFAULTS_DEBUG_ANALYZE_SERVER_ADDRESS)
 				}
