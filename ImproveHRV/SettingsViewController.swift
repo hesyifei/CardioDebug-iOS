@@ -124,7 +124,7 @@ class SettingsViewController: FormViewController {
 					}.onCellSelection { cell, row in
 						let destination = self.storyboard?.instantiateViewController(withIdentifier: SimpleResultViewController.VC_STORYBOARD_ID) as! SimpleResultViewController
 						destination.isGood = false
-						destination.problemData = [
+						/*destination.problemData = [
 							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>自主神经失调</a></span></div><br />自主神经失调是交感副交感神经的失衡，会影响我们的日常生活并导致各种不同症状（如失眠、消化不良等）。<br /><span class='lightPink'>不健康的生活方式</span>和<span class='lightPink'>长时间工作</span>都有机会导致这一问题，长远更可能导致<span class='lightPink'>自主神经紊乱</span>等问题.<br /><br />为得出更准确的检测结果，请点击“下一步”并回答一些问题。" as AnyObject,
 							"result": [
 								"3": "您有机会有自主神经失调。我们建议您做<br /><br /><div style='text-align: center;'><span style='font-size: 200%;'>耐力运动</span></div><br /><span style='font-size: 130%;'>耐力运动是指能将您的心跳率提升到60-80%的活动（如跑步、游泳等），每日须做至少20分钟。</span>",
@@ -137,8 +137,8 @@ class SettingsViewController: FormViewController {
 								"您最近有晚睡么？",
 								"如果您没有喝咖啡或者酒，请选择“是”，反之请选“否”。"
 								] as AnyObject
-						]
-						/*destination.problemData = [
+						]*/
+						destination.problemData = [
 							"description": "<style>a { text-decoration: none; } .lightPink { color: #FA5858; }</style><div style='text-align: center;'><span style='font-size: 200%;'><a href='https://medlineplus.gov/autonomicnervoussystemdisorders.html'>ANS disorder</a></span></div><br />ANS disorder is the imbalance of sympathetic nervous and parasympathetic nervous which controls the involuntary work of your body (such as digestion and heart rate).<br /><span class='lightPink'>Unhealthy lifestyle</span> and <span class='lightPink'>long working hours</span> may cause this disorder, and leaving it untreated maybe cause <span class='lightPink'>dysfunction of ANS</span>.<br /><br /><span style='font-size: 140%;'>ANS disorder may cause symptoms including <span class='lightPink'>poor digestion</span> and <span class='lightPink'>insomnia</span>.</span><br /><br />To get a more precise detection result, click \"Next\" to answer a few questions." as AnyObject,
 							"result": [
 								"0": "It is possible that you may have ANS disorder. We suggest you to do<br /><br /><div style='text-align: center;'><span style='font-size: 200%;'>Endurance Exercise</span></div><br /><span style='font-size: 130%;'>Do endurance exercise which heart rate is elevated to 60-80% (e.g. running, swimming) for at least 20 mins every day.</span>",
@@ -151,7 +151,7 @@ class SettingsViewController: FormViewController {
 								"Did you sleep late recently?",
 								"Choose \"Yes\" if you did't drink any alcohol or caffeine, and vice versa."
 								] as AnyObject
-						]*/
+						]
 						destination.passedBackData = { bool in
 							// do nothing
 						}
