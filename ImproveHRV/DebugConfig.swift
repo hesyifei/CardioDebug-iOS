@@ -12,6 +12,8 @@ import Foundation
 	class DebugConfig {
 		static let showTouchIndicator = true
 
+		static let useSampleResultForNewResultOrRefreshingResult = false
+
 		static let skipRecordingAndGetResultDirectly = false
 
 		static let useDebugRawData = false
