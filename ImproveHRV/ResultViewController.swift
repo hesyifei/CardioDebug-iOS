@@ -49,6 +49,7 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 	var tableData = [String]()
 	var result = [String: Double]()
 	var fftResult = [Double]()
+	var pressureResult = Double()
 
 	var isPassedDataValid = false
 
@@ -241,10 +242,11 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 				#endif
 				if skipCalculation == false {
 					var dataToBeCalculated = self.passedData.rawData
+					var rrValuesToBeCalculated = [Int]()
 					if self.passedData.recordType == .ppg {
-						dataToBeCalculated = self.passedData.rrData
+						rrValuesToBeCalculated = self.passedData.rrData
 					}
-					self.calculateECGData(dataToBeCalculated!, recordType: self.passedData.recordType, hertz: self.passedData.recordingHertz) { (successDownloadHRVData: Bool) in
+					self.calculateECGData(dataToBeCalculated!, rrValues: rrValuesToBeCalculated, recordType: self.passedData.recordType, hertz: self.passedData.recordingHertz) { (successDownloadHRVData: Bool) in
 						if !successDownloadHRVData {
 							print("ERROR")
 						}
@@ -529,13 +531,24 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 			break
 		case .other:
+			var checkResult = ""
+			let myRange: ClosedRange<Double> = 1.0...5.0
+			if myRange.contains(pressureResult) {
+				checkResult = " ✅"
+			} else {
+				checkResult = " ❗️"
+			}
+			self.tableData.append("Pressure|\(String(format: "%.2f", pressureResult))\(checkResult)")
+
+			var defaultNoteRowData = defaultNoteCell.joined(separator: "|")
 			let realm = try! Realm()
-			tableData = [defaultNoteCell.joined(separator: "|")]
 			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
 				if !thisData.note.isEmpty {
-					tableData = ["\(NSLocalizedString("Result.Table.FullItemName.Note", comment: "Note"))|\(thisData.note)"]
+					defaultNoteRowData = "\(NSLocalizedString("Result.Table.FullItemName.Note", comment: "Note"))|\(thisData.note)"
 				}
 			}
+			tableData.append(defaultNoteRowData)
+
 			break
 		}
 
@@ -582,45 +595,51 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 			}
 			break
 		case .other:
-			let realm = try! Realm()
-			if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
-				let noteString = defaultNoteCell[0]
-				switch data[0] {
-				case noteString:
-					let noteAlertController = UIAlertController(title: "Note", message: "Enter anything you want:", preferredStyle: .alert)
+			switch indexPath.row {
+			case 1:
+				let realm = try! Realm()
+				if let thisData = realm.objects(ECGData.self).filter("startDate = %@", self.passedData.startDate).first {
+					let noteString = defaultNoteCell[0]
+					switch data[0] {
+					case noteString:
+						let noteAlertController = UIAlertController(title: "Note", message: "Enter anything you want:", preferredStyle: .alert)
 
-					let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
-						if let field = noteAlertController.textFields?[0] {
-							print("Saving note to local data.")
-							try! realm.write {
-								thisData.note = field.text!
-							}
-							self.tableData[0] = "\(noteString)|\(field.text!)"
-							self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
-						}
-					}
-
-					let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
-
-					noteAlertController.addTextField { (textField) in
-						if data.count == 2 {
-							if data[1] != self.defaultNoteCell[1] {
-								textField.text = data[1]
+						let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
+							if let field = noteAlertController.textFields?[0] {
+								print("Saving note to local data.")
+								try! realm.write {
+									thisData.note = field.text!
+								}
+								self.tableData[0] = "\(noteString)|\(field.text!)"
+								self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
 							}
 						}
-						textField.placeholder = "Note..."
-						textField.autocapitalizationType = .sentences
-					}
 
-					noteAlertController.addAction(confirmAction)
-					noteAlertController.addAction(cancelAction)
+						let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
 
-					Async.main {
-						self.present(noteAlertController, animated: true, completion: nil)
+						noteAlertController.addTextField { (textField) in
+							if data.count == 2 {
+								if data[1] != self.defaultNoteCell[1] {
+									textField.text = data[1]
+								}
+							}
+							textField.placeholder = "Note..."
+							textField.autocapitalizationType = .sentences
+						}
+
+						noteAlertController.addAction(confirmAction)
+						noteAlertController.addAction(cancelAction)
+
+						Async.main {
+							self.present(noteAlertController, animated: true, completion: nil)
+						}
+					default:
+						break
 					}
-				default:
-					break
 				}
+				break
+			default:
+				break
 			}
 			break
 		}
@@ -764,14 +783,15 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 		}
 	}
 
-	func calculateECGData(_ inputValues: [Int], recordType: RecordType, hertz: Double, completion completionBlock: @escaping (Bool) -> Void) {
+	func calculateECGData(_ inputValues: [Int], rrValues: [Int] = [], recordType: RecordType, hertz: Double, completion completionBlock: @escaping (Bool) -> Void) {
 
 		self.application.isIdleTimerDisabled = true
 
 		Async.background {
 			var parameters: Parameters = [:]
 			if recordType == .ppg {
-				parameters["rrData"] = inputValues
+				parameters["ppgRawData"] = inputValues
+				parameters["rrData"] = rrValues
 			} else {
 				parameters["ecgRawData"] = inputValues
 			}
@@ -807,6 +827,9 @@ class ResultViewController: UIViewController, UITableViewDelegate, UITableViewDa
 							if let fftArray = jsonDict["fft"] as? [Double] {
 								//print("fftArray: \(fftArray)")
 								self.fftResult = fftArray
+							}
+							if let pressureDouble = jsonDict["pressure"] as? Double {
+								self.pressureResult = pressureDouble
 							}
 							if let problemsArray = jsonDict["problems"] as? [AnyObject] {
 								if !problemsArray.isEmpty {
